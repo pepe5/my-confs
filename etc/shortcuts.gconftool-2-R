@@ -1,0 +1,52 @@
+# -*- conf -*-
+# gconftool-2 -R /desktop/gnome/keybindings > '/media/Second/kraljo/dox(!)/text/rcs+confs/shortcuts.gconftool-2-R'
+
+ allowed_keys = []
+ /desktop/gnome/keybindings/custom5:
+  binding = <Mod4>a
+  name = win-up
+  action = wmctrl -r :ACTIVE: -e 0,-1,0,-1,-1
+ /desktop/gnome/keybindings/custom6:
+  binding = <Mod4>Down
+  name = win-below
+  action = wmctrl -r :ACTIVE: -b toggle,below
+ /desktop/gnome/keybindings/custom7:
+  binding = <Mod4>z
+  name = win-down
+  action = wmctrl -r :ACTIVE: -e 0,-1,999,-1,-1
+ /desktop/gnome/keybindings/custom8:
+  binding = <Mod4>x
+  name = win-lower
+  action = wmctrl -r :ACTIVE: -e 0,-1,-1,-1,500
+ /desktop/gnome/keybindings/onscreenkeyboard:
+  binding = 
+  name = Toggle on-screen keyboard
+  action = gconftool-2 --toggle /desktop/gnome/applications/at/screen_keyboard_enabled
+ /desktop/gnome/keybindings/magnifier:
+  binding = 
+  name = Toggle magnifier
+  action = gconftool-2 --toggle /desktop/gnome/applications/at/screen_magnifier_enabled
+ /desktop/gnome/keybindings/custom0:
+  binding = <Mod4>1
+  name = windto#1
+  action = wmctrl -r :ACTIVE: -e 0,0,-1,-1,-1
+ /desktop/gnome/keybindings/custom1:
+  binding = <Mod4>2
+  name = windto#2
+  action = wmctrl -r :ACTIVE: -e 0,840,-1,-1,-1
+ /desktop/gnome/keybindings/custom2:
+  binding = <Mod4>3
+  name = windto#3
+  action = wmctrl -r :ACTIVE: -e 0,1680,-1,-1,-1
+ /desktop/gnome/keybindings/custom3:
+  binding = <Mod4>4
+  name = windto#4
+  action = wmctrl -r :ACTIVE: -e 0,2520,-1,-1,-1
+ /desktop/gnome/keybindings/custom4:
+  binding = <Mod4>q
+  name = win-halfen
+  action = wmctrl -r :ACTIVE: -e 0,-1,-1,840,-1
+ /desktop/gnome/keybindings/screenreader:
+  binding = 
+  name = Toggle screen reader
+  action = gconftool-2 --toggle /desktop/gnome/applications/at/screen_reader_enabled
