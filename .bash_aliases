@@ -14,6 +14,7 @@ alias irb='irb --simple-prompt'
 alias logr="pgrep -f 'ruby .*-timestamp'; pkill -f 'ruby .*-timestamp'; pgrep -f 'ruby .*-timestamp'"
 
 alias off='xset dpms force off'
+alias swp1='setxkbmap -option ctrl:swapcaps'
 alias p0='PS1="$> "'
 alias p1='PS1="\W$> "'
 alias pR='PS1="\W#> "'
