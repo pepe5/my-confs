@@ -11,7 +11,7 @@ alias log='. ~/bin/log.sh'
 alias wget='wget --progress=dot '
 alias ri=ri1.8
 alias irb='irb --simple-prompt'
-alias logr="pkill -2 -f 'ruby .*-timestamp'"
+alias logr="pgrep -f 'ruby .*-timestamp'; pkill -f 'ruby .*-timestamp'; pgrep -f 'ruby .*-timestamp'"
 
 alias off='xset dpms force off'
 alias p0='PS1="$> "'

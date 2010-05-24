@@ -1,0 +1,5 @@
+deb http://archive.ubuntu.com/ubuntu/ karmic main restricted universe multiverse
+deb http://security.ubuntu.com/ubuntu/ karmic-security restricted main multiverse universe
+deb http://archive.ubuntu.com/ubuntu/ karmic-backports restricted main multiverse universe
+deb http://ppa.launchpad.net/alex-hunziker/ppa/ubuntu karmic main
+deb http://ppa.launchpad.net/rabbitvcs/ppa/ubuntu karmic main

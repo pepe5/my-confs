@@ -1,6 +1,5 @@
 # -*- conf -*-
 # gconftool-2 -R /desktop/gnome/keybindings > '/media/Second/kraljo/dox(!)/text/rcs+confs/shortcuts.gconftool-2-R'
-
  allowed_keys = []
  /desktop/gnome/keybindings/custom5:
   binding = <Mod4>a
@@ -15,7 +14,7 @@
   name = win-down
   action = wmctrl -r :ACTIVE: -e 0,-1,999,-1,-1
  /desktop/gnome/keybindings/custom8:
-  binding = <Mod4>x
+  binding = <Mod4>d
   name = win-lower
   action = wmctrl -r :ACTIVE: -e 0,-1,-1,-1,500
  /desktop/gnome/keybindings/onscreenkeyboard:
@@ -50,3 +49,11 @@
   binding = 
   name = Toggle screen reader
   action = gconftool-2 --toggle /desktop/gnome/applications/at/screen_reader_enabled
+
+# gconftool-2 -R /apps/metacity | egrep 'maximi| /' | grep -B1 maximi | head
+ /apps/metacity/window_keybindings:
+  maximize = disabled
+  maximize_horizontally = <Mod4>w
+  unmaximize = <Alt>F5
+  toggle_maximized = <Mod4>x
+  maximize_vertically = <Mod4>s
