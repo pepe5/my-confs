@@ -1,13 +1,16 @@
---- .git/info/exclude~	2010-05-24 15:31:20.000000000 +0200
-+++ .git/info/exclude	2010-05-25 12:09:42.000000000 +0200
-@@ -1,6 +1,9 @@
-+# -*- conf -*-
- # git-ls-files --others --exclude-from=.git/info/exclude
+--- .bak/exclude,0rig	2010-05-25 12:42:47.000000000 +0200
++++ .git/info/exclude	2010-05-25 12:41:32.000000000 +0200
+@@ -3,5 +3,11 @@
  # Lines that start with '#' are comments.
  # For a project mostly in C, the following would be a good set of
  # exclude patterns (uncomment them if you want to use them):
- # *.[oa]
+-# *.[oa]
 -# *~
++*.[oa]
++
++*.zip
++*.tgz
++*.tbz
 +
 +*~
 +(*)/*
