@@ -1,4 +1,6 @@
-# -*- conf -*-
+# -*- mode:conf; mode:hi-lock -*-
+# Hi-lock: (("[Nn]ame.*" (0 (quote font-lock-keyword-face) t)))
+
 # gconftool-2 -R /desktop/gnome/keybindings > '/media/Second/kraljo/dox(!)/text/rcs+confs/shortcuts.gconftool-2-R'
  allowed_keys = []
  /desktop/gnome/keybindings/custom5:
