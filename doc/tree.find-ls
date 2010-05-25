@@ -1,4 +1,4 @@
-flush-tree: started at: 2010-05-25T21:55:09+0200
+flush-tree: started at: 2010-05-25T22:00:42+0200
 -rwxr-xr-x 1 user user 5334 2009-08-10 18:06 "./.bak/git-init.emacs.con.log"
 -rw-rw-r-- 1 user user 46 2010-05-24 07:00 "./.bak/gt.sh~"
 -rwxr-xr-x 1 user user 1610849 2009-08-10 18:06 "./(site-lisp)/jde+.zip"
@@ -95,8 +95,8 @@ flush-tree: started at: 2010-05-25T21:55:09+0200
 -rw-rw-r-- 1 user user 365 2010-05-25 21:40 "./etc/git.exclude.patch"
 lrwxrwxrwx 1 user user 47 2010-05-25 21:40 "./.emacs.d/site-lisp" -> "/media/Second/kraljo/settings/emacs.d/site-lisp"
 -rw-rw-r-- 1 user user 33671 2010-05-25 21:40 "./.emacs"
--rw-rw-r-- 1 user user 7350 2010-05-25 21:55 "./doc/tree.find-ls"
+-rw-rw-r-- 1 user user 7350 2010-05-25 22:00 "./doc/tree.find-ls"
 -rw-rw-r-- 1 user user 1288 2010-05-25 21:40 "./bin/os-tools~.sh"
 -rw-rw-r-- 1 user user 1150 2010-05-25 21:40 "./bin/os-tools.sh"
--rw-rw-r-- 1 user user 955 2010-05-25 21:55 "./bin/gt.sh"
+-rw-rw-r-- 1 user user 1435 2010-05-25 22:00 "./bin/gt.sh"
 -rw-rw-r-- 1 user user 744 2010-05-25 21:40 "./.bash_aliases"

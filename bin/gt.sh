@@ -1,7 +1,8 @@
 #!/bin/bash -x
 # start from scr-root fld (~> /tmp/swfobject)
+orig_pwd=`pwd`
 
-# run before commit ~> . doc/tasks.sh flush-tree
+# run before commit ~> . bin/gt.sh flush-tree
 function flush-tree \
     { echo flush-tree: started at: `date -Is` > doc/tree.find-ls
     find . -wholename ./.git -prune -o -not -type d -exec ls -lQ "{}" \; >> doc/tree.find-ls; }
@@ -29,6 +30,23 @@ function log-in \
 	#>! check it
     fi;
     }
+
+function dev-cd \
+    { echo dev-cd: start assert 'text-depo|dev-env': `pwd`
+    if [ -d .home.sites/dev-ins ]; then cd .home.sites/dev-ins/env; fi; }
+
+# start text-depo <= *prj_nme
+function dev-ini-roots \
+    { prj_nme=`basename $orig_pwd`
+    echo dev-ini-roots: assert text-depo: $prj_nme
+    mkdir -v .home.sites
+    mkdir -vp /tmp/dev/$prj_nme/dev-ins
+    ln -sv -bfT /tmp/dev/$prj_nme/dev-ins .home.sites/;
+    ###
+    }
+
+function dev-unp-arxs \
+    { echo; }
 
 echo task: "(pwd:`pwd`)": $*
 eval $*
