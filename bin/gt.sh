@@ -12,7 +12,7 @@ function unzip-rev \
 
 # zoom out log
 function log-zo \
-    { point=$(if [ -z $2 ]; then echo HEAD; else echo $2; fi); )
+    { point=$(if [ -z $2 ]; then echo HEAD; else echo $2; fi)
     case $1 in
     (1) git log --oneline --stat $point;;
     (2) git log --oneline --shortstat $point;;

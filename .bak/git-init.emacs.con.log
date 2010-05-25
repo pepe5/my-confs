@@ -1,0 +1,139 @@
+[root@andLinux ~]# pushd ~/.emacs.d/repo/
+~/.emacs.d/repo ~
+
+[root@andLinux repo]# ls -alF
+total 29
+drwxr-xr-x 1 root root     0 Jun  8 09:18 ./
+drwxr-xr-x 1 root root     0 Jun  8 09:12 ../
+-rwxr-xr-x 1 root root 28056 Jun  8 09:18 .emacs*
+-rwxr-xr-x 1 root root   858 Jan 22 06:06 .emacs (C).LNK*
+-rwxr-xr-x 1 root root 28073 Jun  8 06:52 .emacs~*
+-rwxr-xr-x 1 root root   614 Jun  8 09:16 emacs.d @ pep-.settings.lnk*
+
+[root@andLinux repo]# git init
+error: could not lock config file /mnt/win/pepa/dox(!)/text/emacsrc/.git/config
+error: could not lock config file /mnt/win/pepa/dox(!)/text/emacsrc/.git/config
+error: could not lock config file /mnt/win/pepa/dox(!)/text/emacsrc/.git/config
+Initialized empty Git repository in /mnt/win/pepa/dox(!)/text/emacsrc/.git/
+
+[root@andLinux repo]# git add .
+[root@andLinux repo]# git commit -m '1st'
+Bus error
+
+[root@andLinux repo]# git remote add origin git@github.com:pepe5/emacsrc.git
+error: could not lock config file .git/config
+
+>$ rm -r .git
+
+[root@andLinux repo]# git init
+error: could not lock config file /mnt/win/pepa/dox(!)/text/emacsrc/.git/config
+error: could not lock config file /mnt/win/pepa/dox(!)/text/emacsrc/.git/config
+error: could not lock config file /mnt/win/pepa/dox(!)/text/emacsrc/.git/config
+Initialized empty Git repository in /mnt/win/pepa/dox(!)/text/emacsrc/.git/
+
+[root@andLinux repo]# git add ~/.emacs
+error: '/root/.emacs' is outside repository
+
+[root@andLinux repo]# popd
+~
+
+[root@andLinux ~]# pushd ~/.emacs.d/
+~/.emacs.d ~
+
+[root@andLinux .emacs.d]# git init
+Initialized empty Git repository in /root/.emacs.d/.git/
+
+[root@andLinux .emacs.d]# cp ~/.emacs ./
+[root@andLinux .emacs.d]# git add .emacs
+[root@andLinux .emacs.d]# git commit -m '1st'
+Created initial commit 6423780: 1st
+ 1 files changed, 625 insertions(+), 0 deletions(-)
+ create mode 100755 .emacs
+
+[root@andLinux .emacs.d]# git remote add origin git@github.com:pepe5/emacsrc.git
+[root@andLinux .emacs.d]# git push origin master
+Counting objects: 3, done.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 9.91 KiB, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To git@github.com:pepe5/emacsrc.git
+ * [new branch]      master -> master
+
+[root@andLinux .emacs.d]# git add git-init.emacs.con.log
+[root@andLinux .emacs.d]# git push origin master
+Everything up-to-date
+
+[root@andLinux .emacs.d]# ls -alF
+total 56
+drwxr-xr-x  4 root root  4096 Jun  8 15:37 ./
+lrwxrwxrwx  1 root root    29 Jun  8 15:37 .#git-init.emacs.con.log -> root@andLinux.4537:1243325611
+drwxr-xr-x 42 root root  4096 Jun  8 15:30 ../
+-rwxr-xr-x  1 root root 28056 Jun  8 15:33 .emacs*
+drwxr-xr-x  8 root root  4096 Jun  8 15:35 .git/
+drwx------  2 root root  4096 Jun  3 16:16 auto-save-list/
+-rw-r--r--  1 root root  2353 Jun  8 15:36 git-init.emacs.con.log
+-rw-r--r--  1 root root  1646 Jun  8 15:31 git-init.emacs.con.log~
+lrwxrwxrwx  1 root root    38 Jun  8 15:19 repo -> /root/windows/pepa/dox(!)/text/emacsrc/
+lrwxrwxrwx  1 root root    45 Jun  8 15:15 site-lisp -> /root/windows/pepa/settings/emacs.d/site-lisp/
+-rw-r--r--  1 root root  1573 Apr  6 08:43 tramp
+
+[root@andLinux .emacs.d]# uname -a
+Linux andLinux 2.6.22.18-co-0.7.3 #1 PREEMPT Wed Apr 16 18:50:10 UTC 2008 i686 GNU/Linux
+
+[root@andLinux .emacs.d]# aptitude install inotify-tools
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+Reading extended state information       
+Initializing package states... Done
+Writing extended state information... Done
+The following NEW packages will be installed:
+  inotify-tools libinotifytools0{a} 
+0 packages upgraded, 2 newly installed, 0 to remove and 0 not upgraded.
+Need to get 39.0kB of archives. After unpacking 201kB will be used.
+Do you want to continue? [Y/n/?] 
+Writing extended state information... Done
+Get:1 http://us.archive.ubuntu.com intrepid/universe libinotifytools0 3.12-1 [16.7kB]
+Get:2 http://us.archive.ubuntu.com intrepid/universe inotify-tools 3.12-1 [22.3kB]
+Fetched 39.0kB in 0s (61.9kB/s)  
+Selecting previously deselected package libinotifytools0.
+(Reading database ... 60472 files and directories currently installed.)
+Unpacking libinotifytools0 (from .../libinotifytools0_3.12-1_i386.deb) ...
+Selecting previously deselected package inotify-tools.
+Unpacking inotify-tools (from .../inotify-tools_3.12-1_i386.deb) ...
+Processing triggers for man-db ...
+Setting up libinotifytools0 (3.12-1) ...
+
+Setting up inotify-tools (3.12-1) ...
+Processing triggers for libc6 ...
+ldconfig deferred processing now taking place
+Reading package lists... Done             
+Building dependency tree       
+Reading state information... Done
+Reading extended state information      
+Initializing package states... Done
+Writing extended state information... Done
+
+[root@andLinux .emacs.d]# TERM=ansi; PS1='>$ '; stty cols 999                                                        
+>$ pushd /tmp
+/tmp ~/.emacs.d ~
+
+>$ inotifywait -m -r ./
+Setting up watches.  Beware: since -r was given, this may take a while!
+Watches established.
+./ MODIFY 1
+./ OPEN 1
+./ CLOSE_WRITE,CLOSE 1
+./ CREATE,ISDIR a
+./ OPEN,ISDIR a
+./ CLOSE_NOWRITE,CLOSE,ISDIR a
+./ OPEN,ISDIR a
+./ CLOSE_NOWRITE,CLOSE,ISDIR a
+./ OPEN,ISDIR 
+./ CLOSE_NOWRITE,CLOSE,ISDIR 
+./a/ OPEN,ISDIR b
+./a/b/ OPEN,ISDIR 
+./a/ CLOSE_NOWRITE,CLOSE,ISDIR b
+./a/b/ CLOSE_NOWRITE,CLOSE,ISDIR 
+
+>$ 
