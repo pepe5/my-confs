@@ -16,7 +16,7 @@ alias ri=ri1.8
 alias irb='irb --simple-prompt'
 
 alias log='. ~/bin/log.sh'
-alias logr="pgrep -f 'ruby .*-timestamp'; pkill -f 'ruby .*-timestamp'; pgrep -f 'ruby .*-timestamp'"
+alias logr="pgrep -l -f 'ruby .*-timestamp'; pkill -f 'ruby .*-timestamp'; pgrep -l -f 'ruby .*-timestamp'"
 alias al='dtach -a $(ls -t `find ~ -name "*.dtach"` | head -1) -z'
 alias tar-sh='(cd /host/kraljo/dox(!)/text; find . -newer andL -type f)'
 
@@ -24,4 +24,4 @@ alias tar-sh='(cd /host/kraljo/dox(!)/text; find . -newer andL -type f)'
 PATH=$PATH:$HOME/bin:/usr/lib/git-core
 
 export HISTTIMEFORMAT="%F %T "
-function hi { history | grep -i $@ | cut -d\  -f6- | uniq | tail ;}
+function hi { history | grep -i $@ | cut -d\  -f7- | uniq | tail ;}
