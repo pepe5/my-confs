@@ -35,18 +35,18 @@ function dev-cd \
     { echo dev-cd: start assert 'text-depo|dev-env': `pwd`
     if [ -d .home.sites/dev-ins ]; then cd .home.sites/dev-ins/env; fi; }
 
-# start text-depo <= *prj_nme
+# start text-depo <=->*prj_nme
+# typic.is ~/text/$prj_nme
 function dev-ini-roots \
-    { prj_nme=`basename $orig_pwd`
+    { export prj_nme=`basename $orig_pwd`
     echo dev-ini-roots: assert text-depo: $prj_nme
     mkdir -v .home.sites
     mkdir -vp /tmp/dev/$prj_nme/dev-ins
-    ln -sv -bfT /tmp/dev/$prj_nme/dev-ins .home.sites/;
-    ###
-    }
+    ln -sv -bfT /tmp/dev/$prj_nme/dev-ins .home.sites/; }
 
 function dev-unp-arxs \
-    { echo; }
+    { echo "("prj fld: got by prev.executions..: $prj_nme")"
+    echo dev-unp-arxs: assert ; }
 
 echo task: "(pwd:`pwd`)": $*
 eval $*
