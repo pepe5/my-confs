@@ -1,0 +1,233 @@
+my-confs$> pwd
+cd /home/kraljo/text/my-confs
+
+my-confs$> git fetch origin
+remote: Counting objects: 28, done.        
+remote: Compressing objects: 100% (19/19), done.        
+remote: Total 22 (delta 9), reused 0 (delta 0)        
+Unpacking objects: 100% (22/22), done.
+From git@github.com:pepe5/my-confs
+   481a057..64c96a6  master     -> origin/master
+
+my-confs$> git log -p master..origin/master
+WARNING: terminal is not fully functional
+-  (press RETURN)
+commit 64c96a65f0695fd04883d77da492a8a5d55f8d46
+Author: Josef Kral (@aspire1) <pepe5@email.cz>
+Date:   Thu May 27 06:15:47 2010 +0200
+
+    clean up..
+
+diff --git a/bin/gt.sh b/bin/gt.sh
+index 101f50e..fe889d2 100644
+--- a/bin/gt.sh
++++ b/bin/gt.sh
+@@ -35,18 +35,18 @@ function dev-cd \
+     { echo dev-cd: start assert 'text-depo|dev-env': `pwd`
+     if [ -d .home.sites/dev-ins ]; then cd .home.sites/dev-ins/env; fi; }
+ 
+-# start text-depo <= *prj_nme
++# start text-depo <=->*prj_nme
++# typic.is ~/text/$prj_nme
+ function dev-ini-roots \
+-    { prj_nme=`basename $orig_pwd`
++    { export prj_nme=`basename $orig_pwd`
+     echo dev-ini-roots: assert text-depo: $prj_nme
+     mkdir -v .home.sites
+     mkdir -vp /tmp/dev/$prj_nme/dev-ins
+:q
+
+my-confs$> cp -r ../my-confs /tmp/text/
+my-confs$> git merge origin/master
+Updating 481a057..64c96a6
+error: Entry 'doc/tree.find-ls' not uptodate. Cannot merge.
+
+my-confs$> git log master..origin/master | head
+commit 64c96a65f0695fd04883d77da492a8a5d55f8d46
+Author: Josef Kral (@aspire1) <pepe5@email.cz>
+Date:   Thu May 27 06:15:47 2010 +0200
+    clean up..
+commit 11d3473a3f322ebf5d31c003dad1262b31bc0f94
+Author: Josef Kral (@aspire1) <pepe5@email.cz>
+Date:   Tue May 25 22:01:13 2010 +0200
+    gt.sh merged
+
+my-confs$>   git checkout origin
+error: pathspec 'origin' did not match any file(s) known to git.
+
+my-confs$>   git checkout origin/master
+error: You have local changes to 'doc/tree.find-ls'; cannot switch branches.
+
+my-confs$>   git checkout -m origin/master
+M	.bash_aliases
+M	doc/tree.find-ls
+Note: moving to 'origin/master' which isn't a local branch
+If you want to create a new branch from this checkout, you may do so
+(now or later) by using -b with the checkout command again. Example:
+  git checkout -b <new_branch_name>
+HEAD is now at 64c96a6... clean up..
+
+my-confs$> git branch
+* (no branch)
+  master
+
+my-confs$> git status
+doc/tree.find-ls: needs merge
+# Not currently on any branch.
+# Changed but not updated:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   .bash_aliases
+#	unmerged:   doc/tree.find-ls
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+
+my-confs$> git merge origin/master
+fatal: You are in the middle of a conflicted merge. (index unmerged)
+
+my-confs$> git commit -a -m 'merge..'
+[detached HEAD 3f2cb2f] merge..
+ 2 files changed, 26 insertions(+), 2 deletions(-)
+
+my-confs$> git log master..origin/master | head
+commit 64c96a65f0695fd04883d77da492a8a5d55f8d46
+Author: Josef Kral (@aspire1) <pepe5@email.cz>
+Date:   Thu May 27 06:15:47 2010 +0200
+    clean up..
+commit 11d3473a3f322ebf5d31c003dad1262b31bc0f94
+Author: Josef Kral (@aspire1) <pepe5@email.cz>
+Date:   Tue May 25 22:01:13 2010 +0200
+    gt.sh merged
+
+my-confs$> git log | head
+commit 3f2cb2f3db2efa96a8dc2e793678f89d9aa95c80
+Author: jk <pepe5@email.cz>
+Date:   Thu May 27 10:20:15 2010 +0200
+    merge..
+commit 64c96a65f0695fd04883d77da492a8a5d55f8d46
+Author: Josef Kral (@aspire1) <pepe5@email.cz>
+Date:   Thu May 27 06:15:47 2010 +0200
+    clean up..
+
+my-confs$> diff -rq ./ /tmp/text/my-confs | grep -v .git/
+Only in ./.bak: git-init.emacs.con.log
+Files ./bin/gt.sh and /tmp/text/my-confs/bin/gt.sh differ
+Files ./doc/tree.find-ls and /tmp/text/my-confs/doc/tree.find-ls differ
+Only in ./etc: apt.conf
+Only in ./.git: ORIG_HEAD
+
+my-confs$> . bin/gt.sh flush-tree
+task: (pwd:/home/kraljo/text/my-confs): flush-tree
+
+my-confs$> cd /home/kraljo/text/my-confs
+my-confs$> git rm bin/os-tools~.sh 
+rm 'bin/os-tools~.sh'
+
+my-confs$> . bin/gt.sh flush-tree
+task: (pwd:/home/kraljo/text/my-confs): flush-tree
+
+my-confs$> git status
+# Not currently on any branch.
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	deleted:    bin/os-tools~.sh
+#
+# Changed but not updated:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   doc/tree.find-ls
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	doc/my-1st-merge.con.log
+
+my-confs$> git add .
+my-confs$> git commit -a -m 'my-1st-merge doc added'
+[detached HEAD d2e66e2] my-1st-merge doc added
+ 3 files changed, 144 insertions(+), 160 deletions(-)
+ delete mode 100644 bin/os-tools~.sh
+ create mode 100644 doc/my-1st-merge.con.log
+ rewrite doc/tree.find-ls (87%)
+
+my-confs$>   git push origin master
+To git@github.com:pepe5/my-confs.git
+ ! [rejected]        master -> master (non-fast forward)
+error: failed to push some refs to 'git@github.com:pepe5/my-confs.git'
+
+my-confs$> git branch
+* (no branch)
+  master
+
+my-confs$> git checkout master
+Previous HEAD position was d2e66e2... my-1st-merge doc added
+Switched to branch 'master'
+
+my-confs$> git status
+# On branch master
+nothing to commit (working directory clean)
+
+my-confs$>   git pull origin master
+From git@github.com:pepe5/my-confs
+ * branch            master     -> FETCH_HEAD
+Updating 481a057..64c96a6
+Fast forward
+ .bak/git-init.emacs.con.log |  139 +++++++++++++++++++++++++++++++++++++++++++
+ bin/gt.sh                   |   22 ++++++-
+ doc/tree.find-ls            |  122 +++++++++++++++++++++++++++++++------
+ etc/apt.conf                |    1 +
+ 4 files changed, 262 insertions(+), 22 deletions(-)
+ create mode 100755 .bak/git-init.emacs.con.log
+ create mode 100755 etc/apt.conf
+
+my-confs$> diff -rq ./ /tmp/text/my-confs | grep -v .git/
+Only in ./.bak: git-init.emacs.con.log
+Only in ./.bak: os-tools~.sh
+Files ./.bash_aliases and /tmp/text/my-confs/.bash_aliases differ
+Files ./bin/gt.sh and /tmp/text/my-confs/bin/gt.sh differ
+Files ./doc/tree.find-ls and /tmp/text/my-confs/doc/tree.find-ls differ
+Only in ./etc: apt.conf
+Only in ./.git: ORIG_HEAD
+
+my-confs$> diff -rq ./ /tmp/text/my-confs | grep -v .git/ | grep differ | cut -d\  -f4
+/tmp/text/my-confs/.bash_aliases
+/tmp/text/my-confs/bin/gt.sh
+/tmp/text/my-confs/doc/tree.find-ls
+
+my-confs$> meld ./ /tmp/text/my-confs
+my-confs$> diff -rq ./ /tmp/text/my-confs | grep -v .git/
+Only in ./.bak: git-init.emacs.con.log
+Only in ./.bak: os-tools~.sh
+Only in ./etc: apt.conf
+Only in ./.git: ORIG_HEAD
+
+my-confs$> git status
+# On branch master
+# Changed but not updated:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   .bash_aliases
+#	modified:   bin/gt.sh
+#	modified:   doc/tree.find-ls
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+
+my-confs$> git commit -a -m 're "merge" recovery from /tmp'
+[master 4bb6790] re "merge" recovery from /tmp
+ 3 files changed, 25 insertions(+), 124 deletions(-)
+ rewrite doc/tree.find-ls (98%)
+
+my-confs$>   git push origin master
+Counting objects: 13, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (7/7), 1.02 KiB, done.
+Total 7 (delta 3), reused 0 (delta 0)
+To git@github.com:pepe5/my-confs.git
+   64c96a6..4bb6790  master -> master
+
+my-confs$> 

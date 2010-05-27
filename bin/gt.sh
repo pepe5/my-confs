@@ -1,7 +1,8 @@
 #!/bin/bash -x
 # start from scr-root fld (~> /tmp/swfobject)
+orig_pwd=`pwd`
 
-# run before commit ~> . doc/tasks.sh flush-tree
+# run before commit ~> . bin/gt.sh flush-tree
 function flush-tree \
     { echo flush-tree: started at: `date -Is` > doc/tree.find-ls
     find . -wholename ./.git -prune -o -not -type d -exec ls -lQ "{}" \; >> doc/tree.find-ls; }
@@ -12,7 +13,7 @@ function unzip-rev \
 
 # zoom out log
 function log-zo \
-    { point=$(if [ -z $2 ]; then echo HEAD; else echo $2; fi); )
+    { point=$(if [ -z $2 ]; then echo HEAD; else echo $2; fi)
     case $1 in
     (1) git log --oneline --stat $point;;
     (2) git log --oneline --shortstat $point;;
@@ -29,6 +30,23 @@ function log-in \
 	#>! check it
     fi;
     }
+
+function dev-cd \
+    { echo dev-cd: start assert 'text-depo|dev-env': `pwd`
+    if [ -d .home.sites/dev-ins ]; then cd .home.sites/dev-ins/env; fi; }
+
+# start text-depo <=->*prj_nme
+# typic.is ~/text/$prj_nme
+function dev-ini-roots \
+    { export prj_nme=`basename $orig_pwd`
+    echo dev-ini-roots: assert text-depo: $prj_nme
+    mkdir -v .home.sites
+    mkdir -vp /tmp/dev/$prj_nme/dev-ins
+    ln -sv -bfT /tmp/dev/$prj_nme/dev-ins .home.sites/; }
+
+function dev-unp-arxs \
+    { echo "("prj fld: got by prev.executions..: $prj_nme")"
+    echo dev-unp-arxs: assert ; }
 
 echo task: "(pwd:`pwd`)": $*
 eval $*
