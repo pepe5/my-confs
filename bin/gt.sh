@@ -23,30 +23,59 @@ function log-in \
     { #>! check if .git/ exists
     alias gt=$(echo doc/gt.sh)
     echo log in: aliases expanded by: gt;
-    #>! if dev-ins exists; go there
-    if [ -s .home.sites/dev-ins ];
+    #>! if dev-text exists; go there
+    if [ -s .home.sites/dev-text ];
     then ls -l .home.sites/dev-pro;
     else echo asserting we are in dev src fld;
 	#>! check it
     fi;
     }
 
+## show-branches
+function show-bs \
+    { #//book.git-scm.com/7_git_references.html
+    gitk $( git show-ref --heads ) --not  $( git show-ref --tags )
+    }
+
 function dev-cd \
     { echo dev-cd: start assert 'text-depo|dev-env': `pwd`
-    if [ -d .home.sites/dev-ins ]; then cd .home.sites/dev-ins/env; fi; }
+    if [ -d .home.sites/dev-text ]; then cd .home.sites/dev-text/env; fi; }
 
-# start text-depo <=->*prj_nme
+# start (in) text-depo <=->*prj_nme
 # typic.is ~/text/$prj_nme
 function dev-ini-roots \
     { export prj_nme=`basename $orig_pwd`
     echo dev-ini-roots: assert text-depo: $prj_nme
     mkdir -v .home.sites
-    mkdir -vp /tmp/dev/$prj_nme/dev-ins
-    ln -sv -bfT /tmp/dev/$prj_nme/dev-ins .home.sites/; }
+    #postponed by dev-unp-text:git clone #(p) mkdir -vp /tmp/dev/$prj_nme/dev-env
+    mkdir -vp /tmp/dev/$prj_nme/dev-text
+    ln -sv -bfT /tmp/dev/$prj_nme/dev-text .home.sites/; }
 
-function dev-unp-arxs \
+# typic. prj-ins dir is /tmp/dev/$prj_nme/
+function dev-unp-skel \
+    { ins_path=/tmp/dev/$prj_nme
+    echo dev-unp-skel: assert prj-ins dir..
+    unzip $skel -d $ins_path/
+    }
+
+# in dev-text git-repo - now real files shall be ignored (only .bak~ shall be..)
+function dev-unp-text \
+    { depo_path=~/text/$prj_nme
+    ins_path=/tmp/dev/$prj_nme
+    echo dev-unp-text: assert prj-ins dir..
+    cd $ins_path
+    git clone $depo_path dev-text #>? | checkout | pull | cp -r $depo_path/.git . | what?
+    cd $ins_path/dev-text
+    git remote add depo $depo_path
+    echo -e '\n*~' > .git/info/exclude #>? more .git config/s ?
+    }
+
+function dev-unp \
     { echo "("prj fld: got by prev.executions..: $prj_nme")"
-    echo dev-unp-arxs: assert ; }
+    # echo dev-unp: assert..
+    dev-unp-skel
+    dev-unp-text
+    }
 
 echo task: "(pwd:`pwd`)": $*
 eval $*
