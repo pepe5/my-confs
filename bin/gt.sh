@@ -55,7 +55,7 @@ function dev-ini-roots \
 function dev-unp-skel \
     { ins_path=/tmp/dev/$prj_nme
     echo dev-unp-skel: assert prj-ins dir..
-    unzip $skel -d $ins_path/
+    unzip $skel -d $ins_path/dev-env # skel pack shall be w/o root-fld..
     }
 
 # in dev-text git-repo - now real files shall be ignored (only .bak~ shall be..)
