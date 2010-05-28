@@ -24,8 +24,8 @@ function log-in \
     alias gt=$(echo doc/gt.sh)
     echo log in: aliases expanded by: gt;
     #>! if dev-text exists; go there
-    if [ -s .home.sites/dev-text ];
-    then ls -l .home.sites/dev-pro;
+    if [ -s .home.sites/text ];
+    then ls -l .home.sites/pro;
     else echo asserting we are in dev src fld;
 	#>! check it
     fi;
@@ -39,7 +39,7 @@ function show-bs \
 
 function dev-cd \
     { echo dev-cd: start assert 'text-depo|dev-env': `pwd`
-    if [ -d .home.sites/dev-text ]; then cd .home.sites/dev-text/env; fi; }
+    if [ -d .home.sites/text ]; then cd .home.sites/text/env; fi; }
 
 # start (in) text-depo <=->*prj_nme
 # typic.is ~/text/$prj_nme
@@ -47,15 +47,23 @@ function dev-ini-roots \
     { export prj_nme=`basename $orig_pwd`
     echo dev-ini-roots: assert text-depo: $prj_nme
     mkdir -v .home.sites
-    #postponed by dev-unp-text:git clone #(p) mkdir -vp /tmp/dev/$prj_nme/dev-env
-    mkdir -vp /tmp/dev/$prj_nme/dev-text
-    ln -sv -bfT /tmp/dev/$prj_nme/dev-text .home.sites/; }
+    ins_path=/tmp/dev/$prj_nme
+    mkdir -vp $ins_path # dev-ins root
+    ln -sv -bfT $ins_path .home.sites/dev-ins
+    #(p) mkdir -vp $ins_path/env #< postponed by dev-unp-text:git clone
+    mkdir -vp $ins_path/text # dev-text root (inside dev-ins)
+    ln -sv -bf $ins_path/text .home.sites/
+    mkdir -vp $ins_path/env
+    mkdir -vp $ins_path/bin-cache-1
+    mkdir -vp $ins_path/big-samples-1
+    mkdir -vp $ins_path/.bak
+    }
 
 # typic. prj-ins dir is /tmp/dev/$prj_nme/
 function dev-unp-skel \
     { ins_path=/tmp/dev/$prj_nme
-    echo dev-unp-skel: assert prj-ins dir..
-    unzip $skel -d $ins_path/dev-env # skel pack shall be w/o root-fld..
+    echo dev-unp-skel "(of built-in lib/s freez cache)" : assert prj-ins dir..
+    unzip $skel -d $ins_path/env # skel pack shall be w/o root-fld..
     }
 
 # in dev-text git-repo - now real files shall be ignored (only .bak~ shall be..)
@@ -64,8 +72,8 @@ function dev-unp-text \
     ins_path=/tmp/dev/$prj_nme
     echo dev-unp-text: assert prj-ins dir..
     cd $ins_path
-    git clone $depo_path dev-text #>? | checkout | pull | cp -r $depo_path/.git . | what?
-    cd $ins_path/dev-text
+    git clone $depo_path text #>? | checkout | pull | cp -r $depo_path/.git . | what?
+    cd $ins_path/text
     git remote add depo $depo_path
     echo -e '\n*~' > .git/info/exclude #>? more .git config/s ?
     }
@@ -77,5 +85,5 @@ function dev-unp \
     dev-unp-text
     }
 
-echo task: "(pwd:`pwd`)": $*
+echo task: "(pwd:$orig_pwd)": $*
 eval $*
