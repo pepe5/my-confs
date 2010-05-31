@@ -309,8 +309,20 @@
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (require 'ibuffer)
 ;(add-to-list 'ibuffer-never-show-regexps "^\\*")
-(setq ibuffer-saved-filters (quote (("ooo-ed" ((filename . "at/ooo-ed"))) ("gnus" ((or (mode . message-mode) (mode . mail-mode) (mode . gnus-group-mode) (mode . gnus-summary-mode) (mode . gnus-article-mode)))) ("programming" ((or (mode . emacs-lisp-mode) (mode . cperl-mode) (mode . c-mode) (mode . java-mode) (mode . idl-mode) (mode . lisp-mode)))))))
-(setq ibuffer-saved-filter-groups (quote (("tasks - non-ooo-ed+non-*" ("tasks - non-ooo-ed+non-*" (name . "^[^*]") (not saved . "ooo-ed"))))))
+;(setq ibuffer-saved-filter-groups (quote (("tasks - non-ooo-ed+non-*" ("tasks - non-ooo-ed+non-*" (name . "^[^*]") (not saved . "ooo-ed"))))))
+(defun i1-ibuffer-append-saved-filter-groups (name)
+  "Append saved groups with NAME to this buffer's filter groups.
+The value from `ibuffer-saved-filter-groups' is used."
+  (interactive
+   (list
+    (if (null ibuffer-saved-filter-groups)
+	(error "No saved filters")
+      (completing-read "Switch to saved filter group: "
+		       ibuffer-saved-filter-groups nil t))))
+  (setq ibuffer-filter-groups 
+	(append (cdr (assoc name ibuffer-saved-filter-groups))
+		ibuffer-filter-groups))
+  (ibuffer-update nil t))
 
 ;; C-M-F5 : Xterm; in em21 from korbel to reflections X it sends M-f15
 (defun my_xterm ()
@@ -430,7 +442,7 @@
  '(font-lock-global-modes t)
  '(global-font-lock-mode t nil (font-lock))
  '(htmlize-output-type (quote font))
- '(ibuffer-saved-filter-groups (quote (("g2.5-ttt" ("/ttt" (filename . "/ttt")) ("tickets" (filename . "tickets")) ("^*" (name . "^*"))) ("g2-tickets" ("tickets" (filename . "tickets")) ("^*" (name . "^*"))) ("g1-stars" ("^*" (name . "^*"))) ("tickets-1" ("sip-prs" (filename . "sip-prs")) ("text/" (filename . "text/")) ("^*" (name . "^*")) (".dot" (name . ".dot")) ("/ttt\\|o/tmp" (filename . "/ttt\\|o/tmp")) ("sup-prs" (filename . "sup-prs"))) ("tasks - non-ooo-ed+non-*" ("tasks - non-ooo-ed+non-*" (name . "^[^*]") (not saved . "ooo-ed"))))))
+ '(ibuffer-saved-filter-groups (quote (("tickets-2" ("iden\\|hebrew" (filename . "iden\\|hebrew")) ("ucp\\|ccm" (filename . "ucp\\|ccm")) ("smh-la" (filename . "smh-la")) ("bl~" (filename . "bl~"))) ("g2.5-ttt" ("/ttt" (filename . "/ttt")) ("tickets" (filename . "tickets")) ("^*" (name . "^*"))) ("g2-tickets" ("tickets" (filename . "tickets")) ("^*" (name . "^*"))) ("g1-stars" ("^*" (name . "^*"))) ("tickets-1" ("sip-prs" (filename . "sip-prs")) ("text/" (filename . "text/")) ("^*" (name . "^*")) (".dot" (name . ".dot")) ("/ttt\\|o/tmp" (filename . "/ttt\\|o/tmp")) ("sup-prs" (filename . "sup-prs"))) ("tasks - non-ooo-ed+non-*" ("tasks - non-ooo-ed+non-*" (name . "^[^*]") (not saved . "ooo-ed"))))))
  '(ibuffer-saved-filters (quote (("ooo-ed" ((filename . "at/ooo-ed"))) ("gnus" ((or (mode . message-mode) (mode . mail-mode) (mode . gnus-group-mode) (mode . gnus-summary-mode) (mode . gnus-article-mode)))) ("programming" ((or (mode . emacs-lisp-mode) (mode . cperl-mode) (mode . c-mode) (mode . java-mode) (mode . idl-mode) (mode . lisp-mode)))))))
  '(icicle-download-dir "~/.emacs.d/site-lisp/icicles")
  '(icicle-region-alist (quote (("##
