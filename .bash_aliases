@@ -1,6 +1,6 @@
 # -*- sh -*-
-id='$Id: $'
-echo $id
+# id='$Id: $'
+# echo $id
 
 alias ll='ls -lF'
 alias la='ls -AF'
@@ -14,6 +14,14 @@ alias off='xset dpms force off'
 alias swp1='setxkbmap -option ctrl:swapcaps'
 alias ri=ri1.8
 alias irb='irb --simple-prompt'
+function ediff \
+    { emacsclient --eval "(ediff-files \"$1\" \"$2\")"
+    echo; }
+function rediff \
+    { echo A=$1
+    echo B=$2
+    diff -rq $1 $2 | ruby1.8 -ane 'if /Files (.*) and (.*) differ$/; puts "ediff #{$1} #{$2}" else puts "# (#{$F[-1]})" end'
+    echo; }
 
 alias log='. ~/bin/log.sh'
 alias logr="pgrep -l -f 'ruby .*-timestamp'; pkill -f 'ruby .*-timestamp'; pgrep -l -f 'ruby .*-timestamp'"

@@ -288,8 +288,8 @@
 
 (fset 'yes-or-no-p 'y-or-n-p) ; nafai.dyndns.org/files/casey-emacs-tmp.html
 (global-set-key "\C-x\C-o" 'other-window) 
-(set-input-mode nil nil 1) ; enable 8-bit input/insertion http://home.snafu.de/ohei/emacs/emacs206-os2-site-start.html
-;; http://www.tldp.org/HOWTO/LinuxDoc+Emacs+Ispell-HOWTO-4.html
+(set-input-mode nil nil 1) ; enable 8-bit input/insertion //home.snafu.de/ohei/emacs/emacs206-os2-site-start.html
+;; //www.tldp.org/HOWTO/LinuxDoc+Emacs+Ispell-HOWTO-4.html
 ;; The iso-sgml library will let you type accented characters under
 ;; Emacs, like always, but upon saving your file to the disk, it will
 ;; turn these 8-bit characters into their SGML equivalent.
@@ -310,6 +310,10 @@
 (require 'ibuffer)
 ;(add-to-list 'ibuffer-never-show-regexps "^\\*")
 ;(setq ibuffer-saved-filter-groups (quote (("tasks - non-ooo-ed+non-*" ("tasks - non-ooo-ed+non-*" (name . "^[^*]") (not saved . "ooo-ed"))))))
+
+;; (setq vars (buffer-local-variables))
+;; (prin1 vars)
+;;>! add to hook
 (defun i1-ibuffer-append-saved-filter-groups (name)
   "Append saved groups with NAME to this buffer's filter groups.
 The value from `ibuffer-saved-filter-groups' is used."
@@ -442,7 +446,7 @@ The value from `ibuffer-saved-filter-groups' is used."
  '(font-lock-global-modes t)
  '(global-font-lock-mode t nil (font-lock))
  '(htmlize-output-type (quote font))
- '(ibuffer-saved-filter-groups (quote (("tickets-2" ("iden\\|hebrew" (filename . "iden\\|hebrew")) ("ucp\\|ccm" (filename . "ucp\\|ccm")) ("smh-la" (filename . "smh-la")) ("bl~" (filename . "bl~"))) ("g2.5-ttt" ("/ttt" (filename . "/ttt")) ("tickets" (filename . "tickets")) ("^*" (name . "^*"))) ("g2-tickets" ("tickets" (filename . "tickets")) ("^*" (name . "^*"))) ("g1-stars" ("^*" (name . "^*"))) ("tickets-1" ("sip-prs" (filename . "sip-prs")) ("text/" (filename . "text/")) ("^*" (name . "^*")) (".dot" (name . ".dot")) ("/ttt\\|o/tmp" (filename . "/ttt\\|o/tmp")) ("sup-prs" (filename . "sup-prs"))) ("tasks - non-ooo-ed+non-*" ("tasks - non-ooo-ed+non-*" (name . "^[^*]") (not saved . "ooo-ed"))))))
+ '(ibuffer-saved-filter-groups (quote (("tickets-3" ("iden\\|hebrew" (or (filename . "iden\\|hebrew") (name . "iden\\|hebrew"))) ("ucp\\|ccm" (or (filename . "ucp\\|ccm") (name . "ucp\\|ccm"))) ("smh-la" (or (filename . "smh-la") (name . "smh-la"))) ("bl~" (or (filename . "bl~") (name . "bl~"))) ("^*" (name . "^*"))) ("tickets-2" ("iden\\|hebrew" (or (filename . "iden\\|hebrew") (name . "iden\\|hebrew"))) ("ucp\\|ccm" (or (filename . "ucp\\|ccm") (name . "ucp\\|ccm"))) ("smh-la" (or (filename . "smh-la") (name . "smh-la"))) ("bl~" (or (filename . "bl~") (name . "bl~"))) ("^*" (name . "^*"))) ("g2.5-ttt" ("/ttt" (filename . "/ttt")) ("tickets" (filename . "tickets")) ("^*" (name . "^*"))) ("g2-tickets" ("tickets" (filename . "tickets")) ("^*" (name . "^*"))) ("g1-stars" ("^*" (name . "^*"))) ("tickets-1" ("sip-prs" (filename . "sip-prs")) ("text/" (filename . "text/")) ("^*" (name . "^*")) (".dot" (name . ".dot")) ("/ttt\\|o/tmp" (filename . "/ttt\\|o/tmp")) ("sup-prs" (filename . "sup-prs"))) ("tasks - non-ooo-ed+non-*" ("tasks - non-ooo-ed+non-*" (name . "^[^*]") (not saved . "ooo-ed"))))))
  '(ibuffer-saved-filters (quote (("ooo-ed" ((filename . "at/ooo-ed"))) ("gnus" ((or (mode . message-mode) (mode . mail-mode) (mode . gnus-group-mode) (mode . gnus-summary-mode) (mode . gnus-article-mode)))) ("programming" ((or (mode . emacs-lisp-mode) (mode . cperl-mode) (mode . c-mode) (mode . java-mode) (mode . idl-mode) (mode . lisp-mode)))))))
  '(icicle-download-dir "~/.emacs.d/site-lisp/icicles")
  '(icicle-region-alist (quote (("##
@@ -548,7 +552,7 @@ The value from `ibuffer-saved-filter-groups' is used."
   (hi-lock-face-phrase-buffer ".* \\[ ERROR - known bug \\]" 'file-name-shadow)
   (hi-lock-face-phrase-buffer "\\[ ERROR - known bug \\]" 'escape-glyph) ; file-name-shadow
   (hi-lock-face-phrase-buffer ".* \\[ SKIPPED \\]" 'font-lock-variable-name-face)
-  (hi-lock-face-phrase-buffer "[Dd]escription: .*" 'font-lock-comment-face)
+  (hi-lock-face-phrase-buffer "Description: .*\\|Desc: .*" 'font-lock-comment-face)
   (hi-lock-face-phrase-buffer "\\[ SKIPPED \\]" 'sh-heredoc)
   ;; in some situations can help: (hi-lock-set-pattern "proc AS[_0-9A-Za-z]+" 'hi-red-b)
   ;; (toggle-read-only 0)
@@ -755,12 +759,11 @@ The value from `ibuffer-saved-filter-groups' is used."
   (setq comint-process-echoes t))
 (add-hook 'comint-mode-hook 'my-comint-init)
 
-;; (setq vars (buffer-local-variables))
-;; (prin1 vars)
-;; (ibuffer-filter-groups ("sip-prs" (filename . "sip-prs")) ("text/" (filename . "text/")) ("^*" (name . "^*")) (".dot" (name . ".dot")) ("/ttt\\|o/tmp" (filename . "/ttt\\|o/tmp")) ("sup-prs" (filename . "sup-prs")))
-;;>! add to hook
-; (define-key shell-mode-map (kbd "C-<f9>") 'd1-toggle-coding)
-; (define-key shell-mode-map (kbd "C-<f8>") 'd2-toggle-to-dos)
+(add-hook 'shell-mode-hook
+	  '(lambda ()
+	     (define-key shell-mode-map (kbd "C-<f9>") 'd1-toggle-coding)
+	     (define-key shell-mode-map (kbd "C-<f8>") 'd2-toggle-to-dos)
+	     )) ; >!
 
 (setq ruby-program-name "irb1.8 --inf-ruby-mode")
 (global-set-key (kbd "<f1>") 'ruby-send-region)

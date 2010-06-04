@@ -62,7 +62,7 @@ function dev-ini-roots \
     mkdir -vp $ins_path/bin-cache-1
     mkdir -vp $ins_path/big-samples-1
     mkdir -vp $ins_path/.bak
-    }
+    ; }
 
 ##>! postponed -- to next rel. lets use symlinks in skel-arx
 # typic. env @ dev-ins is /tmp/dev/$prj_nme/./env !
@@ -78,6 +78,15 @@ function dev-ini-roots \
 #     done
 #     popd; }
 
+##>!
+# function reg-make-task { ; }
+#>! use mtime-upd check mechanism (~> rake? | other?)
+function make \
+    { echo dev-make: compile all reg/d & upd/d src/s:..;
+    pushd src
+    echo mtasc `find i*-$2* -printf %l` -O `find o*-$2* -printf %l`
+    popd; }
+
 # typic. dev- (prj) -ins dir is /tmp/dev/$prj_nme/
 #>? shall skel-pack incl. last (Stab) release? (to be executable..)?
 #->var1: no, we can use .bak of stab.r. (stored) in incr.arch. && skel shall not lay in .bak (but in =arx)
@@ -85,8 +94,9 @@ function dev-ini-roots \
 function dev-unp-skel \
     { ins_path=/tmp/dev/$prj_nme
     echo dev-unp-skel "(of built-in lib/s freez cache)" : assert prj-ins dir..
-    unzip $skel -d $ins_path/env # skel pack shall be w/o root-fld..
-    }
+    unzip $dev -d $ins_path/env # skel pack shall be w/o root-fld..
+    unzip $src -d $ins_path/src # src/s skel..
+    ; }
 
 # in dev-text git-repo - now real files shall be ignored (only .bak~ could be incl./ed..)
 function dev-unp-text \
@@ -98,14 +108,14 @@ function dev-unp-text \
     cd $ins_path/text
     git remote add depo $depo_path
     echo -e '\n*~' > .git/info/exclude #>? more .git config/s ?
-    }
+    ; }
 
 function dev-unp \
     { echo "("prj fld: got by prev.executions..: $prj_nme")"
     # echo dev-unp: assert..
     dev-unp-skel
     dev-unp-text
-    }
+    ; }
 
 echo task: "(pwd:$orig_pwd)": $*
 eval $*
