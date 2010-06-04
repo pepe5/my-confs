@@ -14,13 +14,13 @@ alias off='xset dpms force off'
 alias swp1='setxkbmap -option ctrl:swapcaps'
 alias ri=ri1.8
 alias irb='irb --simple-prompt'
-function ediff \
+function ediffer \
     { emacsclient --eval "(ediff-files \"$1\" \"$2\")"
     echo; }
 function rediff \
     { echo A=$1
     echo B=$2
-    diff -rq $1 $2 | ruby1.8 -ane 'if /Files (.*) and (.*) differ$/; puts "ediff #{$1} #{$2}" else puts "# (#{$F[-1]})" end'
+    diff -rq $1 $2 | ruby1.8 -ane 'if /Files (.*) and (.*) differ$/; puts "ediffer #{$1} #{$2}" else puts "# (#{$F[-1]})" end'
     echo; }
 
 alias log='. ~/bin/log.sh'
