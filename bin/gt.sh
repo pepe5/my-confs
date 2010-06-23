@@ -62,7 +62,7 @@ function dev-ini-roots \
     mkdir -vp $ins_path/bin-cache-1
     mkdir -vp $ins_path/big-samples-1
     mkdir -vp $ins_path/.bak
-    ; }
+    echo; }
 
 ##>! postponed -- to next rel. lets use symlinks in skel-arx
 # typic. env @ dev-ins is /tmp/dev/$prj_nme/./env !
@@ -96,7 +96,7 @@ function dev-unp-skel \
     echo dev-unp-skel "(of built-in lib/s freez cache)" : assert prj-ins dir..
     unzip $dev -d $ins_path/env # skel pack shall be w/o root-fld..
     unzip $src -d $ins_path/src # src/s skel..
-    ; }
+    echo; }
 
 # in dev-text git-repo - now real files shall be ignored (only .bak~ could be incl./ed..)
 function dev-unp-text \
@@ -108,14 +108,22 @@ function dev-unp-text \
     cd $ins_path/text
     git remote add depo $depo_path
     echo -e '\n*~' > .git/info/exclude #>? more .git config/s ?
-    ; }
+    echo; }
 
 function dev-unp \
     { echo "("prj fld: got by prev.executions..: $prj_nme")"
     # echo dev-unp: assert..
     dev-unp-skel
     dev-unp-text
-    ; }
+    echo; }
+
+# always show tree
+function gitk \
+    { #//stackoverflow.com/questions/1838873/visualizing-branch-topology-in-git
+    git log --graph --full-history --all --color \
+    --pretty=format:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s" | cat
+    #//stackoverflow.com/questions/67699/how-do-i-clone-all-remote-branches-with-git
+    `which gitk` --all; }
 
 echo task: "(pwd:$orig_pwd)": $*
 eval $*

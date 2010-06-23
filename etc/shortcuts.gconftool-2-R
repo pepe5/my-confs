@@ -59,3 +59,10 @@
   unmaximize = <Alt>F5
   toggle_maximized = <Mod4>x
   maximize_vertically = <Mod4>s
+
+# gconftool-2 -R /apps | egrep -i '/apps/|alt>[0-9]' | egrep -i -B1 'alt>[0-9]' | head
+  /apps/metacity/global_keybindings:
+   switch_to_workspace_1 = <Alt>1
+   switch_to_workspace_4 = <Alt>4
+   switch_to_workspace_left = <Alt>2
+   switch_to_workspace_right = <Alt>3

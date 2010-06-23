@@ -439,14 +439,14 @@ The value from `ibuffer-saved-filter-groups' is used."
  '(default-input-method "czech-qwerty")
  '(delete-by-moving-to-trash t)
  '(delete-selection-mode nil)
- '(desktop-enable t nil (desktop))
+ '(desktop-save-mode t nil (desktop))
  '(dired-listing-switches "-I *~ -l")
  '(ediff-custom-diff-options "-c -a")
  '(ediff-diff-options "-a")
  '(font-lock-global-modes t)
  '(global-font-lock-mode t nil (font-lock))
  '(htmlize-output-type (quote font))
- '(ibuffer-saved-filter-groups (quote (("tickets-3" ("iden\\|hebrew" (or (filename . "iden\\|hebrew") (name . "iden\\|hebrew"))) ("ucp\\|ccm" (or (filename . "ucp\\|ccm") (name . "ucp\\|ccm"))) ("smh-la" (or (filename . "smh-la") (name . "smh-la"))) ("bl~" (or (filename . "bl~") (name . "bl~"))) ("^*" (name . "^*"))) ("tickets-2" ("iden\\|hebrew" (or (filename . "iden\\|hebrew") (name . "iden\\|hebrew"))) ("ucp\\|ccm" (or (filename . "ucp\\|ccm") (name . "ucp\\|ccm"))) ("smh-la" (or (filename . "smh-la") (name . "smh-la"))) ("bl~" (or (filename . "bl~") (name . "bl~"))) ("^*" (name . "^*"))) ("g2.5-ttt" ("/ttt" (filename . "/ttt")) ("tickets" (filename . "tickets")) ("^*" (name . "^*"))) ("g2-tickets" ("tickets" (filename . "tickets")) ("^*" (name . "^*"))) ("g1-stars" ("^*" (name . "^*"))) ("tickets-1" ("sip-prs" (filename . "sip-prs")) ("text/" (filename . "text/")) ("^*" (name . "^*")) (".dot" (name . ".dot")) ("/ttt\\|o/tmp" (filename . "/ttt\\|o/tmp")) ("sup-prs" (filename . "sup-prs"))) ("tasks - non-ooo-ed+non-*" ("tasks - non-ooo-ed+non-*" (name . "^[^*]") (not saved . "ooo-ed"))))))
+ '(ibuffer-saved-filter-groups (quote (("dev-1" ("log|myjugg" (or (filename . "log\\|myjugg") (name . "log\\|myjugg"))) ("swf|build|git" (or (filename . "swf\\|git") (name . "swf\\|git"))) ("^*" (name . "^*"))) ("tickets-3" ("55157\\|iden\\|hebrew\\|holly" (or (filename . "iden\\|hebrew\\|55157") (name . "iden\\|hebrew\\|holly\\|55157"))) ("55629\\|sdb\\|ucp\\|ccm" (or (filename . "55629\\|sdb\\|ucp\\|ccm") (name . "55629\\|sdb\\|ucp\\|ccm"))) ("^*" (name . "^*"))) ("g1-stars" ("^*" (name . "^*"))) ("tickets-1" ("bl~" (or (filename . "bl~\\|sip,sup") (name . "bl~\\|projects"))) ("servers-collector|dev-sc" (or (filename . "servers-collector\\|\\.rb\\|dev-sc") (name . "servers-collector\\|dev-sc\\|ruby"))) ("ttt" (or (filename . "ttt") (name . "ttt"))) ("^*" (name . "^*"))) ("tasks - non-ooo-ed+non-*" ("tasks - non-ooo-ed+non-*" (name . "^[^*]") (not saved . "ooo-ed"))))))
  '(ibuffer-saved-filters (quote (("ooo-ed" ((filename . "at/ooo-ed"))) ("gnus" ((or (mode . message-mode) (mode . mail-mode) (mode . gnus-group-mode) (mode . gnus-summary-mode) (mode . gnus-article-mode)))) ("programming" ((or (mode . emacs-lisp-mode) (mode . cperl-mode) (mode . c-mode) (mode . java-mode) (mode . idl-mode) (mode . lisp-mode)))))))
  '(icicle-download-dir "~/.emacs.d/site-lisp/icicles")
  '(icicle-region-alist (quote (("##
@@ -482,6 +482,7 @@ The value from `ibuffer-saved-filter-groups' is used."
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "black" :foreground "green" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 125 :width normal :foundry "unknown" :family "DejaVu Sans"))))
+ '(custom-documentation ((t (:box unspecified))))
  '(custom-documentation-face ((t (:box unspecified))) t)
  '(escape-glyph ((((background dark)) (:foreground "gray20"))))
  '(font-lock-doc-face ((t (:inherit font-lock-string-face :box (:line-width 1 :color "grey75" :style released-button) :slant italic))))
