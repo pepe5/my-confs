@@ -1,6 +1,9 @@
-#!/bin/bash -x
+#!/bin/bash
+# -x
 # start from scr-root fld (~> /tmp/swfobject)
 orig_pwd=`pwd`
+# if [ -z $dev_local ];then dev_local='/tmp/dev'; fi
+dev_local=~/local ; echo dev_local: $dev_local
 
 # run before commit ~> . bin/gt.sh flush-tree
 function flush-tree { get-tree; }
@@ -51,7 +54,7 @@ function dev-ini-roots \
     { export prj_nme=`basename $orig_pwd`
     echo dev-ini-roots: assert text-depo: $prj_nme
     mkdir -v .home.sites
-    ins_path=/tmp/dev/$prj_nme
+    ins_path=$dev_local/$prj_nme
     mkdir -vp $ins_path # dev-ins root
     ln -sv -bfT $ins_path .home.sites/dev-ins
     #(p) mkdir -vp $ins_path/env #< postponed by dev-unp-text:git clone
@@ -65,7 +68,7 @@ function dev-ini-roots \
     echo; }
 
 ##>! postponed -- to next rel. lets use symlinks in skel-arx
-# typic. env @ dev-ins is /tmp/dev/$prj_nme/./env !
+# typic. env @ dev-ins is $dev_local/$prj_nme/./env !
 # function get-skel-links \
 #     { echo get-skel-links: assert dev-ins w/ env "!": $orig_pwd
 #     def_store=text/lib/make-links.sh #>? other place then text/? (to inhi.polution of env/ fld)
@@ -87,12 +90,12 @@ function make \
     echo mtasc `find i*-$2* -printf %l` -O `find o*-$2* -printf %l`
     popd; }
 
-# typic. dev- (prj) -ins dir is /tmp/dev/$prj_nme/
+# typic. dev- (prj) -ins dir is $dev_local/$prj_nme/
 #>? shall skel-pack incl. last (Stab) release? (to be executable..)?
 #->var1: no, we can use .bak of stab.r. (stored) in incr.arch. && skel shall not lay in .bak (but in =arx)
 #->var2: last stab.r. shall also lay in =arx ..!
 function dev-unp-skel \
-    { ins_path=/tmp/dev/$prj_nme
+    { ins_path=$dev_local/$prj_nme
     echo dev-unp-skel "(of built-in lib/s freez cache)" : assert prj-ins dir..
     unzip $dev -d $ins_path/env # skel pack shall be w/o root-fld..
     unzip $src -d $ins_path/src # src/s skel..
@@ -101,7 +104,7 @@ function dev-unp-skel \
 # in dev-text git-repo - now real files shall be ignored (only .bak~ could be incl./ed..)
 function dev-unp-text \
     { depo_path=~/text/$prj_nme
-    ins_path=/tmp/dev/$prj_nme
+    ins_path=$dev_local/$prj_nme
     echo dev-unp-text: assert prj-ins dir..
     cd $ins_path
     git clone $depo_path text #>? | checkout | pull | cp -r $depo_path/.git . | what?
@@ -117,13 +120,26 @@ function dev-unp \
     dev-unp-text
     echo; }
 
+function comi \
+    { echo commit: w/ params: $*
+    echo pre trigger cleanup: NY
+    echo pre trigger files cat: NY
+    echo ...
+    echo post trigger test bg job: NY
+    echo; }
+
 # always show tree
 function gitk \
     { #//stackoverflow.com/questions/1838873/visualizing-branch-topology-in-git
     git log --graph --full-history --all --color \
     --pretty=format:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s" | cat
     #//stackoverflow.com/questions/67699/how-do-i-clone-all-remote-branches-with-git
-    `which gitk` --all; }
+    `which gitk` --all & }
 
-echo task: "(pwd:$orig_pwd)": $*
-eval $*
+echo pwd: $orig_pwd
+task=$1; shift
+echo task: $task, params: $*
+if [ .$task. == .comi. ];
+then comi $*;
+else eval $task $* # \"\" "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9" #
+fi
