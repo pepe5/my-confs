@@ -113,19 +113,42 @@ function dev-unp-text \
     echo -e '\n*~' > .git/info/exclude #>? more .git config/s ?
     echo; }
 
+function dev-chk-lnks \
+    { echo at: text/ or depo/ or ins/ ..
+    find . -wholename ./.git -prune -or -not -type d -not -name "*~" | while read l; do
+	# ll -d $dev_text/$l $dev_ins/env/$l;
+	diff $dev_text/$l $dev_ins/env/$l; done
+    echo; }
+
+function dev-re-lnk \
+    { echo at: text/ or depo/ or ins/ ..
+    find . -wholename ./.git -prune -or -not -type d -not -name "*~" | while read l; do
+	# ll -d $dev_text/$l $dev_ins/env/$l;
+	diff $dev_text/$l $dev_ins/env/$l;
+	ln -sv -vbfT $dev_text/$l $dev_ins/env/$l; done
+    echo; }
+
 function dev-unp \
     { echo "("prj fld: got by prev.executions..: $prj_nme")"
     # echo dev-unp: assert..
     dev-unp-skel
     dev-unp-text
+    # dev-maybe-unp-lnks
     echo; }
 
-function comi \
-    { echo commit: w/ params: $*
-    echo pre trigger cleanup: NY
+#>!! i am loosing grouping
+# - what next? ruby? rake?
+# - could help?: //www.faqs.org/docs/abs/HTML/variables2.html or //tldp.org/LDP/abs/html/internalvariables.html
+#--> for now act var.: mov ty git + split this to pre-comi & post-comi batches
+#>! move triggers to git !
+# assert cwd in text/
+function comi-ZZ \
+    { echo commit: w/ params: -a $@
+    echo pre trigger cleanup:; get-tree
     echo pre trigger files cat: NY
-    echo ...
-    echo post trigger test bg job: NY
+    git commit -a $@ # "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9" # $@
+    #>! git push
+    echo post trigger start bg test: NY
     echo; }
 
 # always show tree
@@ -140,6 +163,6 @@ echo pwd: $orig_pwd
 task=$1; shift
 echo task: $task, params: $*
 if [ .$task. == .comi. ];
-then comi $*;
+then comi $@;
 else eval $task $* # \"\" "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9" #
 fi
