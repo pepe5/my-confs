@@ -91,7 +91,7 @@ function make \
     popd; }
 
 # typic. dev- (prj) -ins dir is $dev_local/$prj_nme/
-#>? shall skel-pack incl. last (Stab) release? (to be executable..)?
+#>? shall pack-skel incl. last (Stab) release? (to be executable..)?
 #->var1: no, we can use .bak of stab.r. (stored) in incr.arch. && skel shall not lay in .bak (but in =arx)
 #->var2: last stab.r. shall also lay in =arx ..!
 function dev-unp-skel \
@@ -99,6 +99,13 @@ function dev-unp-skel \
     echo dev-unp-skel "(of built-in lib/s freez cache)" : assert prj-ins dir..
     unzip $dev -d $ins_path/env # skel pack shall be w/o root-fld..
     unzip $src -d $ins_path/src # src/s skel..
+    echo; }
+
+# zip symlinks -- have non-zero / zero -- size / deflatio sequence:
+#       65  Stored       _65_   _0%_ 2010-06-24 16:35 a679f907  app/controllers/logs_controller.rb
+function pack-skel \
+    { zip -ry ~/text/log-viewer/=arx/env-skel,re-freez .
+    unzip -lv ~/text/log-viewer/=arx/env-skel,re-freez | grep -E '[ ]+\d+.*\d+%' | head
     echo; }
 
 # in dev-text git-repo - now real files shall be ignored (only .bak~ could be incl./ed..)
