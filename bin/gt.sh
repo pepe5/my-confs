@@ -42,7 +42,7 @@ function log-in \
 ## show-branches
 function show-bs \
     { #//book.git-scm.com/7_git_references.html
-    gitk $( git show-ref --heads ) --not  $( git show-ref --tags ) ; }
+    gitk $( git show-ref --heads ) --not $( git show-ref --tags ) ; }
 
 function dev-cd \
     { echo dev-cd: start assert 'text-depo|dev-env': `pwd`
@@ -63,7 +63,7 @@ function dev-ini-roots \
     ln -sv -bf $ins_path/text /var/cache/git/ #>! make /var/cache/git/ writable for me
     mkdir -vp $ins_path/env
     mkdir -vp $ins_path/bin-cache-1
-    mkdir -vp $ins_path/big-samples-1
+    mkdir -vp $ins_path/media-store-1
     mkdir -vp $ins_path/.bak
     echo; }
 
@@ -101,11 +101,11 @@ function dev-unp-skel \
     unzip $src -d $ins_path/src # src/s skel..
     echo; }
 
-# zip symlinks -- have non-zero / zero -- size / deflatio sequence:
+# zip symlinks -- have 0% deflation && are not */ (dir) lines
 #       65  Stored       _65_   _0%_ 2010-06-24 16:35 a679f907  app/controllers/logs_controller.rb
 function pack-skel \
     { zip -ry ~/text/log-viewer/=arx/env-skel,re-freez .
-    unzip -lv ~/text/log-viewer/=arx/env-skel,re-freez | grep -E '[ ]+\d+.*\d+%' | head
+    unzip -lv ~/text/log-viewer/=arx/env-skel,re-freez | grep -E ' 0%.*[^/]$' | head
     echo; }
 
 # in dev-text git-repo - now real files shall be ignored (only .bak~ could be incl./ed..)
@@ -120,13 +120,28 @@ function dev-unp-text \
     echo -e '\n*~' > .git/info/exclude #>? more .git config/s ?
     echo; }
 
+
 function dev-chk-lnks \
-    { echo at: text/ or depo/ or ins/ ..
-    find . -wholename ./.git -prune -or -not -type d -not -name "*~" | while read l; do
-	# ll -d $dev_text/$l $dev_ins/env/$l;
-	diff $dev_text/$l $dev_ins/env/$l; done
+    { echo dev-chk-lnks: assert start at: text/ or depo/ or ins/ ..
+    dev_text=`pwd`; echo dev_text: $dev_text
+    dev_ins=`find .home.sites/dev-ins -printf %l`; echo dev_ins: $dev_ins
+    # pushd $dev_text
+    find . -wholename ./.git -prune -or -wholename ./=arx -prune -or \
+	-not -type d \
+	-not -name "*~" -not -name ".*" -not -path "*/.bak/*" |\
+      while read l; do
+	# find $dev_text/$l -maxdepth 0 -printf "%p %b %t\n"
+	# find $dev_ins/env/$l -maxdepth 0 -printf "%l %b %t (%p)\n"
+	# ls -lF -d $dev_text/$l $dev_ins/env/$l;
+	echo -ne text:\\t\\t; ls -lF -dL $dev_text/$l;
+	echo -ne depl size:\\t; ls -lF -dL $dev_ins/env/$l;
+	echo -ne depl lnk:\\t\\t; ls -l -d $dev_ins/env/$l;
+	# diff $1 $dev_text/$l $dev_ins/env/$l;
+	echo
+    done
     echo; }
 
+#>! not ok if text/ is in depo/ ..
 function dev-re-lnk \
     { echo at: text/ or depo/ or ins/ ..
     find . -wholename ./.git -prune -or -not -type d -not -name "*~" | while read l; do
@@ -161,10 +176,22 @@ function comi-ZZ \
 # always show tree
 function gitk \
     { #//stackoverflow.com/questions/1838873/visualizing-branch-topology-in-git
+    echo '>' git log --graph --full-history --all --color '#>:'
     git log --graph --full-history --all --color \
     --pretty=format:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s" | cat
     #//stackoverflow.com/questions/67699/how-do-i-clone-all-remote-branches-with-git
     `which gitk` --all & }
+
+# ARGV[0] = './.git/objects/88/40d736a8e50f7dc3dd0696e456345303ea818e'
+function unz-blob \
+    { ruby -r'zlib' - <<-EOF
+    ARGV[0] = '$1'
+    d = ''
+    fn = '/tmp/'+ File.basename (ARGV[0]) +'.zip'
+    File .open (ARGV[0]) {|f| d = Zlib::Inflate.inflate f.read}; puts d.size
+    File .open (fn, 'w') {|f| f.write d [d.index ("\000") +1 .. -1] }; puts %x{file #{fn}}
+EOF
+    echo; }
 
 echo pwd: $orig_pwd
 task=$1; shift
