@@ -28,6 +28,10 @@ alias logr="pgrep -l -f 'ruby .*-timestamp'; pkill -f 'ruby .*-timestamp'; pgrep
 alias al='dtach -a $(ls -t `find ~ -name "*.dtach"` | head -1) -z'
 alias tar-sh='(cd /host/kraljo/dox(!)/text; find . -newer andL -type f)'
 
+# //user.it.uu.se/~matkin/documents/shell/
+function forwhich \
+    { ( IFS=: ; for D in $PATH; do for F in $D/"$1"; do [ -x $F ] && echo $F; done; done ) ; }
+
 . ~/.kraljo_aliases
 PATH=$PATH:$HOME/bin:/usr/lib/git-core
 

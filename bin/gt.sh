@@ -141,13 +141,21 @@ function dev-chk-lnks \
     done
     echo; }
 
+## use: log-viewer$> gt dev-re-lnk -q 2>/dev/null
 #>! not ok if text/ is in depo/ ..
+# for now -- dry-mode
 function dev-re-lnk \
     { echo at: text/ or depo/ or ins/ ..
-    find . -wholename ./.git -prune -or -not -type d -not -name "*~" | while read l; do
+    dev_text=`pwd`; echo dev_text: $dev_text
+    dev_ins=`find .home.sites/dev-ins -printf %l`; echo dev_ins: $dev_ins
+    find . -wholename ./.git -prune -or -wholename ./=arx -prune -or \
+	-not -name "*~" -not -name ".*" -not -path "*/.bak/*" \
+	-not -type d |\
+      while read l; do
 	# ll -d $dev_text/$l $dev_ins/env/$l;
-	diff $dev_text/$l $dev_ins/env/$l;
-	ln -sv -vbfT $dev_text/$l $dev_ins/env/$l; done
+	if [ ! -d $dev_text/$l ]; then
+	    diff $1 $dev_text/$l $dev_ins/env/$l 1>&2 || \
+		echo ln -sv -vbfT $dev_text/$l $dev_ins/env/$l; fi; done
     echo; }
 
 function dev-unp \
