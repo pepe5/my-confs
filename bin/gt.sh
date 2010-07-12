@@ -146,18 +146,29 @@ function dev-chk-lnks \
 # for now -- dry-mode
 function dev-re-lnk \
     { echo at: dev.ins/ or '(depo/ or text/ ?)' ..
+    if [ .$1. = .-f. ]; then
+	echo dev-re-lnk: -f -- forcing re-lnk even on same files
+	testp=false;
+	shift
+    else
+	testp='diff $1 $dev_text/$l $dev_ins/env/$l'
+    fi
     # dev_text=`pwd`; echo dev_text: $dev_text
     dev_text=`find text -printf %l`; echo dev_text: $dev_text
     dev_ins=`find .home.sites/dev-ins -printf %l`; echo dev_ins: $dev_ins
-    find . -wholename ./.git -prune -or -wholename ./=arx -prune -or \
+
+    #>? find in ./ OR in $dev_text/ ?
+    # -wholename ./=arx -prune -or
+    pushd $dev_text
+    find . -wholename ./.git -prune -or \
 	-not -name "*~" -not -name ".*" -not -path "*/.bak/*" \
 	-not -type d |\
       while read l; do
 	# ll -d $dev_text/$l $dev_ins/env/$l;
 	if [ ! -d $dev_text/$l ]; then
-	    diff $1 $dev_text/$l $dev_ins/env/$l 1>&2 || \
+	    eval $testp 1>&2 || \
 		echo ln -sv -vbfT $dev_text/$l $dev_ins/env/$l; fi; done
-    echo; }
+    popd; }
 
 function dev-unp \
     { echo "("prj fld: got by prev.executions..: $prj_nme")"
