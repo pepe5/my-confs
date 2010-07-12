@@ -145,8 +145,9 @@ function dev-chk-lnks \
 #>! not ok if text/ is in depo/ ..
 # for now -- dry-mode
 function dev-re-lnk \
-    { echo at: text/ or depo/ or ins/ ..
-    dev_text=`pwd`; echo dev_text: $dev_text
+    { echo at: dev.ins/ or '(depo/ or text/ ?)' ..
+    # dev_text=`pwd`; echo dev_text: $dev_text
+    dev_text=`find text -printf %l`; echo dev_text: $dev_text
     dev_ins=`find .home.sites/dev-ins -printf %l`; echo dev_ins: $dev_ins
     find . -wholename ./.git -prune -or -wholename ./=arx -prune -or \
 	-not -name "*~" -not -name ".*" -not -path "*/.bak/*" \
@@ -166,6 +167,13 @@ function dev-unp \
     # dev-maybe-unp-lnks
     echo; }
 
+function prod-unp \
+    { # //stackoverflow.com/questions/160608/how-to-do-a-git-export-like-svn-export
+    dev-unp-skel
+    git archive master | tar -x -C /somewhere/else ||
+    git checkout-index -a -f --prefix=/destination/path/
+    echo; }
+
 #>!! i am loosing grouping
 # - what next? ruby? rake?
 # - could help?: //www.faqs.org/docs/abs/HTML/variables2.html or //tldp.org/LDP/abs/html/internalvariables.html
@@ -176,7 +184,7 @@ function comi-ZZ \
     { echo commit: w/ params: -a $@
     echo pre trigger cleanup:; get-tree
     echo pre trigger files cat: NY
-    git commit -a $@ # "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9" # $@
+    git commit -a $@ # "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9" # $*
     #>! git push
     echo post trigger start bg test: NY
     echo; }
