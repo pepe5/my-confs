@@ -154,6 +154,7 @@ function dev-re-lnk \
 	testp='diff $1 $dev_text/$l $dev_ins/env/$l'
     fi
     # dev_text=`pwd`; echo dev_text: $dev_text
+    #>! find-printf-l -> readlink
     dev_text=`find text -printf %l`; echo dev_text: $dev_text
     dev_ins=`find .home.sites/dev-ins -printf %l`; echo dev_ins: $dev_ins
 
@@ -198,6 +199,14 @@ function comi-ZZ \
     git commit -a $@ # "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9" # $*
     #>! git push
     echo post trigger start bg test: NY
+    echo; }
+
+# diff -ru ~/tmp/log-viewer~needed-pat ./${log-viewer~cur} | egrep -iv '^only in|pepe5@email' > ./${log-viewer~cur}/.tmp.diff
+# && you can emacsclient the .tmp.diff to have working links..
+function merge-tip-ZZ \
+    { # patch lines have '-' sign:
+    echo '# Hi-lock: (("^\\-[^-].*" (0 (quote font-lock-variable-name-face) t)))'
+    diff -ru $1 $2 | egrep -iv '^only in|pepe5@email'
     echo; }
 
 # always show tree

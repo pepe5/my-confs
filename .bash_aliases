@@ -5,6 +5,7 @@
 alias ll='ls -lF'
 alias la='ls -AF'
 alias l='ls -CF'
+alias d1='echo -n date -Is:\  ; date -Is; echo'
 alias p0='PS1="$> "'
 alias p1='PS1="\W$> "'
 alias pR='PS1="\W#> "'

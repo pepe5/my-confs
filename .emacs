@@ -388,7 +388,7 @@ The value from `ibuffer-saved-filter-groups' is used."
   (interactive)
   (set-background-color "black")
   (set-foreground-color "green")
-  (set-cursor-color "blue")
+  (set-cursor-color "yellow")
   (set-mouse-color "blue")
   (global-font-lock-mode t)
   (setq term-current-row -1)
