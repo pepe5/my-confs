@@ -234,7 +234,6 @@
 (defun cs1-to-asc ()
   "translate buffer according above table"
   (interactive)
-  (interactive)
   (save-excursion
     (overwrite-mode nil)
     (goto-char (point-min))
@@ -446,7 +445,7 @@ The value from `ibuffer-saved-filter-groups' is used."
  '(font-lock-global-modes t)
  '(global-font-lock-mode t nil (font-lock))
  '(htmlize-output-type (quote font))
- '(ibuffer-saved-filter-groups (quote (("dev-1" ("log|myjugg" (or (filename . "log\\|myjugg") (name . "log\\|myjugg"))) ("swf|build|git" (or (filename . "swf\\|git") (name . "swf\\|git"))) ("^*" (name . "^*"))) ("tickets-3" ("54949\\|ucp" (or (filename . "54949\\|ucp") (name . "54949\\|ucp"))) ("55157\\|iden\\|hebrew\\|holly" (or (filename . "iden\\|hebrew\\|55157") (name . "iden\\|hebrew\\|holly\\|55157"))) ("^*" (name . "^*"))) ("g1-stars" ("^*" (name . "^*"))) ("tickets-1" ("bl~" (or (filename . "bl~\\|sip,sup") (name . "bl~\\|projects"))) ("servers-collector|dev-sc" (or (filename . "servers-collector\\|\\.rb\\|dev-sc") (name . "servers-collector\\|dev-sc\\|ruby"))) ("ttt" (or (filename . "ttt") (name . "ttt"))) ("^*" (name . "^*"))) ("tasks - non-ooo-ed+non-*" ("tasks - non-ooo-ed+non-*" (name . "^[^*]") (not saved . "ooo-ed"))))))
+ '(ibuffer-saved-filter-groups (quote (("dev-1" ("3000" (or (filename . "3000\\|tmp") (name . "3000\\|tmp"))) ("log|myjugg" (or (filename . "log\\|myjugg") (name . "log\\|myjugg"))) ("swf|build|git" (or (filename . "swf\\|git") (name . "swf\\|git"))) ("^*" (name . "^*"))) ("tickets-3" ("55934\\|ghlr" (or (filename . "55934\\|ghlr") (name . "55934\\|ghlr"))) ("s56291\\|set_dest" (or (filename . "s56291\\|set_dest") (name . "s56291\\|set_dest"))) ("55157\\|iden\\|hebrew\\|holly" (or (filename . "iden\\|hebrew\\|55157") (name . "iden\\|hebrew\\|holly\\|55157"))) ("^*" (name . "^*"))) ("g1-stars" ("^*" (name . "^*"))) ("tickets-1" ("bl~" (or (filename . "bl~\\|sip,sup") (name . "bl~\\|projects"))) ("servers-collector|dev-sc" (or (filename . "servers-collector\\|\\.rb\\|dev-sc") (name . "servers-collector\\|dev-sc\\|ruby"))) ("ttt" (or (filename . "ttt") (name . "ttt"))) ("^*" (name . "^*"))) ("tasks - non-ooo-ed+non-*" ("tasks - non-ooo-ed+non-*" (name . "^[^*]") (not saved . "ooo-ed"))))))
  '(ibuffer-saved-filters (quote (("ooo-ed" ((filename . "at/ooo-ed"))) ("gnus" ((or (mode . message-mode) (mode . mail-mode) (mode . gnus-group-mode) (mode . gnus-summary-mode) (mode . gnus-article-mode)))) ("programming" ((or (mode . emacs-lisp-mode) (mode . cperl-mode) (mode . c-mode) (mode . java-mode) (mode . idl-mode) (mode . lisp-mode)))))))
  '(icicle-download-dir "~/.emacs.d/site-lisp/icicles")
  '(icicle-region-alist (quote (("##
@@ -470,6 +469,7 @@ The value from `ibuffer-saved-filter-groups' is used."
  '(scroll-bar-mode nil)
  '(show-paren-mode t nil (paren))
  '(show-trailing-whitespace t)
+ '(smtpmail-default-smtp-server "smtp.intinfra.com")
  '(sql-sqlite-program "sqlite3")
  '(standard-indent 4)
  '(tcl-continued-indent-level 2)
@@ -547,14 +547,15 @@ The value from `ibuffer-saved-filter-groups' is used."
 (defun h2-hilight-results () ""
   (interactive)
   ;; >! add moccur "test result\|_pep_\|pep>\|\[ [a-z] \]"!
-  (hi-lock-face-phrase-buffer ".*Test result .*" 'font-lock-doc-face) ;>! custom-group-tag
-  (hi-lock-face-phrase-buffer ".* \\[ ERROR \\]" 'cscope-line-number-face) ; widget-button-pressed-face
+  (hi-lock-face-phrase-buffer ".* \\[ ERROR \\]" 'sh-quoted-exec) ; widget-button-pressed-face (| cscope-line-number-face ?)
   (hi-lock-face-phrase-buffer "\\[ ERROR \\]" 'hi-red-b)
   (hi-lock-face-phrase-buffer ".* \\[ ERROR - known bug \\]" 'file-name-shadow)
   (hi-lock-face-phrase-buffer "\\[ ERROR - known bug \\]" 'escape-glyph) ; file-name-shadow
   (hi-lock-face-phrase-buffer ".* \\[ SKIPPED \\]" 'font-lock-variable-name-face)
   (hi-lock-face-phrase-buffer "Description: .*\\|Desc: .*" 'font-lock-comment-face)
   (hi-lock-face-phrase-buffer "\\[ SKIPPED \\]" 'sh-heredoc)
+  (hi-lock-face-phrase-buffer "Test result of" 'font-lock-doc-face) ;>! custom-group-tag
+  (hi-lock-face-phrase-buffer "Name: .*" 'search-buffers-header-face)
   ;; in some situations can help: (hi-lock-set-pattern "proc AS[_0-9A-Za-z]+" 'hi-red-b)
   ;; (toggle-read-only 0)
   ;; (flush-lines "\\[ BEGIN \\]")
