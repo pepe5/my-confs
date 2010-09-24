@@ -2,6 +2,7 @@
 ;; lucidasans-14; lucidasanstypewriter-14;
 ;; (i=0; while true; do i=`expr $i + 1`; echo -e "\n$i:"; sleep 1; rsync -av -e "ssh -l tester" ./ jubiler:/home/tester/tst/kraljo/projects/upower/hp+ilo+opforce/diagram3/; done )
 ;; from Red Hat Linux CZ 5.2
+;; stu //osdir.com/ml/emacs-orgmode-gnu/2010-08/msg00168.html
 
 ;;(esc: +ěščě+)
 ;; c-x = ; what-cursor-position
@@ -442,10 +443,12 @@ The value from `ibuffer-saved-filter-groups' is used."
  '(dired-listing-switches "-I *~ -l")
  '(ediff-custom-diff-options "-c -a")
  '(ediff-diff-options "-a")
+ '(ediff-merge-split-window-function (quote split-window-vertically))
+ '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(font-lock-global-modes t)
  '(global-font-lock-mode t nil (font-lock))
  '(htmlize-output-type (quote font))
- '(ibuffer-saved-filter-groups (quote (("dev-1" ("3000" (or (filename . "3000\\|tmp") (name . "3000\\|tmp"))) ("log|myjugg" (or (filename . "log\\|myjugg") (name . "log\\|myjugg"))) ("swf|build|git" (or (filename . "swf\\|git") (name . "swf\\|git"))) ("^*" (name . "^*"))) ("tickets-3" ("55934\\|ghlr" (or (filename . "55934\\|ghlr") (name . "55934\\|ghlr"))) ("s56291\\|set_dest" (or (filename . "s56291\\|set_dest") (name . "s56291\\|set_dest"))) ("55157\\|iden\\|hebrew\\|holly" (or (filename . "iden\\|hebrew\\|55157") (name . "iden\\|hebrew\\|holly\\|55157"))) ("^*" (name . "^*"))) ("g1-stars" ("^*" (name . "^*"))) ("tickets-1" ("bl~" (or (filename . "bl~\\|sip,sup") (name . "bl~\\|projects"))) ("servers-collector|dev-sc" (or (filename . "servers-collector\\|\\.rb\\|dev-sc") (name . "servers-collector\\|dev-sc\\|ruby"))) ("ttt" (or (filename . "ttt") (name . "ttt"))) ("^*" (name . "^*"))) ("tasks - non-ooo-ed+non-*" ("tasks - non-ooo-ed+non-*" (name . "^[^*]") (not saved . "ooo-ed"))))))
+ '(ibuffer-saved-filter-groups (quote (("tickets-2" ("56449|is41" (or (filename . "56449\\|is41") (name . "56449\\|is41"))) ("ttt" (or (filename . "ttt") (name . "ttt"))) ("^*" (name . "^*"))) ("dev-1" ("log|myjugg" (or (filename . "log\\|myjugg") (name . "log\\|myjugg"))) ("swf|build|git" (or (filename . "swf\\|git") (name . "swf\\|git"))) ("^*" (name . "^*"))) ("tickets-3" ("55934\\|ghlr" (or (filename . "55934\\|ghlr") (name . "55934\\|ghlr"))) ("s56291\\|set_dest" (or (filename . "s56291\\|set_dest") (name . "s56291\\|set_dest"))) ("55157\\|iden\\|hebrew\\|holly" (or (filename . "iden\\|hebrew\\|55157") (name . "iden\\|hebrew\\|holly\\|55157"))) ("^*" (name . "^*"))) ("g1-stars" ("^*" (name . "^*"))) ("tickets-1" ("bl~" (or (filename . "bl~\\|sip,sup") (name . "bl~\\|projects"))) ("servers-collector|dev-sc" (or (filename . "servers-collector\\|\\.rb\\|dev-sc") (name . "servers-collector\\|dev-sc\\|ruby"))) ("ttt" (or (filename . "ttt") (name . "ttt"))) ("^*" (name . "^*"))) ("tasks - non-ooo-ed+non-*" ("tasks - non-ooo-ed+non-*" (name . "^[^*]") (not saved . "ooo-ed"))))))
  '(ibuffer-saved-filters (quote (("ooo-ed" ((filename . "at/ooo-ed"))) ("gnus" ((or (mode . message-mode) (mode . mail-mode) (mode . gnus-group-mode) (mode . gnus-summary-mode) (mode . gnus-article-mode)))) ("programming" ((or (mode . emacs-lisp-mode) (mode . cperl-mode) (mode . c-mode) (mode . java-mode) (mode . idl-mode) (mode . lisp-mode)))))))
  '(icicle-download-dir "~/.emacs.d/site-lisp/icicles")
  '(icicle-region-alist (quote (("##
@@ -481,7 +484,7 @@ The value from `ibuffer-saved-filter-groups' is used."
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "black" :foreground "green" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 125 :width normal :foundry "unknown" :family "DejaVu Sans"))))
+ '(default ((t (:inherit nil :stipple nil :foreground "green" :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 110 :width normal :foundry "unknown" :family "sans")))) ; :background "black" :inverse-video nil 
  '(custom-documentation ((t (:box unspecified))))
  '(custom-documentation-face ((t (:box unspecified))) t)
  '(escape-glyph ((((background dark)) (:foreground "gray20"))))
@@ -604,12 +607,21 @@ The value from `ibuffer-saved-filter-groups' is used."
   (kill-new "(setq term-current-row -1)") ; see more command-history
   )
 
+;;; "use with sorted ibuffer list - to 'bulk' cmd to all shells"
+;; telnet -l smblc1-ilo 10.224.179.220 <- replaced by (kmacro-insert-counter)
+;; user
+;; heslo
+(fset 'c2-login-incr-next
+   [?\M-r ?t ?a backspace ?e ?l ?n ?e ?t return ?\C-r ?. ?2 ?2 ?\C-e backspace ?\M-x ?\M-p return ?\M-> return ?\C-x ?\C-b ?n ?n return])
+(fset 'c3-commint-selection-and-next-shell
+   [?\C-y return ?\C-x ?\C-b ?\C-m])
+
 (defun c1-connect (&optional new-tasks-p) ""
   (interactive)
   (setq sess-name (read t))
   ;; (append 1,2,3 to existent/new tasks)
   ;; incl. vvv
-  (find-file "/root@10.224.178.245:/")
+  (find-file "/pixu2:/home/kraljo/")
   )
 
 (defun m1-mount-sfs-sys () ""
@@ -773,3 +785,49 @@ The value from `ibuffer-saved-filter-groups' is used."
 (put 'narrow-to-region 'disabled nil)
 (fset 'sh-la-addr
    [?\C-q ?\C-z return ?f ?g ?  ?2 return C-f8 ?p ?m ?l return ?\M-r ?s ?h ?  ?c ?l return return ?e ?x return C-f9 ?f ?g ?  ?- return])
+
+;; > //martinowen.net/blog/2010/02/tips-for-emacs-ibuffer.html#disqus_thread
+(eval-after-load "ibuf-ext"
+  '(define-ibuffer-filter filename
+       "Toggle current view to buffers with file or directory name matching QUALIFIER."
+     (:description "filename"
+		   :reader (read-from-minibuffer "Filter by file/directory name (regexp): "))
+     (ibuffer-awhen (or (buffer-local-value 'buffer-file-name buf)
+			(buffer-local-value 'dired-directory buf))
+       (string-match qualifier it))))
+
+;; //www.elliotglaysher.org/emacs/
+(autoload 'browse-kill-ring "browse-kill-ring" "Browse the kill ring." t)
+(global-set-key (kbd "C-c k") 'browse-kill-ring)
+(eval-after-load "browse-kill-ring"
+  '(progn
+     (setq browse-kill-ring-quit-action 'save-and-restore)))
+
+;; //curiousprogrammer.wordpress.com/2009/04/02/ibuffer/
+(defun ibuffer-ediff-marked-buffers ()
+  (interactive)
+  (let* ((marked-buffers (ibuffer-get-marked-buffers))
+         (len (length marked-buffers)))
+    (unless (= 2 len)
+      (error (format "%s buffer%s been marked (needs to be 2)"
+                     len (if (= len 1) " has" "s have"))))
+    (ediff-buffers (car marked-buffers) (cadr marked-buffers))))
+(define-key ibuffer-mode-map "e" 'ibuffer-ediff-marked-buffers)
+
+;; //paste.lisp.org/display/73195
+;; from //paste.lisp.org/display/14341.
+(defun transpose-windows ()
+  "transpose the 2 windows in the current frame"
+  (interactive)
+  (let* ((W1 (selected-window))
+	 (W2 (other-window 1))
+	 (B1 (window-buffer  W1))
+	 (B2 (window-buffer  W2)))
+    (set-window-buffer W1 B2)
+    (set-window-buffer W2 B1)))
+(global-set-key "C-x 4 t" 'transpose-windows) ; Corrected the binding
+
+;; //www.elliotglaysher.org/emacs/
+(add-hook 'ibuffer-mode-hook
+          (lambda ()
+            (ibuffer-switch-to-saved-filter-groups "dev-1")))
