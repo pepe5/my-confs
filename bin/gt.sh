@@ -5,6 +5,11 @@ orig_pwd=`pwd`
 # if [ -z $dev_local ];then dev_local='/tmp/dev'; fi
 dev_local=~/local ; echo dev_local: $dev_local
 
+#//stackoverflow.com/questions/2928584/how-to-grep-in-the-git-history
+#>! git log -S"par.g.0.inn" --pickaxe-regex | head
+#(i) git grep -n par.g.0.inn $(git rev-list --all) | head -50
+#(i) gitk -S"par.g.0.inn" 
+
 # run before commit ~> . bin/gt.sh flush-tree
 function flush-tree { get-tree; }
 function get-tree \
@@ -20,13 +25,14 @@ function get-tree \
 function unzip-rev \
     { unzip $2 ..; }
 
-# zoom out log
+## zoom out log
+# (:Whatif:) to "no branch" i solved by (:try: git checkout -b hope-master; git branch -M hope-master master)
 function log-zo \
     { point=$(if [ -z $2 ]; then echo HEAD; else echo $2; fi)
     case $1 in
-    (1) git log --oneline --stat $point;;
-    (2) git log --oneline --shortstat $point;;
-    (3) git log --oneline $point;; esac; }
+    (1) git log --graph --all --oneline --stat $point;;
+    (2) git log --graph --all --oneline --shortstat $point;;
+    (3) git log --graph --all --oneline $point;; esac; }
 
 function log-in \
     { #>! check if .git/ exists

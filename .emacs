@@ -448,7 +448,7 @@ The value from `ibuffer-saved-filter-groups' is used."
  '(font-lock-global-modes t)
  '(global-font-lock-mode t nil (font-lock))
  '(htmlize-output-type (quote font))
- '(ibuffer-saved-filter-groups (quote (("tickets-2" ("56449|is41" (or (filename . "56449\\|is41") (name . "56449\\|is41"))) ("ttt" (or (filename . "ttt") (name . "ttt"))) ("^*" (name . "^*"))) ("dev-1" ("log|myjugg" (or (filename . "log\\|myjugg") (name . "log\\|myjugg"))) ("swf|build|git" (or (filename . "swf\\|git") (name . "swf\\|git"))) ("^*" (name . "^*"))) ("tickets-3" ("55934\\|ghlr" (or (filename . "55934\\|ghlr") (name . "55934\\|ghlr"))) ("s56291\\|set_dest" (or (filename . "s56291\\|set_dest") (name . "s56291\\|set_dest"))) ("55157\\|iden\\|hebrew\\|holly" (or (filename . "iden\\|hebrew\\|55157") (name . "iden\\|hebrew\\|holly\\|55157"))) ("^*" (name . "^*"))) ("g1-stars" ("^*" (name . "^*"))) ("tickets-1" ("bl~" (or (filename . "bl~\\|sip,sup") (name . "bl~\\|projects"))) ("servers-collector|dev-sc" (or (filename . "servers-collector\\|\\.rb\\|dev-sc") (name . "servers-collector\\|dev-sc\\|ruby"))) ("ttt" (or (filename . "ttt") (name . "ttt"))) ("^*" (name . "^*"))) ("tasks - non-ooo-ed+non-*" ("tasks - non-ooo-ed+non-*" (name . "^[^*]") (not saved . "ooo-ed"))))))
+ '(ibuffer-saved-filter-groups (quote (("tickets-2" ("56449|is41" (or (filename . "56449\\|is41") (name . "56449\\|is41"))) ("ttt" (or (filename . "ttt") (name . "ttt"))) ("^*" (name . "^*"))) ("dev-1" ("log|myjugg" (or (filename . "log\\|myjugg") (name . "log\\|myjugg"))) ("swf|build|git" (or (filename . "swf\\|git") (name . "swf\\|git"))) ("^*" (name . "^*"))) ("tickets-3" ("56001" (or (filename . "56001\\|edr008"))) ("bl~" (or (filename . "bl~\\|sip,sup") (name . "bl~\\|projects"))) ("ttt" (or (filename . "ttt") (name . "ttt"))) ("^*" (name . "^*"))) ("g1-stars" ("^*" (name . "^*"))) ("tickets-1" ("47405|ssd-mem" (or (filename . "47405\\|ssd-mem"))) ("55934\\|ghlr" (or (filename . "55934\\|ghlr"))) ("ttt|for_review" (or (filename . "ttt\\|for_review"))) ("^*" (name . "^*"))) ("tasks - non-ooo-ed+non-*" ("tasks - non-ooo-ed+non-*" (name . "^[^*]") (not saved . "ooo-ed"))))))
  '(ibuffer-saved-filters (quote (("ooo-ed" ((filename . "at/ooo-ed"))) ("gnus" ((or (mode . message-mode) (mode . mail-mode) (mode . gnus-group-mode) (mode . gnus-summary-mode) (mode . gnus-article-mode)))) ("programming" ((or (mode . emacs-lisp-mode) (mode . cperl-mode) (mode . c-mode) (mode . java-mode) (mode . idl-mode) (mode . lisp-mode)))))))
  '(icicle-download-dir "~/.emacs.d/site-lisp/icicles")
  '(icicle-region-alist (quote (("##
@@ -460,7 +460,7 @@ The value from `ibuffer-saved-filter-groups' is used."
 #
 # CLUSTER description
 # Name: name_of_th" "TEST.ALL" "/scp:kraljo@jubiler:/home2/kraljo/small-projects/cr16844-smh-stability-improvement-expiration-postpone/ttt,09-10-30/TEST.ALL" 1 13421))))
- '(ispell-program-name "aspell" t)
+ '(ispell-program-name "aspell")
  '(ls-lisp-dirs-first nil)
  '(max-specpdl-size 3000)
  '(menu-bar-mode nil)
@@ -484,7 +484,7 @@ The value from `ibuffer-saved-filter-groups' is used."
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :foreground "green" :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 110 :width normal :foundry "unknown" :family "sans")))) ; :background "black" :inverse-video nil 
+ '(default ((t (:inherit nil :stipple nil :foreground "green" :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 110 :width normal :foundry "unknown" :family "sans"))))
  '(custom-documentation ((t (:box unspecified))))
  '(custom-documentation-face ((t (:box unspecified))) t)
  '(escape-glyph ((((background dark)) (:foreground "gray20"))))
@@ -543,7 +543,8 @@ The value from `ibuffer-saved-filter-groups' is used."
   (hi-lock-face-phrase-buffer "[a-zA-Z]+# .*" 'hi-red-b)
   (hi-lock-face-phrase-buffer "^% .*" 'hi-red-b)
   (hi-lock-face-phrase-buffer ".*>\$ .*" 'font-lock-warning-face)
-  (hi-lock-face-phrase-buffer "!.*" 'font-lock-comment-face)
+  (hi-lock-face-phrase-buffer "!.*\\|#.*" 'font-lock-comment-face)
+  (hi-lock-face-phrase-buffer "pep> .*" 'font-lock-doc-face) ; good for sts tail-f
   ;; (hi-lock-face-phrase-buffer "^\./.*.log" 'hi-yellow)
   )
 
@@ -824,10 +825,22 @@ The value from `ibuffer-saved-filter-groups' is used."
 	 (B1 (window-buffer  W1))
 	 (B2 (window-buffer  W2)))
     (set-window-buffer W1 B2)
-    (set-window-buffer W2 B1)))
-(global-set-key "C-x 4 t" 'transpose-windows) ; Corrected the binding
+    (set-window-buffer W2 B1))
+  (other-window 1))
+(global-set-key (kbd "C-x 4 t") 'transpose-windows) ; Corrected the binding
 
 ;; //www.elliotglaysher.org/emacs/
+(setq location-prj "dev-1")
 (add-hook 'ibuffer-mode-hook
           (lambda ()
-            (ibuffer-switch-to-saved-filter-groups "dev-1")))
+            (ibuffer-switch-to-saved-filter-groups location-prj)))
+
+(defun refresh-tasks () (interactive)
+  (shell-command "ruby ~/bin/refresh-tasks.rb -i ~/Desktop/tasks.org")
+  (revert-buffer))
+
+(defun open-prj (dpath) (interactive)
+  (desktop-read dpath) ; there shell be setq of location-prj & its ibuffer-filter-groups
+  ; (spread-buffers)
+  ; (log-in-shells)
+  )
