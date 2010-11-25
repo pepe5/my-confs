@@ -448,7 +448,7 @@ The value from `ibuffer-saved-filter-groups' is used."
  '(font-lock-global-modes t)
  '(global-font-lock-mode t nil (font-lock))
  '(htmlize-output-type (quote font))
- '(ibuffer-saved-filter-groups (quote (("tickets-2" ("56449|is41" (or (filename . "56449\\|is41") (name . "56449\\|is41"))) ("ttt" (or (filename . "ttt") (name . "ttt"))) ("^*" (name . "^*"))) ("dev-1" ("log|myjugg" (or (filename . "log\\|myjugg") (name . "log\\|myjugg"))) ("swf|build|git" (or (filename . "swf\\|git") (name . "swf\\|git"))) ("^*" (name . "^*"))) ("tickets-3" ("56001" (or (filename . "56001\\|edr008"))) ("bl~" (or (filename . "bl~\\|sip,sup") (name . "bl~\\|projects"))) ("ttt" (or (filename . "ttt") (name . "ttt"))) ("^*" (name . "^*"))) ("g1-stars" ("^*" (name . "^*"))) ("tickets-1" ("47405|ssd-mem" (or (filename . "47405\\|ssd-mem"))) ("55934\\|ghlr" (or (filename . "55934\\|ghlr"))) ("ttt|for_review" (or (filename . "ttt\\|for_review"))) ("^*" (name . "^*"))) ("tasks - non-ooo-ed+non-*" ("tasks - non-ooo-ed+non-*" (name . "^[^*]") (not saved . "ooo-ed"))))))
+ '(ibuffer-saved-filter-groups (quote (("vosao+jde" ("vosao\\|appengine" (or (filename . "vosao\\|appengine"))) ("jde|cedet" (or (filename . "jde\\|cedet"))) ("ttt" (or (filename . "ttt") (name . "ttt"))) ("^*" (name . "^*"))) ("tickets-2" ("56449|is41" (or (filename . "56449\\|is41") (name . "56449\\|is41"))) ("ttt" (or (filename . "ttt") (name . "ttt"))) ("^*" (name . "^*"))) ("dev-1" ("log|myjugg" (or (filename . "log\\|myjugg") (name . "log\\|myjugg"))) ("swf|build|git" (or (filename . "swf\\|git") (name . "swf\\|git"))) ("^*" (name . "^*"))) ("tickets-3" ("56001" (or (filename . "56001\\|edr008"))) ("bl~" (or (filename . "bl~\\|sip,sup") (name . "bl~\\|projects"))) ("ttt" (or (filename . "ttt") (name . "ttt"))) ("^*" (name . "^*"))) ("g1-stars" ("^*" (name . "^*"))) ("tickets-1" ("bl~" (or (filename . "bl~\\|sip,sup") (name . "bl~\\|projects"))) ("servers-collector|dev-sc" (or (filename . "servers-collector\\|\\.rb\\|dev-sc") (name . "servers-collector\\|dev-sc\\|ruby"))) ("ttt" (or (filename . "ttt") (name . "ttt"))) ("^*" (name . "^*"))) ("tasks - non-ooo-ed+non-*" ("tasks - non-ooo-ed+non-*" (name . "^[^*]") (not saved . "ooo-ed"))))))
  '(ibuffer-saved-filters (quote (("ooo-ed" ((filename . "at/ooo-ed"))) ("gnus" ((or (mode . message-mode) (mode . mail-mode) (mode . gnus-group-mode) (mode . gnus-summary-mode) (mode . gnus-article-mode)))) ("programming" ((or (mode . emacs-lisp-mode) (mode . cperl-mode) (mode . c-mode) (mode . java-mode) (mode . idl-mode) (mode . lisp-mode)))))))
  '(icicle-download-dir "~/.emacs.d/site-lisp/icicles")
  '(icicle-region-alist (quote (("##
@@ -461,6 +461,9 @@ The value from `ibuffer-saved-filter-groups' is used."
 # CLUSTER description
 # Name: name_of_th" "TEST.ALL" "/scp:kraljo@jubiler:/home2/kraljo/small-projects/cr16844-smh-stability-improvement-expiration-postpone/ttt,09-10-30/TEST.ALL" 1 13421))))
  '(ispell-program-name "aspell")
+ '(jde-gen-k&r nil)
+ '(jde-jdk-registry (quote (("1.5.0" . "/usr/lib/jvm/java-1.5.0-gcj-4.4") ("1.6.0" . "/usr/lib/jvm/jdk1.6.0_22"))))
+ '(jde-sourcepath (quote ("/tmp/dev")))
  '(ls-lisp-dirs-first nil)
  '(max-specpdl-size 3000)
  '(menu-bar-mode nil)
@@ -844,3 +847,20 @@ The value from `ibuffer-saved-filter-groups' is used."
   ; (spread-buffers)
   ; (log-in-shells)
   )
+
+;;; //jdee.sourceforge.net/install.html
+;;; more on /usr/share/doc/jde/html/jde-ug/jde-ug.html
+(add-to-list 'load-path (expand-file-name "/usr/share/emacs23/site-lisp/jde"))
+(add-to-list 'load-path "/usr/share/emacs23/site-lisp/cedet-contrib")
+(add-to-list 'load-path (expand-file-name "/usr/share/emacs23/site-lisp/cedet-common"))
+(load-file (expand-file-name "/usr/share/emacs23/site-lisp/cedet-common/cedet.el"))
+(add-to-list 'load-path (expand-file-name "/usr/share/emacs23/site-lisp/elib"))
+(setq defer-loading-jde nil)
+(if defer-loading-jde
+    (progn
+      (autoload 'jde-mode "jde" "JDE mode." t)
+      (setq auto-mode-alist
+	    (append
+	     '(("\\.java\\'" . jde-mode))
+	     auto-mode-alist)))
+  (require 'jde))
