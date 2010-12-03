@@ -18,23 +18,29 @@ alias swp1='setxkbmap -option ctrl:swapcaps'
 alias ri=ri1.8
 alias irb='irb --simple-prompt'
 alias gx="sudo su - games -c 'startx -- :1'"
+function fn \
+    { set | sed -ne "/$1 ()/,\$p" | sed -ne '1,/^}$/p'
+    echo; }
+
 function ediffer \
     { emacsclient --eval "(ediff-files \"$1\" \"$2\")"
     echo; }
+
 function rediff \
     { echo A=$1
     echo B=$2
     diff -rq $1 $2 | ruby1.8 -ane 'if /Files (.*) and (.*) differ$/; puts "ediffer #{$1} #{$2}" else puts "# (#{$F[-1]})" end'
     echo; }
+
 function dsync \
-{ echo A=$1
-echo B=$2
-diff -rq $1 $2 | ruby1.8 -ane '
-BEGIN {O=/Only in (.*) differ|Files (.*) and/; }
-puts "* #{O}"
-p $F
-if !/Only in $2/; $_ .match O; puts %Q{cp -vf #{$1}} end '
-echo; }
+    { echo A=$1
+    echo B=$2
+    diff -rq $1 $2 | ruby1.8 -ane '
+    BEGIN {O=/Only in (.*) differ|Files (.*) and/; }
+    puts "* #{O}"
+    p $F
+    if !/Only in $2/; $_ .match O; puts %Q{cp -vf #{$1}} end '
+    echo; }
 
 alias log='. ~/bin/log.sh'
 alias logr="pgrep -l -f 'ruby .*-timestamp'; pkill -f 'ruby .*-timestamp'; pgrep -l -f 'ruby .*-timestamp'"
