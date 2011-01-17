@@ -554,7 +554,7 @@ The value from `ibuffer-saved-filter-groups' is used."
 (defun h2-hilight-results () ""
   (interactive)
   ;; >! add moccur "test result\|_pep_\|pep>\|\[ [a-z] \]"!
-  (hi-lock-face-phrase-buffer ".* \\[ ERROR \\]" 'sh-quoted-exec) ; widget-button-pressed-face (| cscope-line-number-face ?)
+  (hi-lock-face-phrase-buffer ".* \\[ ERROR \\]" 'speedbar-selected-face) ; widget-button-pressed-face (| cscope-line-number-face ?) ;<-| sh-* need 1st loaded shell-script[bash] mode
   (hi-lock-face-phrase-buffer "\\[ ERROR \\]" 'hi-red-b)
   (hi-lock-face-phrase-buffer ".* \\[ ERROR - known bug \\]" 'file-name-shadow)
   (hi-lock-face-phrase-buffer "\\[ ERROR - known bug \\]" 'escape-glyph) ; file-name-shadow
@@ -831,6 +831,7 @@ The value from `ibuffer-saved-filter-groups' is used."
     (set-window-buffer W2 B1))
   (other-window 1))
 (global-set-key (kbd "C-x 4 t") 'transpose-windows) ; Corrected the binding
+(global-set-key (kbd "C-x C-j") 'transpose-windows)
 
 ;; //www.elliotglaysher.org/emacs/
 (setq location-prj "dev-1")
