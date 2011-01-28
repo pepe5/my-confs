@@ -28,8 +28,10 @@ function sp \
     ps fwx | sed -ne "/$pid/,\$p" | ruby -ne 'BEGIN{gets}; if /\\_/; print $_ else return end'
     echo; }
 #>! alias sl=list (here connected) sessions
+#>! emacs desktop one-liner:
+# nohup bash -c 'cd /home/kraljo/Dropbox/B-P/dev-java-uniq/vosao-stu/doc; emacs' &
 
-alias rk="while true; do wmctrl -a 'rdesktop'; sleep 1; wmctrl -a 'keepalive'; sleep 1000; done &" # (R)desktop- (K)eepalive
+alias rk="while true; do wmctrl -a 'as07'; sleep 1; wmctrl -a 'keepalive'; sleep 1000; done &" # (R)desktop- (K)eepalive
 alias ll='ls -lF'
 alias la='ls -AF'
 alias l='ls -CF'
@@ -88,7 +90,7 @@ fi
 
 export JAVA_HOME=/usr/lib/jvm/java-6-openjdk # /usr/lib/jvm/jdk1.6.0_22
 export PATH=$PATH:$JAVA_HOME/bin
-
+export http_proxy=wpad.intinfra.com:3128
 export HISTTIMEFORMAT="%F %T "
 function hi { history | grep -i $@ | cut -d\  -f5- | uniq | tail ;}
 function tailr { tail -f 1 | ruby -ne "BEGIN{$stdin.sync=true}; if /$1/i .match $_; $2; puts $_ end" ;} #== grep --line-buffered

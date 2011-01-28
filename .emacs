@@ -289,7 +289,8 @@
 ;; (global-set-key [f9] 'x-get-selection)
 
 (fset 'yes-or-no-p 'y-or-n-p) ; nafai.dyndns.org/files/casey-emacs-tmp.html
-(global-set-key "\C-x\C-o" 'other-window) 
+(global-set-key "\C-x\C-o" 'other-window) ;> vv
+(global-set-key (kbd "C-M-o") 'other-window)
 (set-input-mode nil nil 1) ; enable 8-bit input/insertion //home.snafu.de/ohei/emacs/emacs206-os2-site-start.html
 ;; //www.tldp.org/HOWTO/LinuxDoc+Emacs+Ispell-HOWTO-4.html
 ;; The iso-sgml library will let you type accented characters under
@@ -313,7 +314,9 @@
 ;(add-to-list 'ibuffer-never-show-regexps "^\\*")
 ;(setq ibuffer-saved-filter-groups (quote (("tasks - non-ooo-ed+non-*" ("tasks - non-ooo-ed+non-*" (name . "^[^*]") (not saved . "ooo-ed"))))))
 
-;; (setq vars (buffer-local-variables))
+;;;
+;; `ibuffer-saved-filter-groups' -- C-h v that var && C-x occ--b ((\|^ (
+;; in general, (setq vars (buffer-local-variables))
 ;; (prin1 vars)
 ;;>! add to hook
 (defun i1-ibuffer-append-saved-filter-groups (name)
@@ -451,7 +454,7 @@ The value from `ibuffer-saved-filter-groups' is used."
  '(font-lock-global-modes t)
  '(global-font-lock-mode t nil (font-lock))
  '(htmlize-output-type (quote font))
- '(ibuffer-saved-filter-groups (quote (("weblog" ("weblog|dev" (or (filename . "weblog\\|dev"))) ("tmp" (or (filename . "tmp"))) ("^*" (name . "^*"))) ("tickets-2" ("56449|is41" (or (filename . "56449\\|is41") (name . "56449\\|is41"))) ("ttt" (or (filename . "ttt") (name . "ttt"))) ("^*" (name . "^*"))) ("dev-1" ("log|myjugg" (or (filename . "log\\|myjugg") (name . "log\\|myjugg"))) ("swf|build|git" (or (filename . "swf\\|git") (name . "swf\\|git"))) ("^*" (name . "^*"))) ("tickets-3" ("cr20662|small" (or (filename . "cr20662\\|small"))) ("ttt|for_review" (or (filename . "ttt\\|for_review"))) ("^*" (name . "^*"))) ("g1-stars" ("^*" (name . "^*"))) ("tickets-1" ("47405|ssd-mem" (or (filename . "47405\\|ssd-mem"))) ("55934\\|ghlr" (or (filename . "55934\\|ghlr"))) ("ttt|for_review" (or (filename . "ttt\\|for_review"))) ("^*" (name . "^*"))) ("tasks - non-ooo-ed+non-*" ("tasks - non-ooo-ed+non-*" (name . "^[^*]") (not saved . "ooo-ed"))))))
+ '(ibuffer-saved-filter-groups (quote (("task-2 BL~R53 SIP,SUP" ("bl~r53|sip,sup" (or (filename . "bl~\\|r53\\|r5\\.3\\|sip\\|sup"))) ("ttt" (or (filename . "ttt") (name . "ttt"))) ("^*" (name . "^*"))) ("dev-2 velocity|weblog|vosao" ("velocity|weblog|vosao" (or (filename . "velocity\\|weblog\\|vosao\\|weba\\|policy"))) ("log|myjugg" (or (filename . "log\\|myjugg") (name . "log\\|myjugg"))) ("^*" (name . "^*"))) ("dev-2 weblog" ("weblog|dev" (or (filename . "weblog\\|dev"))) ("tmp" (or (filename . "tmp"))) ("^*" (name . "^*"))) ("dev-1" ("log|myjugg" (or (filename . "log\\|myjugg") (name . "log\\|myjugg"))) ("swf|build|git" (or (filename . "swf\\|git") (name . "swf\\|git"))) ("^*" (name . "^*"))) ("tickets-3 cr20662,ttt" ("cr20662|small" (or (filename . "cr20662\\|small"))) ("ttt|for_review" (or (filename . "ttt\\|for_review"))) ("^*" (name . "^*"))) ("g1-stars" ("^*" (name . "^*"))) ("tickets-1" ("47405|ssd-mem" (or (filename . "47405\\|ssd-mem"))) ("55934\\|ghlr" (or (filename . "55934\\|ghlr"))) ("ttt|for_review" (or (filename . "ttt\\|for_review"))) ("^*" (name . "^*"))) ("dev-z1: ooo-ed & rest of tasks" ("tasks - non-ooo-ed+non-*" (name . "^[^*]") (not saved . "ooo-ed"))))))
  '(ibuffer-saved-filters (quote (("ooo-ed" ((filename . "at/ooo-ed"))) ("gnus" ((or (mode . message-mode) (mode . mail-mode) (mode . gnus-group-mode) (mode . gnus-summary-mode) (mode . gnus-article-mode)))) ("programming" ((or (mode . emacs-lisp-mode) (mode . cperl-mode) (mode . c-mode) (mode . java-mode) (mode . idl-mode) (mode . lisp-mode)))))))
  '(icicle-download-dir "~/.emacs.d/site-lisp/icicles")
  '(icicle-region-alist (quote (("##
@@ -832,6 +835,7 @@ The value from `ibuffer-saved-filter-groups' is used."
   (other-window 1))
 (global-set-key (kbd "C-x 4 t") 'transpose-windows) ; Corrected the binding
 (global-set-key (kbd "C-x C-j") 'transpose-windows)
+(global-set-key (kbd "C-M-j") 'transpose-windows) ; see also /'other-window/
 
 ;; //www.elliotglaysher.org/emacs/
 (setq location-prj "dev-1")
@@ -865,5 +869,10 @@ The value from `ibuffer-saved-filter-groups' is used."
 	     '(("\\.java\\'" . jde-mode))
 	     auto-mode-alist)))
   (require 'jde))
+
+(global-set-key (kbd "s-SPC") 'ediff-trees-examine-next)
+(global-set-key (kbd "S-s-SPC") 'ediff-trees-examine-previous)
+(global-set-key (kbd "C-s-SPC") 'ediff-trees-examine-next-regexp)
+(global-set-key (kbd "C-S-s-SPC") 'ediff-trees-examine-previous-regexp)
 
 (setq jde-jdk (quote ("1.6.0"))) ;;>?
