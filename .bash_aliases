@@ -31,6 +31,13 @@ function sp \
 #>! emacs desktop one-liner:
 # nohup bash -c 'cd /home/kraljo/Dropbox/B-P/dev-java-uniq/vosao-stu/doc; emacs' &
 
+# watch-d by less-S
+alias wd='clear; while true; do 
+sleep 2; echo -e "\033[0;0H"; 
+date -Is; echo; 
+find . -type f | xargs ls -ldt 2>/dev/null | head -20 | while read l; do echo `echo -n $l | cut -c26-` "        "; done | less -SE; 
+done'
+
 alias rk="while true; do wmctrl -a 'as07'; sleep 1; wmctrl -a 'keepalive'; sleep 1000; done &" # (R)desktop- (K)eepalive
 alias ll='ls -lF'
 alias la='ls -AF'
