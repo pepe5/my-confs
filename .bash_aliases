@@ -65,12 +65,14 @@ function ediffer \
     { emacsclient --eval "(ediff-files \"$1\" \"$2\")"
     echo; }
 
+## recursive diff query
 function rediff \
-    { echo A=$1
-    echo B=$2
+    { echo A=$1 1>&2
+    echo B=$2 1>&2
     diff -rq $1 $2 | ruby1.8 -ane 'if /Files (.*) and (.*) differ$/; puts "ediffer #{$1} #{$2}" else puts "# (#{$F[-1]})" end'
-    echo; }
+    echo 1>&2; }
 
+## sync based on diff-util query
 function dsync \
     { echo A=$1
     echo B=$2
@@ -97,7 +99,10 @@ fi
 
 export JAVA_HOME=/usr/lib/jvm/java-6-openjdk # /usr/lib/jvm/jdk1.6.0_22
 export PATH=$PATH:$JAVA_HOME/bin
-export http_proxy=wpad.intinfra.com:3128
+export http_proxy=http://wpad.intinfra.com:3128
 export HISTTIMEFORMAT="%F %T "
 function hi { history | grep -i $@ | cut -d\  -f5- | uniq | tail ;}
 function tailr { tail -f 1 | ruby -ne "BEGIN{$stdin.sync=true}; if /$1/i .match $_; $2; puts $_ end" ;} #== grep --line-buffered
+
+export LESSOPEN="|/usr/local/bin/lesspipe.sh %s"
+#>? eval "$(lesspipe)"

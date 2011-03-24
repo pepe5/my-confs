@@ -5,6 +5,11 @@ orig_pwd=`pwd`
 # if [ -z $dev_local ];then dev_local='/tmp/dev'; fi
 dev_local=~/local ; echo dev_local: $dev_local
 
+## How to search through all commits in the repository?
+#//stackoverflow.com/questions/746684/how-to-search-through-all-commits-in-the-repository
+# git log -S'inotail' --all --abbrev-commit --pretty=oneline | cat
+# str=uim; git log -S"$str" -g --pretty=format:%h | xargs git grep -n $str | cat
+
 #//stackoverflow.com/questions/2928584/how-to-grep-in-the-git-history
 #>! git log -S"par.g.0.inn" --pickaxe-regex | head
 #(i) git grep -n par.g.0.inn $(git rev-list --all) | head -50
@@ -233,6 +238,31 @@ function unz-blob \
     File .open (ARGV[0]) {|f| d = Zlib::Inflate.inflate f.read}; puts d.size
     File .open (fn, 'w') {|f| f.write d [d.index ("\000") +1 .. -1] }; puts %x{file #{fn}}
 EOF
+    echo; }
+
+function gtx \
+    { git log -S"$1" -g --pretty=format:%h | xargs git grep -n "$1" | cat
+    echo; }
+
+# commit text part of (registered files)
+# for inspiration use http://www-verimag.imag.fr/~moy/opendocument/ (git textconv)
+function gtt \
+    { texts=`git ls-files`
+    for f in $texts; do
+    origfile=$(echo ${f%.*} | fgrep .odt)
+    grepr=$?
+    echo $origfile: >&2
+    if (("! $grepr"));
+    then
+	ls -l $f >&2
+	odt2txt $origfile > $origfile.txt
+	ls -l $f >&2
+	git add -v $origfile.txt
+    fi
+    done
+    m="`git diff | egrep '^\+[^+]' | head -1`"
+    echo - commiting "($m)"
+    git commit -m "$m"
     echo; }
 
 echo pwd: $orig_pwd
