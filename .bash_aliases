@@ -27,9 +27,21 @@ function sp \
     # echo
     ps fwx | sed -ne "/$pid/,\$p" | ruby -ne 'BEGIN{gets}; if /\\_/; print $_ else return end'
     echo; }
+alias lless='less -S +F `ls -1t **/*stamped* | head -1`' #last less
+alias ltail='tail -f `ls -1t **/*stamped* | head -1`' #last less
 #>! alias sl=list (here connected) sessions
 #>! emacs desktop one-liner:
 # nohup bash -c 'cd /home/kraljo/Dropbox/B-P/dev-java-uniq/vosao-stu/doc; emacs' &
+
+# one-liner: grep -E 'Name: |Pre: ' `ls -1t /mnt/jubiler/home/ttt/tttauto/52titan/sts* | head -1` | while read name; do echo -n $name '' ; read pre; echo $pre; done 2>/dev/null | tee /tmp/ttt/tttauto/pres-`date -Is `.st | tail
+function flush-pres \
+    { path=/mnt/jubiler/home/ttt/tttauto
+    if (( $# == 1)); then path=$path/$1; else path=$path/52titan; fi
+    echo -flush-pres: path: $path
+    grep -E 'Name: |Pre: ' `ls -1t $path/sts* | head -1` |\
+    while read name; do echo -n $name '' ; read pre; echo $pre; done 2>/dev/null |\
+    tee /tmp/ttt/tttauto/`basename $path`-`date -Is `.prerqs.st | tail
+    echo; }
 
 # watch-d by less-S
 alias wd='clear; while true; do 
@@ -95,6 +107,7 @@ function forwhich \
 if [ -f ~/.kraljo_aliases ]; then
     . ~/.kraljo_aliases
     PATH=$PATH:$HOME/bin:/usr/lib/git-core
+    alias gt-log='git log --all -g --abbrev-commit --pretty=oneline' # for pipe use format:%h
 fi
 
 export JAVA_HOME=/usr/lib/jvm/java-6-openjdk # /usr/lib/jvm/jdk1.6.0_22
