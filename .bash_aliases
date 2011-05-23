@@ -81,7 +81,8 @@ function ediffer \
 function rediff \
     { echo A=$1 1>&2
     echo B=$2 1>&2
-    diff -rq $1 $2 | ruby1.8 -ane 'if /Files (.*) and (.*) differ$/; puts "ediffer #{$1} #{$2}" else puts "# (#{$F[-1]})" end'
+    # ruby ma byt 1.8:
+    diff -rq $1 $2 | ruby -ane 'if /Files (.*) and (.*) differ$/; puts "ediffer #{$1} #{$2}" else puts "# (#{$F[-1]})" end'
     echo 1>&2; }
 
 ## sync based on diff-util query

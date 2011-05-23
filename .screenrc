@@ -1,0 +1,2 @@
+termcapinfo vt100* 'hs:ts=\E]2;:fs=\007:ds=\E]0;screen\007'
+defhstatus "screen:^Ew"

@@ -21,6 +21,26 @@
 ;; ediff-toggle-multiframe
 
 ;; find-grep default: find . -type f -print0 | xargs -0 -e grep -nH -e ...
+;; shell » ls // » Possible completions are:
+;; ../ 	./ 	10.224.178.95: 	bin/
+;; boot/ 	cdrom/ 	dav: 	davs:
+;; dev/ 	etc/ 	fcp: 	file/
+;; file~ 	fish: 	ftp: 	home/
+;; host/ 	imap: 	imaps: 	initrd.img
+;; initrd.img.old 	jubiler: 	krlogin: 	lib/
+;; lib32/ 	lib64/ 	lost+found/ 	media/
+;; mnt/ 	obex: 	opt/ 	pixu2:
+;; plink1: 	plink: 	plinkx: 	proc/
+;; pscp: 	psftp: 	rcp: 	remcp:
+;; remsh: 	root/ 	rsh: 	rsync:
+;; rsyncc: 	sbin/ 	scm3.att.cmg.nl: 	scm3:
+;; scp1: 	scp1_old: 	scp2: 	scp2_old:
+;; scp: 	scpc: 	scpx: 	selinux/
+;; sftp: 	smb: 	srv/ 	ssh1:
+;; ssh1_old: 	ssh2: 	ssh2_old: 	ssh:
+;; sshx: 	su: 	sudo: 	synce:
+;; sys/ 	telnet: 	tmp/ 	usr/
+;; var/ 	vmlinuz 	vmlinuz.old 	–c
 
 ;; Podpora pro tisk multilinguálních dokumentů (včetně českých)
 ;; (load "emacs-cs-utils-init")
