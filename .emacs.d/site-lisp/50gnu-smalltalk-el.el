@@ -1,0 +1,1 @@
+/home/kraljo/.emacs.d/site-lisp/50gnu-smalltalk-el.el
