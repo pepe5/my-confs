@@ -1,0 +1,12 @@
+* INTRO
+  I wanna have universal files for all my stations, but i use
+  different platforms. Therefore - shall i have to branche? Study it
+  on:
+
+** platform specific
+   - /etc/lsb-release
+     DISTRIB_ID=Ubuntu
+     DISTRIB_RELEASE=9.10
+     DISTRIB_CODENAME=karmic
+     DISTRIB_DESCRIPTION="Ubuntu 9.10"
+
