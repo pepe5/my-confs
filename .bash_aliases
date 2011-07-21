@@ -105,6 +105,14 @@ alias tar-sh='(cd /host/kraljo/dox(!)/text; find . -newer andL -type f)'
 function forwhich \
     { ( IFS=: ; for D in $PATH; do for F in $D/"$1"; do [ -x $F ] && echo $F; done; done ) ; }
 
+function \
+    { #>! how to wget recursively?
+    while read l;
+    do echo \  -- $l:;
+	wget --no-proxy -T 1 -rl 3 $l -O - 2>/dev/null | grep -in smsc;
+    done < menu.hrefs | head -300
+    echo; }
+
 if [ -f ~/.kraljo_aliases ]; then
     . ~/.kraljo_aliases
     PATH=$PATH:$HOME/bin:/usr/lib/git-core

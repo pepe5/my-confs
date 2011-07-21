@@ -28,7 +28,6 @@
 ;; file~ 	fish: 	ftp: 	home/
 ;; host/ 	imap: 	imaps: 	initrd.img
 ;; initrd.img.old 	jubiler: 	krlogin: 	lib/
-;; lib32/ 	lib64/ 	lost+found/ 	media/
 ;; mnt/ 	obex: 	opt/ 	pixu2:
 ;; plink1: 	plink: 	plinkx: 	proc/
 ;; pscp: 	psftp: 	rcp: 	remcp:
@@ -40,7 +39,6 @@
 ;; ssh1_old: 	ssh2: 	ssh2_old: 	ssh:
 ;; sshx: 	su: 	sudo: 	synce:
 ;; sys/ 	telnet: 	tmp/ 	usr/
-;; var/ 	vmlinuz 	vmlinuz.old 	–c
 
 ;; Podpora pro tisk multilinguálních dokumentů (včetně českých)
 ;; (load "emacs-cs-utils-init")

@@ -1,6 +1,9 @@
 deb http://archive.ubuntu.com/ubuntu/ karmic main universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu/ karmic main universe multiverse #Added by software-properties
 deb http://ppa.launchpad.net/hexmode/ppa/ubuntu karmic main
 deb-src http://ppa.launchpad.net/hexmode/ppa/ubuntu karmic main
 deb http://ppa.launchpad.net/cburgmer/ppa/ubuntu karmic main restricted universe multiverse
 deb http://swing.fit.cvut.cz/debian smalltalk contrib
 deb-src http://swing.fit.cvut.cz/debian smalltalk contrib
+deb http://ppa.launchpad.net/gezakovacs/ironpython/ubuntu karmic main 
+deb-src http://ppa.launchpad.net/gezakovacs/ironpython/ubuntu karmic main 
