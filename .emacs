@@ -1,8 +1,7 @@
- ;;; emacs -rv -fn "*Lucida*" -l .emacs -*- mode:emacs-lisp; coding:utf-8 -*-
-;; lucidasans-14; lucidasanstypewriter-14;
-;; (i=0; while true; do i=`expr $i + 1`; echo -e "\n$i:"; sleep 1; rsync -av -e "ssh -l tester" ./ jubiler:/home/tester/tst/kraljo/projects/upower/hp+ilo+opforce/diagram3/; done )
+ ;;; emacs -rv -fn "*Lucida*" -l .emacs -*- mode:emacs-lisp; coding:utf-8 -*- lucidasans-14; lucidasanstypewriter-14;
 ;; from Red Hat Linux CZ 5.2
 ;; stu //osdir.com/ml/emacs-orgmode-gnu/2010-08/msg00168.html
+;; (i=0; while true; do i=`expr $i + 1`; echo -e "\n$i:"; sleep 1; rsync -av -e "ssh -l tester" ./ jubiler:/home/tester/tst/kraljo/projects/upower/hp+ilo+opforce/diagram3/; done )
 
 ;;(esc: +ěščě+)
 ;; c-x = ; what-cursor-position
@@ -21,24 +20,7 @@
 ;; ediff-toggle-multiframe
 
 ;; find-grep default: find . -type f -print0 | xargs -0 -e grep -nH -e ...
-;; shell » ls // » Possible completions are:
-;; ../ 	./ 	10.224.178.95: 	bin/
-;; boot/ 	cdrom/ 	dav: 	davs:
-;; dev/ 	etc/ 	fcp: 	file/
-;; file~ 	fish: 	ftp: 	home/
-;; host/ 	imap: 	imaps: 	initrd.img
-;; initrd.img.old 	jubiler: 	krlogin: 	lib/
-;; mnt/ 	obex: 	opt/ 	pixu2:
-;; plink1: 	plink: 	plinkx: 	proc/
-;; pscp: 	psftp: 	rcp: 	remcp:
-;; remsh: 	root/ 	rsh: 	rsync:
-;; rsyncc: 	sbin/ 	scm3.att.cmg.nl: 	scm3:
-;; scp1: 	scp1_old: 	scp2: 	scp2_old:
-;; scp: 	scpc: 	scpx: 	selinux/
-;; sftp: 	smb: 	srv/ 	ssh1:
-;; ssh1_old: 	ssh2: 	ssh2_old: 	ssh:
-;; sshx: 	su: 	sudo: 	synce:
-;; sys/ 	telnet: 	tmp/ 	usr/
+;; shell » ls // » Possible completions are:  10.224.178.95: dav: davs: fcp: fish: ftp: imap: imaps: jubiler: krlogin: obex: pixu2: plink1: plink: plinkx: pscp: psftp: rcp: remcp: remsh: rsh: rsync: rsyncc: scm3.att.cmg.nl: scm3: scp1: scp1_old: scp2: scp2_old: scp: scpc: scpx: sftp: smb: ssh1: ssh1_old: ssh2: ssh2_old: ssh: sshx: su: sudo: synce: telnet: 
 
 ;; Podpora pro tisk multilinguálních dokumentů (včetně českých)
 ;; (load "emacs-cs-utils-init")
@@ -457,6 +439,7 @@ The value from `ibuffer-saved-filter-groups' is used."
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(ange-ftp-dumb-unix-host-regexp "10.224.176.61")
+ '(ange-ftp-ftp-program-args (quote ("-i" "-n" "-g" "-v" "-u")))
  '(browse-url-browser-function (quote w3m-browse-url))
  '(bsh-jar "/usr/share/java/bsh.jar")
  '(column-number-mode t)
@@ -484,7 +467,8 @@ The value from `ibuffer-saved-filter-groups' is used."
 #
 # CLUSTER description
 # Name: name_of_th" "TEST.ALL" "/scp:kraljo@jubiler:/home2/kraljo/small-projects/cr16844-smh-stability-improvement-expiration-postpone/ttt,09-10-30/TEST.ALL" 1 13421))))
- '(ispell-program-name "aspell")
+ '(ispell-program-name "aspell" t)
+ '(jde-jdk-registry (quote (("1.6.0.22" . "/usr/lib/jvm/java-6-sun-1.6.0.24"))))
  '(ls-lisp-dirs-first nil)
  '(max-specpdl-size 3000)
  '(menu-bar-mode nil)
@@ -493,6 +477,7 @@ The value from `ibuffer-saved-filter-groups' is used."
  '(pc-select-selection-keys-only t)
  '(pc-selection-mode t nil (pc-select))
  '(require-final-newline nil)
+ '(save-place t nil (saveplace))
  '(scroll-bar-mode nil)
  '(show-paren-mode t nil (paren))
  '(show-trailing-whitespace t)
@@ -516,6 +501,7 @@ The value from `ibuffer-saved-filter-groups' is used."
  '(fringe ((((class color) (background dark)) (:background "grey10" :foreground "darkBlue"))))
  '(hi-blue-b ((((min-colors 88)) (:foreground "lightblue" :weight bold))))
  '(hl-line ((t (:underline "lightBlue"))))
+ '(linkd-generic-link ((t (:foreground "magenta"))))
  '(org-level-1 ((((class color) (min-colors 88) (background dark)) (:foreground "LightSkyBlue" :box (:line-width 2 :color "grey75" :style released-button)))))
  '(rst-level-1-face ((t (:foreground "blue" :box (:line-width 1 :color "grey75" :style released-button) :height 160 :family "sans"))))
  '(rst-level-2-face ((t (:foreground "blue" :underline t :height 150 :family "sans"))))
@@ -569,8 +555,11 @@ The value from `ibuffer-saved-filter-groups' is used."
   (hi-lock-face-phrase-buffer ".*>\$ .*" 'font-lock-warning-face)
   (hi-lock-face-phrase-buffer "!.*\\|#.*" 'font-lock-comment-face)
   (hi-lock-face-phrase-buffer "pep> .*" 'font-lock-doc-face) ; good for sts tail-f
+  ;;>! (hi-lock-face-phrase-buffer ":[ ]+.*" 'font-lock-function-name-face)
   ;; (hi-lock-face-phrase-buffer "^\./.*.log" 'hi-yellow)
   )
+;; You can use selective/regioned Mono font even in shell (font-lock/ed) buffer by hlt-highlight-region (highlight.el)
+;; (and then> hlt-replace-highlight-face "highlight" "variable-pitch")
 
 (defun h2-hilight-results () ""
   (interactive)
@@ -807,7 +796,6 @@ The value from `ibuffer-saved-filter-groups' is used."
 (setq ruby-program-name "irb1.8 --inf-ruby-mode")
 (global-set-key (kbd "<f1>") 'ruby-send-region)
 
-(put 'narrow-to-region 'disabled nil)
 (fset 'sh-la-addr
    [?\C-q ?\C-z return ?f ?g ?  ?2 return C-f8 ?p ?m ?l return ?\M-r ?s ?h ?  ?c ?l return return ?e ?x return C-f9 ?f ?g ?  ?- return])
 
@@ -828,6 +816,7 @@ The value from `ibuffer-saved-filter-groups' is used."
 ;; (define-key dired-mode-map "V" 'dired-quick-view)
 ;; (define-key dired-mode-map "P" 'dired-quick-n-up)
 ;; (define-key dired-mode-map "N" 'dired-quick-n-down)
+;;>! add there echo -e '.header on\n.schema\nselect moz_formhistory.* from moz_formhistory;' | sqlite3 * | head -19 &
 
 ;; //www.elliotglaysher.org/emacs/
 (autoload 'browse-kill-ring "browse-kill-ring" "Browse the kill ring." t)
@@ -882,9 +871,9 @@ The value from `ibuffer-saved-filter-groups' is used."
 ;;; //jdee.sourceforge.net/install.html
 ;;; more on /usr/share/doc/jde/html/jde-ug/jde-ug.html
 (add-to-list 'load-path (expand-file-name "/usr/share/emacs23/site-lisp/jde"))
-(add-to-list 'load-path "/usr/share/emacs23/site-lisp/cedet-contrib")
-(add-to-list 'load-path (expand-file-name "/usr/share/emacs23/site-lisp/cedet-common"))
-(load-file (expand-file-name "/usr/share/emacs23/site-lisp/cedet-common/cedet.el"))
+;; (add-to-list 'load-path "/usr/share/emacs23/site-lisp/cedet-contrib")
+;; (add-to-list 'load-path (expand-file-name "/usr/share/emacs23/site-lisp/cedet-common"))
+;; (load-file (expand-file-name "/usr/share/emacs23/site-lisp/cedet-common/cedet.el"))
 (add-to-list 'load-path (expand-file-name "/usr/share/emacs23/site-lisp/elib"))
 (setq defer-loading-jde nil)
 (if defer-loading-jde
@@ -894,7 +883,7 @@ The value from `ibuffer-saved-filter-groups' is used."
 	    (append
 	     '(("\\.java\\'" . jde-mode))
 	     auto-mode-alist)))
-  (require 'jde))
+;; (require 'jde))
 
 (global-set-key (kbd "s-SPC") 'ediff-trees-examine-next)
 (global-set-key (kbd "S-s-SPC") 'ediff-trees-examine-previous)
@@ -902,3 +891,5 @@ The value from `ibuffer-saved-filter-groups' is used."
 (global-set-key (kbd "C-S-s-SPC") 'ediff-trees-examine-previous-regexp)
 
 (setq jde-jdk (quote ("1.6.0"))) ;;>?
+;; (load "/home/kraljo/.emacs.d/site-lisp/nxhtml/autostart.el")
+(put 'narrow-to-region 'disabled nil)
