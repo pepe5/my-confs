@@ -545,6 +545,10 @@ The value from `ibuffer-saved-filter-groups' is used."
 (fset 'oi-org-indent-subtree
    [?\C-  ?\C-c ?\C-f ?\C-p ?\C-x ?n ?n ?\C-  C-home ?\M-: ?\M-\( ?o ?r ?g ?- ?s ?h ?o ?w ?- ?s ?u ?b ?t ?r ?e ?e ?\C-m ?\C-\[ ?\C-% ?^ ?\\ ?* ?\C-m ?* ?* ?\C-m ?! ?\C-x ?\C-x ?\C-x ?n ?w ?\C-l])
 
+;; marc 1st TODO child as :GONE:
+(fset 'om-org-mark-child
+   "\C-n\C-s todo \342\344:gone:\C-c\C-u\216\C-b\C-c\C-c\C-a")
+
 
 ;; '(browse-url-browser-function (quote w3m-browse-url))
 ;; '(org-table ((t (:foreground "yellow4" :slant normal :weight normal :height 85 :width normal :foundry "outline" :family "Lucida Console"))))
