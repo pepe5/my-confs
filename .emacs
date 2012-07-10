@@ -872,6 +872,10 @@ The value from `ibuffer-saved-filter-groups' is used."
 
 (if (file-exists-p "~/.emacs.d/site-lisp/moccur-edit.el")
     (require 'moccur-edit))
+
+(if (file-exists-p "~/.emacs.d/site-lisp/highlight.el")
+    (require 'highlight))
+
 (require 'ruby-mode)
 ;; (global-font-lock-mode t) ; still not..
 
