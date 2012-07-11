@@ -566,7 +566,7 @@ The value from `ibuffer-saved-filter-groups' is used."
  '(delete-by-moving-to-trash t)
  '(delete-selection-mode nil)
  '(desktop-save-mode t nil (desktop))
- '(dired-listing-switches "-I *~ -l")
+ '(dired-listing-switches "-I *~ --group-directories-first -l")
  '(ediff-custom-diff-options "-c -a")
  '(ediff-diff-options "-a")
  '(ediff-merge-split-window-function (quote split-window-vertically))
