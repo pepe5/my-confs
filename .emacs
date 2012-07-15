@@ -494,6 +494,13 @@ The value from `ibuffer-saved-filter-groups' is used."
   (other-window 1) 
   (find-dired dir args))
 
+(add-hook 'dired-load-hook
+           (function (lambda ()
+                       (load "dired-x")
+                       ;; Set global variables here.  For example:
+                       ;; (setq dired-guess-shell-gnutar "gtar")
+                       )))
+
 ;;>! parse x-selection-value of maximo-list line and past it to dired-find-other-window
 (defun x1-parse-maximo-line (string) ""
   (interactive)
