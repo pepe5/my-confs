@@ -314,7 +314,7 @@
 (global-set-key (read-kbd-macro "C-x C-k") 'kill-buffer)
 (autoload 'ibuffer "ibuffer" "List buffers." t)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-(require 'ibuffer)
+(require 'ibuffer nil t)
 ;(add-to-list 'ibuffer-never-show-regexps "^\\*")
 ;(setq ibuffer-saved-filter-groups (quote (("tasks - non-ooo-ed+non-*" ("tasks - non-ooo-ed+non-*" (name . "^[^*]") (not saved . "ooo-ed"))))))
 
@@ -877,13 +877,10 @@ The value from `ibuffer-saved-filter-groups' is used."
 ; (load-file "/usr/share/emacs/site-lisp/xcscope.el")
 ; (require 'xcscope)
 
-(if (file-exists-p "~/.emacs.d/site-lisp/moccur-edit.el")
-    (require 'moccur-edit))
+;; (if (file-exists-p "~/.emacs.d/site-lisp/moccur-edit.el")
+(require 'moccur-edit nil t)
 
-(if (file-exists-p "~/.emacs.d/site-lisp/highlight.el")
-    (require 'highlight))
-
-(require 'ruby-mode)
+(require 'ruby-mode nil t)
 ;; (global-font-lock-mode t) ; still not..
 
 (put 'scroll-left 'disabled nil)
@@ -1072,6 +1069,13 @@ The value from `ibuffer-saved-filter-groups' is used."
              (make-local-variable 'write-contents-hooks)
              (add-hook 'write-contents-hooks 'java-mode-untabify)))
 (put 'narrow-to-region 'disabled nil)
+
+;; (if (file-exists-p "~/.emacs.d/site-lisp/highlight.el")
+(require 'easymenu nil t)
+(require 'highlight nil t)
+;;(autoload 'highlight "highlight" "Hlt fn/s ~> for region")
+(defun hlt-region () "" (interactive) (hlt-highlight-region))
+;>? defun try-require ?
 
 ;; not func under m$wNT: "Spawning child process: invalid argument"
 (require 'server)
