@@ -86,7 +86,25 @@ function rediff \
     echo 1>&2; }
 
 ## sync based on diff-util query
+# dsync /media/2D77-BD8D/Ibm-box/Documents/Logs/ .
+# stu //www.daniweb.com/software-development/shell-scripting/threads/120990
+#>! test if it do not output directories
+#>! add opt. to set cp-command (cp|rsync|scp|..)
 function dsync \
+    { echo A=$1
+    echo B=$2
+    diff -rq $1 $2 | fgrep -v "Only in $2" |\
+    awk -v base=$1 -v target=$2 '
+    /^Only in/ {print "cp -vb", gensub(/:/,"","",$3)"/"$4, target"/"gensub(base"(.*):","\\1","",$3)}
+    /^Files/ {print "/bin/cp -vbf --backup=t", $2, $4}'
+    echo; }
+function dsync-last-working \
+    { echo A=$1
+    echo B=$2
+    diff -rq $1 $2 | fgrep -v "Only in $2" |\
+    awk '/^Only in/ {print "cp-new -vb",$3,$4} /^Files/ {print "cp-OVER -vbf --backup=t",$2,$4}'
+    echo; }
+function dsync-ruby \
     { echo A=$1
     echo B=$2
     diff -rq $1 $2 | ruby1.8 -ane '
@@ -95,7 +113,18 @@ function dsync \
     p $F
     if !/Only in $2/; $_ .match O; puts %Q{cp -vf #{$1}} end '
     echo; }
+## test:
+# mkdir -vp /tmp/A/nested /tmp/B/nested
+# echo > /tmp/A/nested/only-orig
+# echo 1 > /tmp/A/nested/modify; echo 2 > /tmp/B/nested/modify
+# diff -rq /tmp/A/ /tmp/B/
+# B$ dsync /tmp/A/ .
+# A=/tmp/A/
+# B=.
+# cp -vbf --backup=t /tmp/A/nested/modify ./nested/modify
+# cp -vb /tmp/A/nested/only-orig ./nested
 
+alias findup=/usr/share/fslint/fslint/findup
 alias log='. ~/bin/log.sh'
 alias logr="pgrep -l -f 'ruby .*-timestamp'; pkill -f 'ruby .*-timestamp'; pgrep -l -f 'ruby .*-timestamp'"
 alias al='dtach -a $(ls -t `find ~ -name "*.dtach"` | head -1) -z'
@@ -121,10 +150,19 @@ fi
 
 export JAVA_HOME=/usr/lib/jvm/java-6-openjdk # /usr/lib/jvm/jdk1.6.0_22
 export PATH=$PATH:$JAVA_HOME/bin
-export http_proxy=http://wpad.intinfra.com:3128
+#export http_proxy=http://wpad.intinfra.com:3128
 export HISTTIMEFORMAT="%F %T "
 function hi { history | grep -i $@ | cut -d\  -f5- | uniq | tail ;}
 function tailr { tail -f 1 | ruby -ne "BEGIN{$stdin.sync=true}; if /$1/i .match $_; $2; puts $_ end" ;} #== grep --line-buffered
 
 export LESSOPEN="|/usr/local/bin/lesspipe.sh %s"
 #>? eval "$(lesspipe)"
+
+function sshg { [[ -x $SSH_AUTH_SOCK ]] && . lk; jobs > /tmp/sshg.jobs; eval `. ~/bin/sshg.sh $@` ;}
+#(<) alias fg-mach='eval `~/bin/fg-mach.sh`'
+#>! add here (to sshg) detection and handling for /gsni. See also fg-mach
+# function sshg
+# { . lk #>! move to sshg.sh
+#     cmd="ssh sls4root@dbkpsas4.rze.de.db.com -F /home/kraljo/.ssh/deuba.config -A -t 'sls -c root@$1'"
+#     echo $cmd
+#     eval $cmd;}

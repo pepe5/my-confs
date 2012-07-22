@@ -1,0 +1,31 @@
+#!/bin/bash
+echo "#" -*- dired-virtual -*-
+echo '' $1:
+cd "$1"
+find . \( -type f -exec grep -q -e alias\ s \{\} \; \) -exec ls -ld --full-time \{\} \;
+
+##
+# stu emacs
+# find-dired                    M-x ... RET
+#    Run `find' and go into Dired mode on a buffer of the output.
+# find-dired-other-window       M-x ... RET   
+# find-grep-dired               M-x ... RET
+#    Find files in DIR containing a regexp REGEXP and start Dired on output.
+# find-lisp-find-dired          M-x ... RET
+#    Find files in DIR, matching REGEXP.
+# find-lisp-find-dired-filter   M-x ... RET
+#    Change the filter on a find-lisp-find-dired buffer to REGEXP.
+# find-lisp-find-dired-subdirectories M-x ... RET
+#    Find all subdirectories of DIR.
+# find-name-dired               M-x ... RET
+#    Search DIR recursively for files matching the globbing pattern PATTERN,
+
+##
+# stu format
+# # -*- dired-virtual -*-
+#   /home/kraljo/text/my-confs/:
+#   find . \( -type f -exec grep -q -e alias\ s \{\} \; \) -exec ls -ld \{\} \;
+#   -rw-rw-r--.   1 kraljo kraljo     1150 Jun 30 07:42 bin/os-tools.sh
+#   -rw-rw-r--.   1 kraljo kraljo     5068 Jun 30 07:42 .bash_aliases
+#
+#   find finished at Sun Jul 22 09:29:10
