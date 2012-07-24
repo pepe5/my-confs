@@ -292,9 +292,11 @@
 ;; (global-set-key [f9] 'hide-find-dir) ;; to toggle back use [C-/]
 ;; (global-set-key [f9] 'x-get-selection)
 
-(fset 'yes-or-no-p 'y-or-n-p) ; nafai.dyndns.org/files/casey-emacs-tmp.html
 (global-set-key "\C-x\C-o" 'other-window) ;> vv
+(global-set-key "\C-x\C-\\" 'split-window-horizontally)
 (global-set-key (kbd "C-M-o") 'other-window)
+
+(fset 'yes-or-no-p 'y-or-n-p) ; nafai.dyndns.org/files/casey-emacs-tmp.html
 (set-input-mode nil nil 1) ; enable 8-bit input/insertion //home.snafu.de/ohei/emacs/emacs206-os2-site-start.html
 ;; //www.tldp.org/HOWTO/LinuxDoc+Emacs+Ispell-HOWTO-4.html
 ;; The iso-sgml library will let you type accented characters under
@@ -1076,6 +1078,11 @@ The value from `ibuffer-saved-filter-groups' is used."
 ;;(autoload 'highlight "highlight" "Hlt fn/s ~> for region")
 (defun hlt-region () "" (interactive) (hlt-highlight-region))
 ;>? defun try-require ?
+
+(autoload 'markdown-mode "markdown-mode.el"
+   "Major mode for editing Markdown files" t)
+(setq auto-mode-alist
+   (cons '("\\.txt" . markdown-mode) auto-mode-alist))
 
 ;; not func under m$wNT: "Spawning child process: invalid argument"
 (require 'server)
