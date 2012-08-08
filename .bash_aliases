@@ -63,6 +63,7 @@ alias p1='PS1="\W$> "'
 alias pR='PS1="\W#> "'
 
 alias off='xset dpms force off'
+alias xr='xrandr --output LVDS1 --off; sleep 1; xrandr --output VGA1 --mode 1680x1050 --pos 0x0 --output LVDS1 --mode 1600x900 --pos 1680x150'
 alias swp1='setxkbmap -option ctrl:swapcaps'
 alias ri=ri1.8
 alias irb='irb --simple-prompt'

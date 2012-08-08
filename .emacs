@@ -206,7 +206,7 @@
   (setq my-file-dir (expand-file-name my-file-dir))
   (switch-to-buffer my-file-dir)
   (shell my-file-dir))
-(global-set-key (read-kbd-macro "C-<f5>") 'cwd-shell)
+(global-set-key (read-kbd-macro "S-<f5>") 'cwd-shell)
 
 (defun my-shell () "" (interactive) (shell (buffer-name)))
 (global-set-key (read-kbd-macro "ESC <f5>") 'my-shell) ; creates shell from current buffer
