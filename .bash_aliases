@@ -145,9 +145,10 @@ function grep_dist \
 
 if [ -f ~/.kraljo_aliases ]; then
     . ~/.kraljo_aliases
-    PATH=$PATH:$HOME/bin:/usr/lib/git-core
-    alias gt-log='git log --all -g --abbrev-commit --pretty=oneline' # for pipe use format:%h
 fi
+PATH=$PATH:$HOME/bin:/usr/lib/git-core
+alias gl2='git log --all -g --abbrev-commit --pretty=oneline' # for pipe use format:%h
+alias gl='git log --graph --format="%ai %h --%d %s [ --%an ]" | perl -nle "print qq{# \$_}" | head'
 
 export JAVA_HOME=/usr/lib/jvm/java-6-openjdk # /usr/lib/jvm/jdk1.6.0_22
 export PATH=$PATH:$JAVA_HOME/bin
