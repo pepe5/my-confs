@@ -91,6 +91,15 @@ function rediff \
 # stu //www.daniweb.com/software-development/shell-scripting/threads/120990
 #>! test if it do not output directories
 #>! add opt. to set cp-command (cp|rsync|scp|..)
+#>! if you want vanilla awk -> echo 'ab cb ad' | awk '{gsub(/a./,SUBSEP"&"SUBSEP);split($0,cap,SUBSEP);print cap[2]"|"cap[4]}'
+function ab-from-diff \
+    { echo "#" ab: A=$A
+    echo "#" ab: B=$B
+    if [[ -n $1 ]]; then echo "#" ab: prefx: $1; fi
+    #>! perl groups capturing; till vanilla awk version will be formulated
+    awk -v prefx="$1" -v base="$A" -v target="$B" '/^Files/ {print prefx, $2, $4}'
+    echo; }
+
 function dsync \
     { echo A=$1
     echo B=$2
