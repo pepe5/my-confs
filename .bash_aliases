@@ -97,6 +97,7 @@ function ab-from-diff \
     echo "#" ab: B=$B
     if [[ -n $1 ]]; then echo "#" ab: prefx: $1; fi
     #>! perl groups capturing; till vanilla awk version will be formulated
+    #>! then add quotes around A+B
     awk -v prefx="$1" -v base="$A" -v target="$B" '/^Files/ {print prefx, $2, $4}'
     echo; }
 
