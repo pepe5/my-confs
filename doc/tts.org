@@ -1,0 +1,79 @@
+** $> echo "červená modrá fiala" | uconv -f utf-8 -t iso-8859-2 | say-epos -
+*** from $> dpkg -l epos
+    rc  epos           1:2.5.37-9ubun Text-to-speech system
+  - see also https://launchpad.net/ubuntu/hardy/i386/epos/1:2.5.37-5
+
+**** try $> aptitude search '~S ~i (~Aprecise)' -w 222 -F '%C %A %p | %t %V %v | %d' | head
+   - http://superuser.com/questions/132346/find-packages-installed-from-a-certain-repository-with-aptitude
+
+
+** [0/1] emacs$> speechd-speak
+*** packages
+**** $> sudo aptitude install -y speech-dispatcher-festival
+*** prepare *scratch*> (speechd-out-disable-driver 'brltty)
+*** m-x> speechd-speak
+    https://delicious.com/pepe5/audio+emacs
+
+*** eval *scratch*> (speechd-out-disable-driver 'brltty)
+    http://lists.gnu.org/archive/html/help-gnu-emacs/2012-06/msg00131.html
+
+*** TODO [Wed Aug 24 10:59:17 2011 : 736104] speechd:  Module festival loaded.
+    [Wed Aug 24 10:59:17 2011 : 774815] speechd:  Error: Broken pipe to module.
+    [Wed Aug 24 10:59:17 2011 : 774884] speechd:  Output module terminated abnormally, probably crashed.
+    [Wed Aug 24 10:59:17 2011 : 774918] speechd: ERROR: Can't initialize audio in output module, see reason above.
+    [Wed Aug 24 10:59:17 2011 : 774968] speechd:   Couldn't load specified output module
+
+
+** $> spd-say -l cs -t female1 "dobrý den"
+   - [X] OK, <2012-08-25 Sat>
+
+
+** search speech
+*** [kraljo@oc2742574351 Logs]$ yum search speech
+Loaded plugins: downloadonly, ibm-cds-plugin, ibm-check-lotus-updates, ibm-kvm-
+              : repo, ibm-kvm-win7-repo, ibm-repository, refresh-packagekit
+============================= N/S Matched: speech ==============================
+festival-speechtools-libs.x86_64 : The Edinburgh Speech Tools libraries
+gnome-speech.x86_64 : GNOME Text to Speech
+speechd.x86_64 : Implementation of /dev/speech
+amrnb.x86_64 : AMR NarrowBand speech codec
+amrnb-devel.x86_64 : AMR NarrowBand speech codec development files
+amrwb.x86_64 : AMR WideBand speech codec
+amrwb-devel.x86_64 : AMR WideBand speech codec development files
+celt.i686 : An audio codec for use in low-delay speech and audio communication
+celt.x86_64 : An audio codec for use in low-delay speech and audio communication
+celt051.x86_64 : An audio codec for use in low-delay speech and audio communication
+fawkes-plugin-flite.x86_64 : Fawkes Flite speech synthesis plugin
+festival.x86_64 : Speech synthesis and text-to-speech system
+festival-lib.x86_64 : Library for the Festival speech synthesis system
+flite.i686 : Small, fast speech synthesis engine (text-to-speech)
+flite.x86_64 : Small, fast speech synthesis engine (text-to-speech)
+gsm.x86_64 : Shared libraries for GSM speech compressor
+opencore-amr.x86_64 : Adaptive Multi-Rate Floating-point (AMR) Speech Codec
+pyttsx.noarch : Cross platform text-to-speech
+sphere.x86_64 : NIST SPeech HEader REsources (SPHERE) Package
+
+*** desktop$> sudo aptitude -w 111 search speech
+[sudo] password for blani: 
+p   brltty-speechd                                  - Access software for a blind person - Speech Dispatcher dr
+p   cl-speech-dispatcher                            - Common Lisp interface to Speech Dispatcher               
+p   gnome-speech-dectalk                            - GNOME text-to-speech library (Fonix DECtalk engine suppor
+p   gnome-speech-swift                              - GNOME text-to-speech library (Cepstral swift engine suppo
+p   libgnome-speech-dev                             - GNOME text-to-speech library (development headers)       
+p   libgnome-speech7                                - GNOME text-to-speech library                             
+p   libspeechd-dev                                  - Speech Dispatcher: Development libraries and header files
+i   libspeechd2                                     - Speech Dispatcher: Shared libraries                      
+i   python-speechd                                  - Python interface to Speech Dispatcher                    
+i   speech-dispatcher                               - Common interface to speech synthesizers                  
+p   speech-dispatcher-dbg                           - Speech Dispatcher debugging symbols                      
+p   speech-dispatcher-doc-cs                        - Speech Dispatcher documentation in Czech                 
+i   speech-dispatcher-festival                      - Festival support for Speech Dispatcher                   
+p   speech-dispatcher-flite                         - Speech Dispatcher: Flite output module                   
+p   speech-tools                                    - Edinburgh Speech Tools - user binaries                   
+p   speech-tools-doc                                - Documentation for the Edinburgh Speech Tools             
+i   speechd-el                                      - Emacs speech client using Speech Dispatcher              
+p   speechd-el-doc-cs                               - speechd-el documentation in Czech                        
+p   speechd-up                                      - Interface between Speech Dispatcher and SpeakUp          
+
+
+
