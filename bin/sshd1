@@ -1,0 +1,8 @@
+#!/bin/bash
+dtach -n /tmp/1.dtach -z bash
+sendcmd reset
+sendcmd ssh localhost
+sendcmd reset
+#>?! sendcmd logger -p user.info $@
+sendcmd date
+dtach -A /tmp/1.dtach -z bash
