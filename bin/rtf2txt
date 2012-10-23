@@ -1,0 +1,20 @@
+#!/bin/bash
+f="$1"
+libreoffice3.4 --headless --convert-to html --outdir /tmp "$1" # *.rtf
+
+#>? g="`basename $f | sed -e 's/\(.*\)\.\([^.]+\)/\1/'`.txt"
+#>? g="`basename $f | sed ‘s/\(.*\)…./\1/'`.txt"
+#>! g="`basename $f | sed -e 's/\(.*\)\.\(.*\)$/\1/'`.txt"
+g=`basename "${f%.*}"`
+# echo '' -g: $g
+
+#>? h=`find /tmp -name "$g"`
+h=`ls -1t /tmp | head | grep -- "$g" | head -1`
+# echo '' -h: $h
+
+ls -ldt /tmp/"$h"* 1>&2
+# echo '' -elinks: -dump /tmp/"$h" #>? cat
+elinks -dump /tmp/"$h" #>? cat
+
+### stu
+#>? g="${f%.*}*"

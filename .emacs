@@ -110,7 +110,7 @@
 (defun my_call_occur ()
   "Find lines matching"
   (interactive)
-  (occur (current-word)))
+  (occur (downcase (current-word))))
 (global-set-key (read-kbd-macro "<f1>") 'my_call_occur)
 
 ;; atrey.karlin.mff.cuni.cz/~qiq/src/avfs-cvs/scripts/avfscoda.el
@@ -198,7 +198,7 @@
 ;; - by default should run term 
 ;; - should ask for prependig-file
 ;; - (mainly) in dired - should open another windows by spliting down (if it is not present already:)
-(defun my-shell ()
+(defun cwd-shell ()
   "Start a shell in the directory of current buffer"
   (interactive)
   (if (eq buffer-file-name nil) (setq my-file-dir default-directory)
@@ -206,7 +206,11 @@
   (setq my-file-dir (expand-file-name my-file-dir))
   (switch-to-buffer my-file-dir)
   (shell my-file-dir))
-(global-set-key (read-kbd-macro "<f5>") 'my-shell)
+(global-set-key (read-kbd-macro "S-<f5>") 'cwd-shell)
+
+(defun my-shell () "" (interactive) (shell (buffer-name)))
+(global-set-key (read-kbd-macro "ESC <f5>") 'my-shell) ; creates shell from current buffer
+(global-set-key (read-kbd-macro "<f5>") 'shell)
 
 (defun my-toggle-trailing-whitespace ()
   "hmm - inspired by gnus-sum.el '(defun gnus-summary-toggle-truncation*)"
@@ -232,8 +236,8 @@
 
 ;; my-own - pep 2005-05-02
 (require 'cl)
-(setq esc "ěščřžýáíéóúůďťňäëöü÷ĚŠČŘŽÝÁÍÉÓÚŮĎŤŇÄËÖÜ")
-(setq asc "escrzyaieouudtnaeou-ESCRZYAIEOUUDTNAEOU")
+(setq esc "ěščřžýáíéóúůďťňäëöüàī÷ĚŠČŘŽÝÁÍÉÓÚŮĎŤŇÄËÖÜÀĪ")
+(setq asc "escrzyaieouudtnaeouai-ESCRZYAIEOUUDTNAEOUAI")
 (defun cs1-to-asc ()
   "translate buffer according above table"
   (interactive)
@@ -288,9 +292,11 @@
 ;; (global-set-key [f9] 'hide-find-dir) ;; to toggle back use [C-/]
 ;; (global-set-key [f9] 'x-get-selection)
 
-(fset 'yes-or-no-p 'y-or-n-p) ; nafai.dyndns.org/files/casey-emacs-tmp.html
 (global-set-key "\C-x\C-o" 'other-window) ;> vv
+(global-set-key "\C-x\C-\\" 'split-window-horizontally)
 (global-set-key (kbd "C-M-o") 'other-window)
+
+(fset 'yes-or-no-p 'y-or-n-p) ; nafai.dyndns.org/files/casey-emacs-tmp.html
 (set-input-mode nil nil 1) ; enable 8-bit input/insertion //home.snafu.de/ohei/emacs/emacs206-os2-site-start.html
 ;; //www.tldp.org/HOWTO/LinuxDoc+Emacs+Ispell-HOWTO-4.html
 ;; The iso-sgml library will let you type accented characters under
@@ -310,7 +316,7 @@
 (global-set-key (read-kbd-macro "C-x C-k") 'kill-buffer)
 (autoload 'ibuffer "ibuffer" "List buffers." t)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-(require 'ibuffer)
+(require 'ibuffer nil t)
 ;(add-to-list 'ibuffer-never-show-regexps "^\\*")
 ;(setq ibuffer-saved-filter-groups (quote (("tasks - non-ooo-ed+non-*" ("tasks - non-ooo-ed+non-*" (name . "^[^*]") (not saved . "ooo-ed"))))))
 
@@ -397,8 +403,42 @@ The value from `ibuffer-saved-filter-groups' is used."
   (set-mouse-color "blue")
   (global-font-lock-mode t)
   (setq term-current-row -1)
-  )					; google.com/search?q=emacs+reset-terminal
-(g1-my-green)
+  )
+;; (g1-my-green)
+
+(defun l1-my-LightYellow4 () ""
+  (interactive)
+  (set-background-color "black")
+  (set-foreground-color "LightYellow4")
+  (set-cursor-color "yellow")
+  (set-mouse-color "blue")
+  (global-font-lock-mode t)
+  (setq term-current-row -1)
+  )
+
+(defun m1-my-magenta () ""
+  (interactive)
+  (set-foreground-color "magenta")
+  (set-background-color "white")
+  (set-cursor-color "blue")
+)
+
+(defun b1-my-blue () ""
+  (interactive)
+  (set-background-color "white") ; wheat1
+  (set-foreground-color "black")
+  (set-cursor-color "yellow4")
+  (set-mouse-color "blue")
+  (global-font-lock-mode t)
+  (setq term-current-row -1)
+  )
+(b1-my-blue)
+
+;; google.com/search?q=emacs+reset-terminal
+(defun my-comint-init ()
+  (setq comint-process-echoes t))
+(add-hook 'comint-mode-hook 'my-comint-init)
+
 
 ;;; (menu-bar-mode nil) ;; needed only in bsd emacs-20.7.. bad deps
 ;;; .emacs ends here
@@ -428,11 +468,99 @@ The value from `ibuffer-saved-filter-groups' is used."
 	 (:eval (prin1-to-string (cdr (process-coding-system (get-buffer-process (current-buffer))))))
 	 "] ") 
        (last mode-line-format)))
-(fset 'd1-toggle-coding
+(fset 'd1-dbg
+   [return ?\C-\M-o ?\C-s ?$ ?> ?  ?\C-  ?\C-e ?\M-w ?\C-\M-o ?\C-y])
+
+;;; shell macro/s
+(fset 'd3-toggle-coding
    [?\C-x ?\C-m ?p ?u ?t ?f ?  ?8 ?  ?u ?  return ?\M-p return ?\C-q ?\C-\] return ?z return])
 (fset 'd2-toggle-to-dos
    [?\C-x ?\C-m ?p ?u ?t ?  ?8 ?  ?u ?  return ?u ?t  ?  ?8 ?  ?d ?  return return])
+(fset 'z1-my-suspend-fg-toggle
+   [?\C-a ?@ backspace ?# return ?~ ?\C-q ?\C-z return f9 ?\C-e ?\C-o ?\M-> ?f ?g ?  ?- return]) ; [[macro 'C-c -']] ;pep>?  ?\C-p ?\C-e ?\C-o ?\M-< ?\M->
+(add-hook 'shell-mode-hook
+	  '(lambda ()
+	     (define-key shell-mode-map (kbd "C-<f9>") 'd3-toggle-coding)
+	     (define-key shell-mode-map (kbd "C-<f8>") 'd2-toggle-to-dos)
+	     (define-key shell-mode-map (kbd "C-c -") 'z1-my-suspend-fg-toggle)
+	     )) ; >!
 
+;;; dired macro/s
+(fset 'fp-full-path
+   [?! ?f ?= ?` ?e ?c ?h ?o ?  ?* ?  ?` ?\; ?  ?l ?s ?  ?- ?d ?  ?` ?p ?w ?d ?` ?/ ?\" ?$ ?f ?\" ?  ?& return ?\C-\M-o ?\C-p ?\C-k ?\C-/])
+
+;;; org macro/s
+(defun find-dired-other-window (dir args) ""
+  (interactive)
+  (split-window) 
+  (other-window 1) 
+  (find-dired dir args))
+
+(add-hook 'dired-load-hook
+           (function (lambda ()
+                       (load "dired-x")
+                       ;; Set global variables here.  For example:
+                       ;; (setq dired-guess-shell-gnutar "gtar")
+                       )))
+
+;;>! parse x-selection-value of maximo-list line and past it to dired-find-other-window
+(defun x1-parse-maximo-line (string) ""
+  (interactive)
+  ;;>! ~/bin/x-mx-get.sh
+  (dired-find-other-window "/home/kraljo/Documents/Logs" "-iname \"*in2228646*\" -o -iname \"*dbkptws01*\""))
+
+
+;; (fset 'd2-insert-string-url
+;;    [?\M-w ?\C-x ?\C-w ?\M-n ?: ?: ?\C-y ?\C-a ?\C-b ?\C-a ?\C-k ?\C-g ?\C-M-o ?\C-c ?\C-l ?f ?i ?l ?e ?: ?\C-y return ?\C-y ?\C-r ?: ?: ?\C-  ?\C-a ?\C-w ?\C-d ?\C-d return ?\C-M-o ?\C-e])
+;; (fset 'part1-of-insert-string-url
+;;    "\367\C-x\C-w\356::\C-y\C-a\C-k")
+;; vv
+(defun d2-compute-linenumber-url (beg end)
+  "get buffer path + selected text; & in other window: insert it w/ ::linu url"
+  (interactive "r")
+  (save-excursion
+    (let* ((url-title (filter-buffer-substring beg end))
+           (url-link (concat (buffer-file-name) "::" (number-to-string (count-lines 1 (point))))))
+      (progn
+        (other-window 1)
+        ;;pep>! detect active selection &> incporporate it to the link
+        (insert (format "[[file:%s][%s]]" (org-link-escape url-link) url-title))
+        ;;>? (org-insert-link url-link url-title)
+        ((other-window 1)))) ;;pep>? not returning me back :-S
+))
+(global-set-key (kbd "C-s-n") 'd2-compute-linenumber-url)
+
+(defun d2-compute-string-url (beg end)
+  "get buffer path + selected text; & in other window: insert it w/ file: prefix"
+  (interactive "r")
+  (save-excursion
+    (let* ((url-title (filter-buffer-substring beg end))
+           (url-link (concat (buffer-file-name) "::" url-title)))
+      (progn
+        (other-window 1)
+        ;;pep>! detect active selection &> incporporate it to the link
+        (insert (format "[[file:%s][%s]]" (org-link-escape url-link) url-title))
+        ;;>? (org-insert-link url-link url-title)
+        ((other-window 1)))) ;;pep>? not returning me back :-S
+))
+(global-set-key (kbd "C-s-o") 'd2-compute-string-url)
+;; stu /thttp:escape-url-query/
+
+;; de-indent head w/ all children
+(fset 'od-org-metaright-deep
+   "\223^\\*\C-a*\C-n\C-a")
+
+;; indent head w/ all children
+(fset 'oi-org-indent-subtree
+   [?\C-  ?\C-c ?\C-f ?\C-p ?\C-x ?n ?n ?\C-  C-home ?\M-: ?\M-\( ?o ?r ?g ?- ?s ?h ?o ?w ?- ?s ?u ?b ?t ?r ?e ?e ?\C-m ?\C-\[ ?\C-% ?^ ?\\ ?* ?\C-m ?* ?* ?\C-m ?! ?\C-x ?\C-x ?\C-x ?n ?w ?\C-l])
+
+;; marc 1st TODO child as :GONE:
+(fset 'om-org-mark-child
+   "\C-n\C-s todo \342\344:gone:\C-c\C-u\216\C-b\C-c\C-c\C-a")
+
+
+;; '(browse-url-browser-function (quote w3m-browse-url))
+;; '(org-table ((t (:foreground "yellow4" :slant normal :weight normal :height 85 :width normal :foundry "outline" :family "Lucida Console"))))
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -440,14 +568,14 @@ The value from `ibuffer-saved-filter-groups' is used."
   ;; If there is more than one, they won't work right.
  '(ange-ftp-dumb-unix-host-regexp "10.224.176.61")
  '(ange-ftp-ftp-program-args (quote ("-i" "-n" "-g" "-v" "-u")))
- '(browse-url-browser-function (quote w3m-browse-url))
+ '(browse-url-browser-function (quote browse-url-firefox))
  '(bsh-jar "/usr/share/java/bsh.jar")
  '(column-number-mode t)
  '(default-input-method "czech-qwerty")
  '(delete-by-moving-to-trash t)
  '(delete-selection-mode nil)
  '(desktop-save-mode t nil (desktop))
- '(dired-listing-switches "-I *~ -l")
+ '(dired-listing-switches "-I *~ --group-directories-first -l")
  '(ediff-custom-diff-options "-c -a")
  '(ediff-diff-options "-a")
  '(ediff-merge-split-window-function (quote split-window-vertically))
@@ -455,7 +583,7 @@ The value from `ibuffer-saved-filter-groups' is used."
  '(font-lock-global-modes t)
  '(global-font-lock-mode t nil (font-lock))
  '(htmlize-output-type (quote font))
- '(ibuffer-saved-filter-groups (quote (("task-2 BL~R54 SIP,SUP" ("20855 for r54" (or (filename . "20855\\|gti"))) ("bl~|r54|sip,sup" (or (filename . "bl~\\|r54\\|r5\\.4\\|sip\\|sup"))) ("ttt" (or (filename . "ttt") (name . "ttt"))) ("^*" (name . "^*"))) ("dev-3 vosao|velocity|tomcat" ("text" (or (filename . "/text/"))) ("env" (or (name . "dev-java-uniq\\|sdk") (filename . "^~/local/vosao/$"))) ("skel" (or (filename . "dev-java-uniq\\|local/vosao\\|sdk"))) ("rsrcs stu" (or (filename . "velocity\\|tomcat\\|google\\|mvn\\|ant"))) ("^*" (name . "^*"))) ("dev-2 weblog" ("weblog|dev" (or (filename . "weblog\\|dev"))) ("tmp" (or (filename . "tmp"))) ("^*" (name . "^*"))) ("dev-1" ("log|myjugg" (or (filename . "log\\|myjugg") (name . "log\\|myjugg"))) ("swf|build|git" (or (filename . "swf\\|git") (name . "swf\\|git"))) ("^*" (name . "^*"))) ("tickets-3 cr20662,ttt" ("cr20662|small" (or (filename . "cr20662\\|small"))) ("ttt|for_review" (or (filename . "ttt\\|for_review"))) ("^*" (name . "^*"))) ("g1-stars" ("^*" (name . "^*"))) ("tickets-1" ("47405|ssd-mem" (or (filename . "47405\\|ssd-mem"))) ("55934\\|ghlr" (or (filename . "55934\\|ghlr"))) ("ttt|for_review" (or (filename . "ttt\\|for_review"))) ("^*" (name . "^*"))) ("dev-z1: ooo-ed & rest of tasks" ("tasks - non-ooo-ed+non-*" (name . "^[^*]") (not saved . "ooo-ed"))))))
+ '(ibuffer-saved-filter-groups (quote (("job-1" (":ACT:" (content . "^# :ACT:")) ("TODO | :WAITING: | :ASK:" (or (content . "^# TODO") (content . "^# .*:WAITING:") (content . "^# .*:ASK:"))) ("DONE" (content . "^# DONE")) ("unkn log/s" (or (filename . "log") (name . "log"))) ("gsa-wiki" (or (filename . "gsa") (filename . "eamroom"))) ("^*" (name . "^*"))) ("task-2 BL~R54 SIP,SUP" ("20855 for r54" (or (filename . "20855\\|gti"))) ("bl~|r54|sip,sup" (or (filename . "bl~\\|r54\\|r5\\.4\\|sip\\|sup"))) ("ttt" (or (filename . "ttt") (name . "ttt"))) ("^*" (name . "^*"))) ("dev-3 vosao|velocity|tomcat" ("text" (or (filename . "/text/"))) ("env" (or (name . "dev-java-uniq\\|sdk") (filename . "^~/local/vosao/$"))) ("skel" (or (filename . "dev-java-uniq\\|local/vosao\\|sdk"))) ("rsrcs stu" (or (filename . "velocity\\|tomcat\\|google\\|mvn\\|ant"))) ("^*" (name . "^*"))) ("dev-2 weblog" ("weblog|dev" (or (filename . "weblog\\|dev"))) ("tmp" (or (filename . "tmp"))) ("^*" (name . "^*"))) ("dev-1" ("log|myjugg" (or (filename . "log\\|myjugg") (name . "log\\|myjugg"))) ("swf|build|git" (or (filename . "swf\\|git") (name . "swf\\|git"))) ("^*" (name . "^*"))) ("tickets-3 cr20662,ttt" ("cr20662|small" (or (filename . "cr20662\\|small"))) ("ttt|for_review" (or (filename . "ttt\\|for_review"))) ("^*" (name . "^*"))) ("g1-stars" ("^*" (name . "^*"))) ("tickets-1" ("47405|ssd-mem" (or (filename . "47405\\|ssd-mem"))) ("55934\\|ghlr" (or (filename . "55934\\|ghlr"))) ("ttt|for_review" (or (filename . "ttt\\|for_review"))) ("^*" (name . "^*"))) ("dev-z1: ooo-ed & rest of tasks" ("tasks - non-ooo-ed+non-*" (name . "^[^*]") (not saved . "ooo-ed"))))))
  '(ibuffer-saved-filters (quote (("ooo-ed" ((filename . "at/ooo-ed"))) ("gnus" ((or (mode . message-mode) (mode . mail-mode) (mode . gnus-group-mode) (mode . gnus-summary-mode) (mode . gnus-article-mode)))) ("programming" ((or (mode . emacs-lisp-mode) (mode . cperl-mode) (mode . c-mode) (mode . java-mode) (mode . idl-mode) (mode . lisp-mode)))))))
  '(icicle-download-dir "~/.emacs.d/site-lisp/icicles")
  '(icicle-region-alist (quote (("##
@@ -467,16 +595,18 @@ The value from `ibuffer-saved-filter-groups' is used."
 #
 # CLUSTER description
 # Name: name_of_th" "TEST.ALL" "/scp:kraljo@jubiler:/home2/kraljo/small-projects/cr16844-smh-stability-improvement-expiration-postpone/ttt,09-10-30/TEST.ALL" 1 13421))))
- '(ispell-program-name "aspell" t)
+ '(indent-tabs-mode nil)
+ '(ispell-program-name "aspell")
  '(jde-jdk-registry (quote (("1.6.0.22" . "/usr/lib/jvm/java-6-sun-1.6.0.24"))))
  '(ls-lisp-dirs-first nil)
  '(max-specpdl-size 3000)
  '(menu-bar-mode nil)
- '(mode-line-inverse-video nil)
+ '(mode-line-inverse-video t)
  '(pc-select-meta-moves-sexps t)
  '(pc-select-selection-keys-only t)
  '(pc-selection-mode t nil (pc-select))
  '(require-final-newline nil)
+ '(safe-local-variable-values (quote ((eval setq logs "/home/kraljo/Documents/Logs") (eval setq org-confirm-elisp-link-function nil) (encoding . utf-8))))
  '(save-place t nil (saveplace))
  '(scroll-bar-mode nil)
  '(show-paren-mode t nil (paren))
@@ -500,13 +630,20 @@ The value from `ibuffer-saved-filter-groups' is used."
  '(font-lock-doc-face ((t (:inherit font-lock-string-face :box (:line-width 1 :color "grey75" :style released-button) :slant italic))))
  '(fringe ((((class color) (background dark)) (:background "grey10" :foreground "darkBlue"))))
  '(hi-blue-b ((((min-colors 88)) (:foreground "lightblue" :weight bold))))
+ '(highlight ((((class color) (min-colors 88) (background light)) (:background "darkseagreen2" :family "Mono"))))
  '(hl-line ((t (:underline "lightBlue"))))
+ '(hlt-property-highlight ((t (:foreground "black" :weight light :family "mono"))))
  '(linkd-generic-link ((t (:foreground "magenta"))))
- '(org-level-1 ((((class color) (min-colors 88) (background dark)) (:foreground "LightSkyBlue" :box (:line-width 2 :color "grey75" :style released-button)))))
- '(rst-level-1-face ((t (:foreground "blue" :box (:line-width 1 :color "grey75" :style released-button) :height 160 :family "sans"))))
- '(rst-level-2-face ((t (:foreground "blue" :underline t :height 150 :family "sans"))))
- '(rst-level-3-face ((t (:foreground "blue" :height 130 :family "sans"))))
+ '(org-level-1 ((nil (:foreground "medium turquoise" :box (:line-width 2 :color "grey75" :style released-button) :weight extra-bold :family "sans"))))
+ '(org-level-2 ((t (:inherit outline-2 :weight semi-bold))))
+ '(org-table ((t (:foreground "yellow4" :slant normal :weight normal :height 95 :width normal :foundry "outline" :family "Mono"))))
+ '(rst-level-1-face ((t (:foreground "blue" :box (:line-width 1 :color "grey75" :style released-button) :height 160 :family "sans"))) t)
+ '(rst-level-2-face ((t (:foreground "blue" :underline t :height 150 :family "sans"))) t)
+ '(rst-level-3-face ((t (:foreground "blue" :height 130 :family "sans"))) t)
  '(term-default ((t (:stipple nil :background "black" :foreground "green" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight 500 :height 124 :width normal)))))
+
+;; http://groups.google.com/group/gnu.emacs.bug/browse_thread/thread/393753d735a530ca?pli=1
+;; defun my-browse-url-firefox-new-tab (url &optional new-window)
 
 ;; www.coloradocollege.edu/dept/ma/Resources/Labs/InstallEmacs-JDE.html
 (setq binary-process-input t) 
@@ -517,10 +654,12 @@ The value from `ibuffer-saved-filter-groups' is used."
 (setenv "SHELL" shell-file-name) 
 
 (if nil ; (fboundp 'w32-version)
-    (progn (setq shell-file-name "c:/Python23/cygwin/bin/bash.exe") 
-	   (setq explicit-shell-file-name shell-file-name) 
-	   (setq explicit-sh-args '("--login" "-i"))
-	   ))
+    (progn
+      (setq shell-file-name "c:/cygwin/bin/bash.exe") 
+      (setq explicit-shell-file-name shell-file-name) 
+      (setq explicit-sh-args '("--login" "-i"))
+      (setq epg-gpg-program "c:/msysgit/mingw/bin/gpg.exe")
+      ))
 
 (defun bash () ""
   (interactive)
@@ -529,7 +668,7 @@ The value from `ibuffer-saved-filter-groups' is used."
   (setq explicit-sh-args '("--login" "-i"))
   (shell))
 
-(fset 'l1-enter-1-line
+(fset 'ZZl1-enter-1-line
     [?\C-k ?\C-k ?\C-x ?\C-o ?\C-y backspace ?\C-c ?\C-k ?\C-m ?\C-c ?\C-j ?\C-x ?\C-o])
 ;;  see elisp ``^hi vector'' for more nfo
 ;;  [?\C-k ?\C-k ?\C-x ?\C-o ?\C-y backspace ?\C-c ?\C-k ?\C-m f2 f2 ?\C-c ?\C-j ?\C-x ?\C-o])
@@ -554,6 +693,8 @@ The value from `ibuffer-saved-filter-groups' is used."
   (hi-lock-face-phrase-buffer "^% .*" 'hi-red-b)
   (hi-lock-face-phrase-buffer ".*>\$ .*" 'font-lock-warning-face)
   (hi-lock-face-phrase-buffer "!.*\\|#.*" 'font-lock-comment-face)
+  (hi-lock-face-phrase-buffer "\^M" 'org-hide)
+  (hi-lock-face-phrase-buffer " " 'org-hide)
   (hi-lock-face-phrase-buffer "pep> .*" 'font-lock-doc-face) ; good for sts tail-f
   ;;>! (hi-lock-face-phrase-buffer ":[ ]+.*" 'font-lock-function-name-face)
   ;; (hi-lock-face-phrase-buffer "^\./.*.log" 'hi-yellow)
@@ -630,7 +771,7 @@ The value from `ibuffer-saved-filter-groups' is used."
 (fset 'c3-commint-selection-and-next-shell
    [?\C-y return ?\C-x ?\C-b ?\C-m])
 
-(defun c1-connect (&optional new-tasks-p) ""
+(defun ZZ-c1-connect (&optional new-tasks-p) ""
   (interactive)
   (setq sess-name (read t))
   ;; (append 1,2,3 to existent/new tasks)
@@ -638,7 +779,7 @@ The value from `ibuffer-saved-filter-groups' is used."
   (find-file "/pixu2:/home/kraljo/")
   )
 
-(defun m1-mount-sfs-sys () ""
+(defun ZZ-m1-mount-sfs-sys () ""
   (interactive)
   (find-file "/ssh:kraljo@jedi.ATT.CMG.NL:/mnt/ares/samba/sys/project/smsc/intern/Maintenance/Test/spr_test_reports/")
   )
@@ -674,6 +815,27 @@ The value from `ibuffer-saved-filter-groups' is used."
 (fset 'p3-pack1-line
    "\C-a\C-p\223\C-r\C-q\C-j[ \C-i]*\C-q\C-j\C-m\C-k\C-a\C-n")
 (global-set-key [f9] 'p3-pack1-line)
+(fset 'br-my-html-eol "<br>\C-j")
+(add-hook 'html-mode-hook
+	  '(lambda ()
+	     (define-key html-mode-map "\C-m" 'br-my-html-eol)
+	     ))
+;;>! (add-hook 'after-change-functions (lambda (beg end old-len) (save-buffer)) nil t)
+
+(defun org-transpose-table-at-point ()
+  "Transpose orgmode table at point, eliminate hlines."
+  (interactive)
+  (let ((contents (apply #'mapcar* #'list ;; <== LOB magic imported here
+                         (remove-if-not 'listp ;; remove 'hline from list
+                                        (org-table-to-lisp)))) ;; signals
+        error if not table)
+    (delete-region (org-table-begin) (org-table-end))
+    (insert (mapconcat (lambda(x) (concat "| " (mapconcat 'identity x " | " ) "|\n" )) contents ""))
+    (org-table-align)))
+(add-hook 'org-mode-hook
+	  '(lambda ()
+	     (define-key org-mode-map "\C-ct" 'org-transpose-table-at-point)
+	     ))
 
 ;; (set-default-font ; Set our font http://www.dotemacs.de/dotfiles/AndreyAKulaga.emacs.html
 ;;  "-*-Lucida Console-normal-r-*-*-16-120-96-96-c-*-iso8859-2")
@@ -717,12 +879,11 @@ The value from `ibuffer-saved-filter-groups' is used."
 ; (load-file "/usr/share/emacs/site-lisp/xcscope.el")
 ; (require 'xcscope)
 
-(require 'moccur-edit)
-(require 'ruby-mode)
-;; (global-font-lock-mode t) ; still not..
+;; (if (file-exists-p "~/.emacs.d/site-lisp/moccur-edit.el")
+(require 'moccur-edit nil t)
 
-;; not func under m$wNT: "Spawning child process: invalid argument"
-(server-start) 
+(require 'ruby-mode nil t)
+;; (global-font-lock-mode t) ; still not..
 
 (put 'scroll-left 'disabled nil)
 
@@ -787,17 +948,16 @@ The value from `ibuffer-saved-filter-groups' is used."
   (setq comint-process-echoes t))
 (add-hook 'comint-mode-hook 'my-comint-init)
 
-(add-hook 'shell-mode-hook
-	  '(lambda ()
-	     (define-key shell-mode-map (kbd "C-<f9>") 'd1-toggle-coding)
-	     (define-key shell-mode-map (kbd "C-<f8>") 'd2-toggle-to-dos)
-	     )) ; >!
-
 (setq ruby-program-name "irb1.8 --inf-ruby-mode")
-(global-set-key (kbd "<f1>") 'ruby-send-region)
+;; (global-set-key (kbd "<f1>") 'ruby-send-region)
+
+(global-set-key (kbd "C-<f5>") 'revert-buffer)
+(global-set-key (kbd "<XF86Forward>") 'scroll-up)
+(global-set-key (kbd "<XF86Back>") 'scroll-down)
 
 (fset 'sh-la-addr
    [?\C-q ?\C-z return ?f ?g ?  ?2 return C-f8 ?p ?m ?l return ?\M-r ?s ?h ?  ?c ?l return return ?e ?x return C-f9 ?f ?g ?  ?- return])
+
 
 ;; > //martinowen.net/blog/2010/02/tips-for-emacs-ibuffer.html#disqus_thread
 (eval-after-load "ibuf-ext"
@@ -853,7 +1013,7 @@ The value from `ibuffer-saved-filter-groups' is used."
 (global-set-key (kbd "C-M-j") 'transpose-windows) ; see also /'other-window/
 
 ;; //www.elliotglaysher.org/emacs/
-(setq location-prj "dev-1")
+(setq location-prj "job-1")
 (add-hook 'ibuffer-mode-hook
           (lambda ()
             (ibuffer-switch-to-saved-filter-groups location-prj)))
@@ -883,7 +1043,10 @@ The value from `ibuffer-saved-filter-groups' is used."
 	    (append
 	     '(("\\.java\\'" . jde-mode))
 	     auto-mode-alist)))
-;; (require 'jde))
+;; (require 'jde)
+  )
+(autoload 'log4j-mode "log4j-mode" "Major mode for viewing log files." t)
+(add-to-list 'auto-mode-alist '("\\.log\\'" . log4j-mode))
 
 (global-set-key (kbd "s-SPC") 'ediff-trees-examine-next)
 (global-set-key (kbd "S-s-SPC") 'ediff-trees-examine-previous)
@@ -892,4 +1055,40 @@ The value from `ibuffer-saved-filter-groups' is used."
 
 (setq jde-jdk (quote ("1.6.0"))) ;;>?
 ;; (load "/home/kraljo/.emacs.d/site-lisp/nxhtml/autostart.el")
+
+(defun java-mode-untabify ()
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "[ \t]+$" nil t)
+      (delete-region (match-beginning 0) (match-end 0)))
+    (goto-char (point-min))
+    (if (search-forward "\t" nil t)
+        (untabify (1- (point)) (point-max))))
+  nil)
+
+(add-hook 'java-mode-hook 
+          '(lambda ()
+             (make-local-variable 'write-contents-hooks)
+             (add-hook 'write-contents-hooks 'java-mode-untabify)))
 (put 'narrow-to-region 'disabled nil)
+
+;; (if (file-exists-p "~/.emacs.d/site-lisp/highlight.el")
+(require 'easymenu nil t)
+(require 'highlight nil t)
+;;(autoload 'highlight "highlight" "Hlt fn/s ~> for region")
+(defun hlt-region () "" (interactive) (hlt-highlight-region))
+;>? defun try-require ?
+
+(autoload 'markdown-mode "markdown-mode.el"
+   "Major mode for editing Markdown files" t)
+(setq auto-mode-alist
+   (cons '("\\.txt" . markdown-mode) auto-mode-alist))
+
+;; not func under m$wNT: "Spawning child process: invalid argument"
+(require 'server)
+(when (and (= emacs-major-version 23)
+           (= emacs-minor-version 1)
+           (equal window-system 'w32))
+  (defun server-ensure-safe-dir (dir) "Noop" t)) ; //stackoverflow.com/questions/885793/emacs-error-when-calling-server-start
+(if (not (server-running-p))
+    (server-start))
