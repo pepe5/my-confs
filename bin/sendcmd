@@ -1,8 +1,12 @@
 #!/usr/bin/python
+# for correct echoing needs $> reset
+# for named sockets use script-name: dcomint
+
 import pexpect, sys
-p = pexpect.spawn ('dtach -A /tmp/1.dtach -z bash')
-p.sendline ('')
 l = ' '.join (sys.argv [1:])
-p.sendline ('echo ' + l) #>? "% #" 
+p = pexpect.spawn ('dtach -A /tmp/1.dtach -z bash')
+
+#>? p.sendline ('')
+#>? p.sendline ('echo ' + l) #>? "% #" 
 p.sendline (l)
 p.sendline ('')
