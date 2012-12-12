@@ -96,6 +96,8 @@
 	       ) load-path))
 
 (add-to-list 'load-path "~/.emacs.d/site-lisp/muse/lisp")
+(add-to-list 'load-path "/mnt/lifeboat-root/usr/share/emacs/23.3/lisp/org/")
+(load-file "/mnt/lifeboat-root/usr/share/emacs/23.3/lisp/org/org.elc")
 ; (require 'muse-mode)
 
 ;;; cz:
@@ -236,8 +238,8 @@
 
 ;; my-own - pep 2005-05-02
 (require 'cl)
-(setq esc "ěščřžýáíéóúůďťňäëöüàī÷ĚŠČŘŽÝÁÍÉÓÚŮĎŤŇÄËÖÜÀĪ")
-(setq asc "escrzyaieouudtnaeouai-ESCRZYAIEOUUDTNAEOUAI")
+(setq esc "ěščřžýáíéóúůďťňäëöüàīǐ÷ĚŠČŘŽÝÁÍÉÓÚŮĎŤŇÄËÖÜÀĪǏ")
+(setq asc "escrzyaieouudtnaeouaii-ESCRZYAIEOUUDTNAEOUAII")
 (defun cs1-to-asc ()
   "translate buffer according above table"
   (interactive)
@@ -554,18 +556,23 @@ The value from `ibuffer-saved-filter-groups' is used."
 (fset 'oi-org-indent-subtree
    [?\C-  ?\C-c ?\C-f ?\C-p ?\C-x ?n ?n ?\C-  C-home ?\M-: ?\M-\( ?o ?r ?g ?- ?s ?h ?o ?w ?- ?s ?u ?b ?t ?r ?e ?e ?\C-m ?\C-\[ ?\C-% ?^ ?\\ ?* ?\C-m ?* ?* ?\C-m ?! ?\C-x ?\C-x ?\C-x ?n ?w ?\C-l])
 
+;; mark word as RE link
+(fset 'o1-org-mark-as-re-link
+   [?\C-  ?\C-s ?  ?\C-b ?\C-c ?\C-l ?/ ?\C-y ?/ ?\C-a ?f ?i ?l ?e ?: ?: ?: ?\C-m ?\C-m])
+
 ;; marc 1st TODO child as :GONE:
 (fset 'om-org-mark-child
    "\C-n\C-s todo \342\344:gone:\C-c\C-u\216\C-b\C-c\C-c\C-a")
 
+;;pep> (delete-by-moving-to-trash t) - move/s on RHEL to .local/share/Trash/files
 
 ;; '(browse-url-browser-function (quote w3m-browse-url))
 ;; '(org-table ((t (:foreground "yellow4" :slant normal :weight normal :height 85 :width normal :foundry "outline" :family "Lucida Console"))))
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(ange-ftp-dumb-unix-host-regexp "10.224.176.61")
  '(ange-ftp-ftp-program-args (quote ("-i" "-n" "-g" "-v" "-u")))
  '(browse-url-browser-function (quote browse-url-firefox))
@@ -604,7 +611,7 @@ The value from `ibuffer-saved-filter-groups' is used."
  '(mode-line-inverse-video t)
  '(pc-select-meta-moves-sexps t)
  '(pc-select-selection-keys-only t)
- '(pc-selection-mode t nil (pc-select))
+ '(pc-selection-mode t)
  '(require-final-newline nil)
  '(safe-local-variable-values (quote ((eval setq logs "/home/kraljo/Documents/Logs") (eval setq org-confirm-elisp-link-function nil) (encoding . utf-8))))
  '(save-place t nil (saveplace))
@@ -619,10 +626,10 @@ The value from `ibuffer-saved-filter-groups' is used."
  '(tool-bar-mode nil nil (tool-bar))
  '(x-select-enable-clipboard t))
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :foreground "green" :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 110 :width normal :foundry "unknown" :family "sans"))))
  '(custom-documentation ((t (:box unspecified))))
  '(custom-documentation-face ((t (:box unspecified))) t)
@@ -630,7 +637,7 @@ The value from `ibuffer-saved-filter-groups' is used."
  '(font-lock-doc-face ((t (:inherit font-lock-string-face :box (:line-width 1 :color "grey75" :style released-button) :slant italic))))
  '(fringe ((((class color) (background dark)) (:background "grey10" :foreground "darkBlue"))))
  '(hi-blue-b ((((min-colors 88)) (:foreground "lightblue" :weight bold))))
- '(highlight ((((class color) (min-colors 88) (background light)) (:background "darkseagreen2" :family "Mono"))))
+ '(highlight ((t (:background "floral white" :family "Mono"))))
  '(hl-line ((t (:underline "lightBlue"))))
  '(hlt-property-highlight ((t (:foreground "black" :weight light :family "mono"))))
  '(linkd-generic-link ((t (:foreground "magenta"))))
@@ -640,7 +647,9 @@ The value from `ibuffer-saved-filter-groups' is used."
  '(rst-level-1-face ((t (:foreground "blue" :box (:line-width 1 :color "grey75" :style released-button) :height 160 :family "sans"))) t)
  '(rst-level-2-face ((t (:foreground "blue" :underline t :height 150 :family "sans"))) t)
  '(rst-level-3-face ((t (:foreground "blue" :height 130 :family "sans"))) t)
- '(term-default ((t (:stipple nil :background "black" :foreground "green" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight 500 :height 124 :width normal)))))
+ '(term-default ((t (:stipple nil :background "black" :foreground "green" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight 500 :height 124 :width normal))))
+ '(vc-annotate-face-3F3FFF ((t (:foreground "#3F3FFF"))) t)
+ '(vc-annotate-face-FF3F3F ((t (:foreground "#FF3F3F"))) t))
 
 ;; http://groups.google.com/group/gnu.emacs.bug/browse_thread/thread/393753d735a530ca?pli=1
 ;; defun my-browse-url-firefox-new-tab (url &optional new-window)
