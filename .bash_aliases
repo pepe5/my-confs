@@ -29,6 +29,7 @@ function sp \
     echo; }
 alias lless='less -S +F `ls -1t **/*stamped* | head -1`' #last less
 alias ltail='tail -f `ls -1t **/*stamped* | head -1`' #last less
+alias locate='locate -d `printf "%s\n" $HOME/.scfs/*.locate | tr "\n" ":"` '
 #>! alias sl=list (here connected) sessions
 #>! emacs desktop one-liner:
 # nohup bash -c 'cd /home/kraljo/Dropbox/B-P/dev-java-uniq/vosao-stu/doc; emacs' &
