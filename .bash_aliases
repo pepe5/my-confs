@@ -92,6 +92,15 @@ function rediff \
 #>! test if it do not output directories
 #>! add opt. to set cp-command (cp|rsync|scp|..)
 #>! if you want vanilla awk -> echo 'ab cb ad' | awk '{gsub(/a./,SUBSEP"&"SUBSEP);split($0,cap,SUBSEP);print cap[2]"|"cap[4]}'
+
+# use as evar ab-set <A-DIR> <B-DIR>
+function evar { eval `$*`; }
+function ab-set \
+    { echo 1>&2 A=$1
+    echo 1>&2 B=$2
+    echo export A=\"$1\";
+    echo export B=\"$2\"; }
+
 function ab-from-diff \
     { echo "#" ab: A=$A
     echo "#" ab: B=$B
@@ -161,7 +170,7 @@ alias gl2='git log --all -g --abbrev-commit --pretty=oneline' # for pipe use for
 alias gl='git log --graph --format="%ai %h --%d %s [ --%an ]" | perl -nle "print qq{# \$_}" | head'
 
 export JAVA_HOME=/usr/lib/jvm/java-6-openjdk # /usr/lib/jvm/jdk1.6.0_22
-export PATH=$PATH:$JAVA_HOME/bin
+export PATH=$PATH:$JAVA_HOME/bin:/mnt/lifeboat-root/bin:/mnt/lifeboat-root/usr/bin
 #export http_proxy=http://wpad.intinfra.com:3128
 export HISTTIMEFORMAT="%F %T "
 function hi { history | grep -i $@ | cut -d\  -f5- | uniq | tail ;}
@@ -170,7 +179,32 @@ function tailr { tail -f 1 | ruby -ne "BEGIN{$stdin.sync=true}; if /$1/i .match 
 export LESSOPEN="|/usr/local/bin/lesspipe.sh %s"
 #>? eval "$(lesspipe)"
 
-function sshg { [[ -x $SSH_AUTH_SOCK ]] && . lk; jobs > /tmp/sshg.jobs; eval `. ~/bin/sshg.sh $@` ;}
+alias c=$HOME/bin/pcomint
+function sshg 	{ [[ ( -z $SSH_AUTH_SOCK ) || ( -x $SSH_AUTH_SOCK ) ]] && . lk; jobs > /tmp/sshg.jobs; eval `. ~/bin/sshg.sh $@` ;}
+function g 	{ [[ ( -z $SSH_AUTH_SOCK ) || ( -x $SSH_AUTH_SOCK ) ]] && . lk; jobs > /tmp/sshg.jobs; eval `. ~/bin/sshg.sh $@` ;}
+function sshd 	{ [[ ( -z $SSH_AUTH_SOCK ) || ( -x $SSH_AUTH_SOCK ) ]] && . lk; jobs > /tmp/sshg.jobs; eval `. ~/bin/sshdeuba -x $@` ;}
+
+#>! use source ~/text/sc/lib/bash/fn1
+function d \
+    { [[ ( -z $SSH_AUTH_SOCK ) || ( -x $SSH_AUTH_SOCK ) ]] && . lk;
+    jobs > /tmp/sshg.jobs
+    TICKET=$2; echo 1>&2 TICKET=$TICKET
+    CMD=`. ~/bin/sshdeuba -x $* | perl -pe 's/\@sls\./\@dbkpsas5\./; s/ -v / /'`
+    if echo $@ | egrep '^-'; then TICKET=$3; fi # expecting ONLY 1 switch for now
+    dtach -n ~/tmp/$TICKET.dtach -z bash
+    commit.py $TICKET "PS1='$TICKET:\W$> '"
+    commit.py $TICKET "$CMD"
+    #>! use aaa.py instead of sleep/ing (blind) task/s
+    #>! add also emacsclient request, formulating right .con.log file-name
+    (sleep 2; commit.py $TICKET reset; commit.py $TICKET "logger -p user.info $TICKET") &
+    dtach -a ~/tmp/$TICKET.dtach -z
+    #>! append here map/ws_stop, $FQDN need to be got yet by s/t~> sshd -d -x
+    FQDN=`sshdeuba -d -x $1 $TICKET`
+    wget -O - "http://9.158.166.235:8080/map/ws_stop.php?h=$FQDN&t=$TICKET"
+    echo;}
+
+alias f=$HOME/bin/sshf.sh
+
 #(<) alias fg-mach='eval `~/bin/fg-mach.sh`'
 #>! add here (to sshg) detection and handling for /gsni. See also fg-mach
 # function sshg
@@ -178,3 +212,7 @@ function sshg { [[ -x $SSH_AUTH_SOCK ]] && . lk; jobs > /tmp/sshg.jobs; eval `. 
 #     cmd="ssh sls4root@dbkpsas4.rze.de.db.com -F /home/kraljo/.ssh/deuba.config -A -t 'sls -c root@$1'"
 #     echo $cmd
 #     eval $cmd;}
+
+export WORKON_HOME=$HOME/.virtualenvs 
+source /usr/local/bin/virtualenvwrapper.sh 
+export PIP_VIRTUALENV_BASE=$WORKON_HOME
