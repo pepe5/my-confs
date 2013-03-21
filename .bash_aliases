@@ -183,14 +183,14 @@ export LESSOPEN="|/usr/local/bin/lesspipe.sh %s"
 alias c=$HOME/bin/pcomint
 function sshg 	{ [[ ( -z $SSH_AUTH_SOCK ) || ( -x $SSH_AUTH_SOCK ) ]] && . lk; jobs > /tmp/sshg.jobs; eval `. ~/bin/sshg.sh $@` ;}
 function g 	{ [[ ( -z $SSH_AUTH_SOCK ) || ( -x $SSH_AUTH_SOCK ) ]] && . lk; jobs > /tmp/sshg.jobs; eval `. ~/bin/sshg.sh $@` ;}
-function sshd 	{ [[ ( -z $SSH_AUTH_SOCK ) || ( -x $SSH_AUTH_SOCK ) ]] && . lk; jobs > /tmp/sshg.jobs; eval `. ~/bin/sshdeuba -x $@` ;}
+function sshd 	{ [[ ( -z $SSH_AUTH_SOCK ) || ( -x $SSH_AUTH_SOCK ) ]] && . lk; jobs > /tmp/sshg.jobs; eval `. ~/bin/sshd.sh -x $@` ;}
 
 #>! use source ~/text/sc/lib/bash/fn1
 function d \
     { [[ ( -z $SSH_AUTH_SOCK ) || ( -x $SSH_AUTH_SOCK ) ]] && . lk;
     jobs > /tmp/sshg.jobs
     TICKET=$2; echo 1>&2 TICKET=$TICKET
-    CMD=`. ~/bin/sshdeuba -x $* | perl -pe 's/\@sls\./\@dbkpsas5\./; s/ -v / /'`
+    CMD=`. ~/bin/sshd.sh -x $* | perl -pe 's/\@sls\./\@dbkpsas5\./; s/ -v / /'`
     if echo $@ | egrep '^-'; then TICKET=$3; fi # expecting ONLY 1 switch for now
     dtach -n ~/tmp/$TICKET.dtach -z bash
     commit.py $TICKET "PS1='$TICKET:\W$> '"
@@ -200,8 +200,8 @@ function d \
     (sleep 2; commit.py $TICKET reset; commit.py $TICKET "logger -p user.info $TICKET") &
     dtach -a ~/tmp/$TICKET.dtach -z
     #>! append here map/ws_stop, $FQDN need to be got yet by s/t~> sshd -d -x
-    FQDN=`sshdeuba -d -x $1 $TICKET`
-    wget -O - "http://9.158.166.235:8080/map/ws_stop.php?h=$FQDN&t=$TICKET"
+    FQDN=`sshd.sh -d -x $1 $TICKET`
+    wget -O - "http://wbub-wiki:8080/map/ws_stop.php?h=$FQDN&t=$TICKET"
     echo;}
 
 alias f=$HOME/bin/sshf.sh
@@ -210,7 +210,7 @@ alias f=$HOME/bin/sshf.sh
 #>! add here (to sshg) detection and handling for /gsni. See also fg-mach
 # function sshg
 # { . lk #>! move to sshg.sh
-#     cmd="ssh sls4root@dbkpsas4.rze.de.db.com -F /home/kraljo/.ssh/deuba.config -A -t 'sls -c root@$1'"
+#     cmd="ssh sls4root@dbkpsas4.rze.de.db.com -F /home/kraljo/.ssh/1.config -A -t 'sls -c root@$1'"
 #     echo $cmd
 #     eval $cmd;}
 
