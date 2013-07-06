@@ -94,6 +94,11 @@ function rediff \
 #>! add opt. to set cp-command (cp|rsync|scp|..)
 #>! if you want vanilla awk -> echo 'ab cb ad' | awk '{gsub(/a./,SUBSEP"&"SUBSEP);split($0,cap,SUBSEP);print cap[2]"|"cap[4]}'
 
+#export http_proxy=http://wpad.intinfra.com:3128
+export JAVA_HOME=/usr/lib/jvm/java-6-openjdk # /usr/lib/jvm/jdk1.6.0_22
+export PATH=$PATH:$JAVA_HOME/bin:/mnt/lifeboat-root/bin:/mnt/lifeboat-root/usr/bin
+export HISTTIMEFORMAT="%F %T "
+
 # use as evar ab-set <A-DIR> <B-DIR>
 function evar { eval `$*`; }
 function ab-set \
@@ -109,6 +114,14 @@ function ab-from-diff \
     #>! perl groups capturing; till vanilla awk version will be formulated
     #>! then add quotes around A+B
     awk -v prefx="$1" -v base="$A" -v target="$B" '/^Files/ {print prefx, $2, $4}'
+    echo; }
+
+# make data to be on destination side, but src side will stay valid - as symlink. -- Counterpart to cp-l
+function mv-l \
+    { [[ -e "$2" ]] && TO="$2/`basename $1`" #>! count on mv -t/-T opt/s
+    mv "$@"
+    while [[ ${a:0:1} = - ]]; do shift; done #>! getopts
+    ln -sv $2 $1
     echo; }
 
 function dsync \
@@ -170,10 +183,6 @@ PATH=$PATH:$HOME/bin:/usr/lib/git-core
 alias gl2='git log --all -g --abbrev-commit --pretty=oneline' # for pipe use format:%h
 alias gl='git log --graph --format="%ai %h --%d %s [ --%an ]" | perl -nle "print qq{# \$_}" | head'
 
-export JAVA_HOME=/usr/lib/jvm/java-6-openjdk # /usr/lib/jvm/jdk1.6.0_22
-export PATH=$PATH:$JAVA_HOME/bin:/mnt/lifeboat-root/bin:/mnt/lifeboat-root/usr/bin
-#export http_proxy=http://wpad.intinfra.com:3128
-export HISTTIMEFORMAT="%F %T "
 function hi { history | grep -i $@ | cut -d\  -f5- | uniq | tail ;}
 function tailr { tail -f 1 | ruby -ne "BEGIN{$stdin.sync=true}; if /$1/i .match $_; $2; puts $_ end" ;} #== grep --line-buffered
 
@@ -215,5 +224,5 @@ alias f=$HOME/bin/sshf.sh
 #     eval $cmd;}
 
 export WORKON_HOME=$HOME/.virtualenvs 
-source /usr/local/bin/virtualenvwrapper.sh 
 export PIP_VIRTUALENV_BASE=$WORKON_HOME
+source /usr/local/bin/virtualenvwrapper.sh 
