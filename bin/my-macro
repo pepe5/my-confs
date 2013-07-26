@@ -1,0 +1,35 @@
+#!/bin/bash -x
+# :TIP: xdotool getmouselocation --shell
+
+if [[ .$1. -eq .-nt. ]]; then
+    echo $0: re-running in terminal..
+fi
+
+echo $0: started in shell: %1..
+WinNum=$(xdotool search 'Select Keywords')
+xdotool windowfocus $WinNum
+
+# made-by: get-xdot..
+echo heiko..; xdotool mousemove --sync --window=$WinNum  30 100
+xdotool click 1
+
+echo ionut..; xdotool mousemove --sync --window=$WinNum  30 229
+xdotool click 1
+
+echo dan..; xdotool mousemove --sync --window=$WinNum  30 247
+xdotool click 1
+
+echo josef..; xdotool mousemove --sync --window=$WinNum  30 404
+xdotool click 1
+
+echo amit..; xdotool mousemove --sync --window=$WinNum  30 438
+xdotool click 1
+
+echo vali..; xdotool mousemove --sync --window=$WinNum  30 470
+xdotool click 1
+
+echo piotr..; xdotool mousemove --sync --window=$WinNum  30 662
+xdotool click 1
+
+echo frantisek..; xdotool mousemove --sync --window=$WinNum  30 709
+xdotool click 1

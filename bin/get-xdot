@@ -1,0 +1,14 @@
+#!/bin/bash
+
+echo $0: started..
+
+while true; 
+do
+    eval $(xdotool getmouselocation --shell)
+    xdotool mousemove --sync $X $Y
+    xdotool click 1
+
+    echo xdotool mousemove --sync --window='$WinNum' $X $Y
+    echo xdotool click 1
+    read line
+done
