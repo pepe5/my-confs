@@ -1,6 +1,6 @@
 #!/bin/bash
-
-echo $0: started..
+# Window must be at 0,0 w/o decorations! (If you cannot switch off bars, move them above screen.)
+echo -made by: $0..
 
 while true; 
 do

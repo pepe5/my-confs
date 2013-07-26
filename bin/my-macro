@@ -10,26 +10,26 @@ WinNum=$(xdotool search 'Select Keywords')
 xdotool windowfocus $WinNum
 
 # made-by: get-xdot..
-echo heiko..; xdotool mousemove --sync --window=$WinNum  30 100
+echo heiko..; xdotool mousemove --sync --window=$WinNum  30 82 # 100
 xdotool click 1
 
-echo ionut..; xdotool mousemove --sync --window=$WinNum  30 229
+echo ionut..; xdotool mousemove --sync --window=$WinNum  30 208 # 229
 xdotool click 1
 
-echo dan..; xdotool mousemove --sync --window=$WinNum  30 247
+echo dan..; xdotool mousemove --sync --window=$WinNum  30 226 # 247
 xdotool click 1
 
-echo josef..; xdotool mousemove --sync --window=$WinNum  30 404
+echo josef..; xdotool mousemove --sync --window=$WinNum  30 385 # 404
 xdotool click 1
 
-echo amit..; xdotool mousemove --sync --window=$WinNum  30 438
+echo amit..; xdotool mousemove --sync --window=$WinNum  30 416 # 438
 xdotool click 1
 
-echo vali..; xdotool mousemove --sync --window=$WinNum  30 470
+echo vali..; xdotool mousemove --sync --window=$WinNum  30 447 # 470
 xdotool click 1
 
-echo piotr..; xdotool mousemove --sync --window=$WinNum  30 662
+echo piotr..; xdotool mousemove --sync --window=$WinNum  30 641 # 662
 xdotool click 1
 
-echo frantisek..; xdotool mousemove --sync --window=$WinNum  30 709
+echo frantisek..; xdotool mousemove --sync --window=$WinNum  30 688 # 709
 xdotool click 1
