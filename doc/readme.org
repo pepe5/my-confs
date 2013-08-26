@@ -28,6 +28,9 @@
 
 ** TODO try .import !
 *** TODO $> mkfifo $F.import
-    - $> egrep -bn . $F | head | while read L; do A=(${L//:/ }); echo "${A[0]}|${A[1]}|`basename ${A[2]}`"; done > $F.import &
+    - x> egrep -bn . $F | head | while read L; do A=(${L//:/ }); echo "${A[0]}|${A[1]}|`basename ${A[2]}`"; done > $F.import &
+    - $> egrep -bn . $F | head | perl -m'File::Basename' -ne 'm{([^:]+):([^:]+):(.*)} and print "$1|$2|" . scalar File::Basename::fileparse("$3") . "\n"'; done > $F.import &
     - $> sqlite3 $F.sqlite ".import $F.import basenames"
+
+** TODO $> dd if=$F bs=1 count=2048 skip=360 | head -1
 
