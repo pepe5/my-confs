@@ -10,3 +10,24 @@
      DISTRIB_CODENAME=karmic
      DISTRIB_DESCRIPTION="Ubuntu 9.10"
 
+
+* index/es
+** $> F=ftp3.lftp-find; cat <<EOF | sqlite3 $F.sqlite
+        CREATE TABLE "basenames" (
+            "ln" INTEGER PRIMARY KEY AUTOINCREMENT,
+            "ix" INTEGER,
+            "basename" TEXT );
+        CREATE INDEX "basenames_ix" on basenames (basename ASC);
+        EOF
+
+** :ARCHIVE: $> head $F | egrep -bn . | while read L; do A=(${L//:/ }); echo INSERT INTO \
+   basenames VALUES "(null,'${A[1]}','`basename ${A[2]}`');" | sqlite3 $F.sqlite; done
+
+** :STU: 	$> egrep -bn . $F | head | while read L; do A=(${L//:/ }); echo INSERT INTO \
+   basenames VALUES "(null,'${A[0]}','${A[1]}','`basename ${A[2]}`');"; done | sqlite3 ftp3.lftp-find.sqlite
+
+** TODO try .import !
+*** TODO $> mkfifo $F.import
+    - $> egrep -bn . $F | head | while read L; do A=(${L//:/ }); echo "${A[0]}|${A[1]}|`basename ${A[2]}`"; done > $F.import &
+    - $> sqlite3 $F.sqlite ".import $F.import basenames"
+

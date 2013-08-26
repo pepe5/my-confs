@@ -11,7 +11,7 @@ H=/home/kraljo
 cd /mnt/lifeboat-root/mnt/personal-howtos-cache/
 
 sigusr1 ()
-{ echo $0: `date -Is | cut -d+ -f1`: starting bak.. >&2
+{ echo; echo $0: `date -Is | cut -d+ -f1`: starting bak.. >&2
     echo H:$H
     echo pwd:`pwd`
     tar czvf 123.tgz \
@@ -32,6 +32,7 @@ sigusr1 ()
     fi
     echo $0: `date -Is | cut -d+ -f1`: suspending..; }
 
+echo
 echo $0: `date -Is | cut -d+ -f1`: starting daemon..
 #>! test var/s readiness
 echo $0: "-PASS: $(echo $PASS | base64)"
