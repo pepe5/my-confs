@@ -37,6 +37,14 @@
 
 *** DONE :ARCHIVE: - x> egrep -bn . $F | head | while read L; do A=(${L//:/ }); echo "${A[0]}|${A[1]}|`basename ${A[2]}`"; done > $F.import &
 
-** TODO $> dd if=$F bs=1 count=2048 skip=360 | head -1
+** DONE $> sqlite3 $F.sqlite "SELECT * FROM indexed WHERE basename MATCH 'md5*' LIMIT 10"
 
-** DONE > sqlite3 $F.sqlite "SELECT * FROM indexed WHERE basename MATCH 'md5*' LIMIT 10";
+** DONE $> dd if=$F bs=1 count=2048 skip=360 | head -1
+
+** DONE >| while read L; do B=`echo $L | cut -d\| -f2`; echo '' -$L:; dd if=$F bs=1 skip=$B count=2048 | head -1; done
+   -276706|19030841|boot.iso:
+   /redhat/beta_cds/RHEL-5.10-Alpha/Client/i386/os/images/boot.iso
+   -283265|19641817|boot.iso:
+   /redhat/beta_cds/RHEL-5.10-Alpha/Client/x86_64/os/images/boot.iso
+   -287386|20019893|boot.iso:
+   /redhat/beta_cds/RHEL-5.10-Alpha/Server/i386/os/images/boot.iso
