@@ -12,17 +12,17 @@
 
 
 * index/es
-** $> F=ftp3.lftp-find; cat <<EOF | sqlite3 $F.sqlite
-        CREATE TABLE "basenames" (
+** [2/2] $> F=ftp3.lftp-find; cat <<EOF | sqlite3 $F.sqlite
+*** DONE > CREATE TABLE "indexed" USING fts4 (
+            "ln" INTEGER PRIMARY KEY AUTOINCREMENT,
+            "ix" INTEGER,
+            "basename" TEXT );
+*** DONE :ARCHIVE: CREATE TABLE "basenames" (
             "ln" INTEGER PRIMARY KEY AUTOINCREMENT,
             "ix" INTEGER,
             "basename" TEXT );
         CREATE INDEX "basenames_ix" on basenames (basename ASC);
         EOF
-*** > CREATE TABLE "indexed" USING fts4 (
-            "ln" INTEGER PRIMARY KEY AUTOINCREMENT,
-            "ix" INTEGER,
-            "basename" TEXT );
 
 ** :ARCHIVE: $> head $F | egrep -bn . | while read L; do A=(${L//:/ }); echo INSERT INTO \
    basenames VALUES "(null,'${A[1]}','`basename ${A[2]}`');" | sqlite3 $F.sqlite; done
@@ -30,12 +30,13 @@
 ** :STU: 	$> egrep -bn . $F | head | while read L; do A=(${L//:/ }); echo INSERT INTO \
    basenames VALUES "(null,'${A[0]}','${A[1]}','`basename ${A[2]}`');"; done | sqlite3 ftp3.lftp-find.sqlite
 
-** TODO try .import !
+** [1/2] try .import !
 *** TODO $> mkfifo $F.import
-    - x> egrep -bn . $F | head | while read L; do A=(${L//:/ }); echo "${A[0]}|${A[1]}|`basename ${A[2]}`"; done > $F.import &
     - $> egrep -bn . $F | head | perl -m'File::Basename' -ne 'm{([^:]+):([^:]+):(.*)} and print "$1|$2|" . scalar File::Basename::fileparse("$3") . "\n"' > $F.import &
     - $> sqlite3 $F.sqlite ".import $F.import basenames"
 
+*** DONE :ARCHIVE: - x> egrep -bn . $F | head | while read L; do A=(${L//:/ }); echo "${A[0]}|${A[1]}|`basename ${A[2]}`"; done > $F.import &
+
 ** TODO $> dd if=$F bs=1 count=2048 skip=360 | head -1
 
-** DONE > sqlite3 $F "SELECT * FROM indexed WHERE basename MATCH 'md5*' LIMIT 10";
+** DONE > sqlite3 $F.sqlite "SELECT * FROM indexed WHERE basename MATCH 'md5*' LIMIT 10";

@@ -1,5 +1,5 @@
 #!/bin/bash
-# read PASS; export PASS; echo PASS~:$PASS | base64
+# read -p Password: PASS; export PASS; echo PASS~:$PASS | base64
 # export LID=...; echo LID:$LID
 # nohup bash /home/kraljo/bin/tsm-123.sh  &
 # kill -USR1 `pgrep -f tsm-123.sh`
