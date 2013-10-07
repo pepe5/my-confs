@@ -48,3 +48,4 @@
    /redhat/beta_cds/RHEL-5.10-Alpha/Client/x86_64/os/images/boot.iso
    -287386|20019893|boot.iso:
    /redhat/beta_cds/RHEL-5.10-Alpha/Server/i386/os/images/boot.iso
+   ..

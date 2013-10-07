@@ -213,6 +213,8 @@ function d \
     wget -O - "http://wbub-wiki:8080/map/ws_stop.php?h=$FQDN&t=$TICKET"
     echo;}
 
+function enkey { perl -nle '/[ 	~|]*(.*)/ and print "$1: $_"' | perl -ple 's/([^.]+?)(-[0-9]+[.-]).*[^:]: (.*)/$1 $3/'; }
+
 alias f=$HOME/bin/sshf.sh
 
 #(<) alias fg-mach='eval `~/bin/fg-mach.sh`'
