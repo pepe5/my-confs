@@ -246,12 +246,16 @@ function archkey \
 
 function comsplit \
       { python -c "import itertools as it, sys;
-      for L in sys.stdin:
-         L = L.split (' ')
-         C = '' .join (E[0] for E in it.takewhile (lambda T: T[0]==T[1], zip (L[0], L[1], )))
-         print '<', C, L[0][len(C):]
-         print '>', C, L[1][len(C):]
-      "; }
+for L in sys.stdin:
+   L = L.split (' ')
+   C = '' .join (E[0] for E in it.takewhile (lambda T: T[0]==T[1], zip (L[0], L[1], )))
+   print '<', C, L[0][len(C):]
+   print '>', C, L[1][len(C):]"; }
+
+function enver \
+    { while read L; do
+    export K=`echo $L | enkey | cut -d\  -f1`
+    echo $L | perl -ne '/^$ENV{"K"}-(.*)(.x86_64|.noarch|.i[36]86)/ and print "$1 $_"'; done; }
 
 keystest=$HOME/text/my-confs/doc/keystest.rpm-qa
 function testkeys \
