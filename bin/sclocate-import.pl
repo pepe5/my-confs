@@ -1,4 +1,5 @@
 #!/usr/bin/perl -nl
+# read file:~/text/scfs/doc/README.org
 #>! use as: find . -type f -ls | perl -nl $ARGV[0] > $F.import &
 use POSIX;
 
