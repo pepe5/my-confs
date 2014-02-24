@@ -267,11 +267,4 @@ function testkeys \
     cat $keystest | archkey | awk '{print " -"$0}'
     echo; }
 
-function sclocate \
-    { echo; mount | perl -ne 'm{^/.* on (.*) type } and print "$1\n"' | while read FS; do
-        cd $FS; ls -ldh `pwd`/*@*.sqlite
-        sqlite3 `ls -1t *@*.sqlite | head -1` "SELECT * FROM find_printf WHERE fn LIKE '$1%' LIMIT 10"
-        echo;
-    done; }
-
 unset command_not_found_handle
