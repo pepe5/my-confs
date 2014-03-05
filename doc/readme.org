@@ -12,8 +12,11 @@
 
 
 * index/es
-** TODO $> find . -type f -ls | ~kraljo/bin/sclocate-import.pl | pv | sqlite3 $F.sqlite
-   - $> echo "SELECT Count (*) FROM find_ls;" | sqlite3 $F.sqlite
+** [[file:/home/kraljo/text/scfs/doc/README.org::scfs][scfs]] << $> F=$(df -hP | egrep " `pwd`$" | cut -d\  -f1 | xargs basename)@`uname -n`,`date -Id`; echo F:$F
+
+** DONE $> find . -type f -ls | ~kraljo/bin/sclocate-import.pl | pv | sqlite3 $F.sqlite
+   - pre$> df -hP; cd /mnt/lifeboat-tmp
+   - post$> echo "SELECT Count (*) FROM find_ls;" | sqlite3 $F.sqlite
      cmp. w/
    - $> find . -type f -ls | wc
 

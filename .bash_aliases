@@ -217,8 +217,8 @@ alias f=$HOME/bin/sshf.sh
 #     eval $cmd;}
 
 export PATH=$PATH:$HOME/opt/node-8.16/bin
-export WORKON_HOME=$HOME/.virtualenvs 
-source /usr/bin/virtualenvwrapper.sh 
+# export WORKON_HOME=$HOME/.virtualenvs 
+# source /usr/bin/virtualenvwrapper.sh 
 export PIP_VIRTUALENV_BASE=$WORKON_HOME
 
 export recoll_tmp=/mnt/lifeboat-tmp/=arx-sam7/.find-ls-l.cat/.recoll,tmp
@@ -239,6 +239,7 @@ function enkey \
      perl -ple 'if (/libstdc/) {s/([^.]+-[0-9]+)([.-][0-9]+)[.-].*: (.*)/$1 $3/i}
      else {s/([^.]+?)(-[0-9]+[0-9a-z]*)[.-].*: (.*)/$1 $3/i}'; }
 
+# archkey uses "key (arch)" identification as ~> http://rpm.pbone.net/index.php3/stat/4/idpl/15161516/dir/redhat_el_6/com/qtnx-0.9-10.el6.x86_64.rpm.html
 function archkey \
 { perl -nle '(/\W*(.*)(\.rpm)/ or /\W*(.*)/) and print "$1: $_"' |\
      perl -ple 'if (/libstdc/) {s/([^.]+-[0-9]+)([.-][0-9]+[.-]).*(\.[^.]+): (.*)/$1$3 $4/i}
@@ -259,7 +260,7 @@ function enver \
 
 keystest=$HOME/text/my-confs/doc/keystest.rpm-qa
 function testkeys \
-{ echo "cat $keystest | enkey | awk '{print " -"$0}' #:"
+    { echo "cat $keystest | enkey | awk '{print " -"$0}' #:"
     cat $keystest | enkey | awk '{print " -"$0}'
     echo
     echo "cat $keystest | archkey | awk '{print " -"$0}' #:"
