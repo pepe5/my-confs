@@ -1,23 +1,8 @@
 # -*- sh -*-
 # use> lk | eval # or ln -sv ~/bin/lk ~/ # for> . lk
-echo '# lk: load-ssh-keys:' 1>&2
-exPat="grep|ck-xinit"
-if [[ .$1. == .+X. ]];
-then echo "#" lk: including x11 agent..; shift;
-else exPat="$exPat|x11"
-fi
+echo '# lk: load-ssh-keys:'
+echo export SSH_AUTH_SOCK=`find /tmp/*ssh* -name "agent*" 2>/dev/null`
+echo export SSH_AGENT_PID=`pgrep ssh-agent`
 
-if [[ $# -ge 1 ]];
-then		export SSH_AGENT_PID=$1
-    echo	export SSH_AGENT_PID=$1
-else
-    echo 	export SSH_AGENT_PID=`ps -ef | grep ssh-agent | egrep -vi "$exPat" | awk '{print $2}' | head -1` #(<) pgrep ssh-agent
-		export SSH_AGENT_PID=`ps -ef | grep ssh-agent | egrep -vi "$exPat" | awk '{print $2}' | head -1` #(<) pgrep ssh-agent
-fi
-
-echo 	export SSH_AUTH_SOCK=`find /tmp/*ssh* -name "agent.$(($SSH_AGENT_PID-1))" 2>/dev/null`
-		export SSH_AUTH_SOCK=`find /tmp/*ssh* -name "agent.$(($SSH_AGENT_PID-1))" 2>/dev/null`
-
-if [[ -z "$SSH_AUTH_SOCK" && .$1. != .+X. ]];
-then echo "#" lk: trying yet +X..; . ~/lk +X 2>/dev/null;
-fi
+export SSH_AUTH_SOCK=`find /tmp/*ssh* -name "agent*" 2>/dev/null`
+export SSH_AGENT_PID=`pgrep ssh-agent`
