@@ -97,7 +97,7 @@
 
 (add-to-list 'load-path "~/.emacs.d/site-lisp/muse/lisp")
 (add-to-list 'load-path "/mnt/lifeboat-root/usr/share/emacs/23.3/lisp/org/")
-(load-file "/mnt/lifeboat-root/usr/share/emacs/23.3/lisp/org/org.elc")
+; (load-file "/mnt/lifeboat-root/usr/share/emacs/23.3/lisp/org/org.elc")
 ; (require 'muse-mode)
 
 ;;; cz:
