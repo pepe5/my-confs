@@ -1,0 +1,10 @@
+#!/bin/bash
+xrandr
+xrandr 	--output HDMI1 --off; sleep 1; 
+# xrandr 	--output LVDS1 --off; sleep 1;
+# xrandr	--output VGA1 	--mode 1680x1050 	--pos 0x0
+# 		--output LVDS1 --mode 1600x900 	--pos 1680x150
+# xrandr 	--output HDMI1	--mode 1680x1050 	--pos 0x0 \
+#     	--output LVDS1	--mode 1600x900 	--pos 1280x125
+xrandr 	--output HDMI1	--mode 1680x1050 	--pos 0x0 \
+	     	--output LVDS1	--mode 1600x900 	--pos 1280x125

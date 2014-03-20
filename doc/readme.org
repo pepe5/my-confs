@@ -10,3 +10,99 @@
      DISTRIB_CODENAME=karmic
      DISTRIB_DESCRIPTION="Ubuntu 9.10"
 
+
+* index/es
+** [[file:/home/kraljo/text/scfs/doc/README.org::scfs][scfs]] << $> F=$(df -hP | egrep " `pwd`$" | cut -d\  -f1 | xargs basename)@`uname -n`,`date -Id`; echo F:$F
+
+** DONE $> find . -type f -ls | ~kraljo/bin/sclocate-import.pl | pv | sqlite3 $F.sqlite
+   - pre$> df -hP; cd /mnt/lifeboat-tmp
+   - post$> echo "SELECT Count (*) FROM find_ls;" | sqlite3 $F.sqlite
+     cmp. w/
+   - $> find . -type f -ls | wc
+
+
+** :43_time:TIP: use [[docid]] from -
+    - > CREATE TABLE 'find_ls_content'(docid INTEGER PRIMARY KEY, 'c0ix', 'c1dt', 'c2fts4');
+
+
+** [2/3] $> F=ftp3.lftp-find; cat <<EOF | sqlite3 $F.sqlite
+*** > CREATE VIRTUAL TABLE find_ls USING fts4 (
+            ix INTEGER PRIMARY KEY AUTOINCREMENT,
+            dt DATETIME DEFAULT CURRENT_TIMESTAMP,
+            fts4 TEXT );
+EOF
+
+- this way doesnt generate default/s (ix & dt) ?!
+**** on sam@sam:/media/sam/samsung7, <2014-01-10 Fri>; but -
+     - [[2014-01-13 Mon]] - there was error..     
+
+**** $> rm -v $F.sqlite #|| echo DROP table find_ls\; | sqlite3 $F.sqlite
+**** $> echo; cat <<EOF | sqlite3 $F.sqlite #[\]> CREATE VIRTUAL TABLE find_ls USING fts4 (
+            ix INTEGER PRIMARY KEY AUTOINCREMENT,
+            dt DATETIME DEFAULT CURRENT_TIMESTAMP,
+            fts4 TEXT );
+EOF
+> > > > > 
+
+**** $> mkfifo $F.import
+**** $> find . -ls | perl -nle 's/"/""/g; print qq{NULL|NULL|"$_"}' > $F.import &
+**** $> sqlite3 $F.sqlite ".import $F.import find_ls"
+find: `./.Trash-0': Permission denied
+[1]+  Done                    find . -ls | perl -nle 's/"/""/g; print qq{NULL|NULL|"$_"}' > $F.import
+
+**** $> ls -lh $F*
+prw-rw-r-- 1 sam sam    0 Jan 10 14:25 ftlocate.import
+-rw-r--r-- 1 sam sam 107M Jan 10 14:25 ftlocate.sqlite
+
+**** $> echo; cat <<EOF | sqlite3 $F.sqlite #[\]> UPDATE find_ls SET dt = CURRENT_TIMESTAMP
+WHERE dt = '';
+EOF
+
+*** TODO but today, <2014-01-13 Mon> -> error:
+      27859	NULL|NULL|"4588497 1120 -rw-r--r--   1 guest    guest     1144900 Oct 23 21:29 ./=delta-sam7/=4coo-ibm/Downloads/best-practices/SBPE\ -\ Common\ Best\ practices/Mixed\ Address\ Database\ |\ Mixed\ Address\ Database\ login\ page.mht"
+    - > Error: ftlocate.import line 27859: expected 3 columns of data but found 4
+
+
+*** DONE :ARCHIVE: > CREATE TABLE VIRTUAL "indexed" USING fts4 (
+            "ln" INTEGER PRIMARY KEY AUTOINCREMENT,
+            "ix" INTEGER,
+            "basename" TEXT );
+EOF
+
+*** DONE :ARCHIVE: > CREATE TABLE VIRTUAL "basenames" (
+            "ln" INTEGER PRIMARY KEY AUTOINCREMENT,
+            "ix" INTEGER,
+            "basename" TEXT );
+        CREATE INDEX "basenames_ix" on basenames (basename ASC);
+EOF
+
+
+** :ARCHIVE: $> head $F | egrep -bn . | while read L; do A=(${L//:/ }); echo INSERT INTO \
+   basenames VALUES "(null,'${A[1]}','`basename ${A[2]}`');" | sqlite3 $F.sqlite; done
+
+
+** :STU: 	$> egrep -bn . $F | head | while read L; do A=(${L//:/ }); echo INSERT INTO \
+   basenames VALUES "(null,'${A[0]}','${A[1]}','`basename ${A[2]}`');"; done | sqlite3 ftp3.lftp-find.sqlite
+
+
+** [1/2] try .import !
+*** TODO $> mkfifo $F.import
+    - $> egrep -bn . $F | head | perl -m'File::Basename' -ne 'm{([^:]+):([^:]+):(.*)} and print "$1|$2|" . scalar File::Basename::fileparse("$3") . "\n"' > $F.import &
+    - $> sqlite3 $F.sqlite ".import $F.import basenames"
+
+*** DONE :ARCHIVE: - x> egrep -bn . $F | head | while read L; do A=(${L//:/ }); echo "${A[0]}|${A[1]}|`basename ${A[2]}`"; done > $F.import &
+
+
+** DONE $> sqlite3 $F.sqlite "SELECT * FROM indexed WHERE basename MATCH 'md5*' LIMIT 10"
+
+
+** DONE >| while read L; do B=`echo $L | cut -d\| -f2`; echo '' -$L:; dd if=$F bs=1 skip=$B count=2048 | head -1; done
+   -276706|19030841|boot.iso:
+   /redhat/beta_cds/RHEL-5.10-Alpha/Client/i386/os/images/boot.iso
+   -283265|19641817|boot.iso:
+   /redhat/beta_cds/RHEL-5.10-Alpha/Client/x86_64/os/images/boot.iso
+   -287386|20019893|boot.iso:
+   /redhat/beta_cds/RHEL-5.10-Alpha/Server/i386/os/images/boot.iso
+   ..
+
+*** :stu: $> dd if=$F bs=1 count=2048 skip=360 | head -1
