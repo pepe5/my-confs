@@ -96,8 +96,8 @@
 	       ) load-path))
 
 (add-to-list 'load-path "~/.emacs.d/site-lisp/muse/lisp")
-(add-to-list 'load-path "/mnt/lifeboat-root/usr/share/emacs/23.3/lisp/org/")
-; (load-file "/mnt/lifeboat-root/usr/share/emacs/23.3/lisp/org/org.elc")
+; (add-to-list 'load-path "/usr/share/emacs/23.1/lisp/org/") ;>! fix to true name 23.3
+; (load-file "/usr/share/emacs/23.1/lisp/org/org.elc")
 ; (require 'muse-mode)
 
 ;;; cz:
@@ -113,7 +113,7 @@
   "Find lines matching"
   (interactive)
   (occur (downcase (current-word))))
-(global-set-key (read-kbd-macro "<f1>") 'my_call_occur)
+(global-set-key (read-kbd-macro "<C-f1>") 'my_call_occur)
 
 ;; atrey.karlin.mff.cuni.cz/~qiq/src/avfs-cvs/scripts/avfscoda.el
 ;; If a path begins with #, prevent ange-ftp in handling it.
@@ -219,8 +219,11 @@
   (interactive)
   (setq show-trailing-whitespace (not show-trailing-whitespace))
   (redraw-display))
-(setq show-trailing-whitespace t) ; (my-toggle-trailing-whitespace)
+; (setq show-trailing-whitespace t) ; (my-toggle-trailing-whitespace)
 
+;; recoll | grep can return org~formated 'url'
+(global-set-key (read-kbd-macro "C-c C-o") 'org-open-at-point)
+(global-set-key (read-kbd-macro "C-c o") 'find-file-at-point)
 (global-set-key [f6] 'my-toggle-trailing-whitespace)
 (global-set-key [f7] 'toggle-read-only)
 (global-set-key [f8] 'call-last-kbd-macro)
@@ -238,8 +241,8 @@
 
 ;; my-own - pep 2005-05-02
 (require 'cl)
-(setq esc "ěščřžýáíéóúůďťňäëöüàīǐ÷ĚŠČŘŽÝÁÍÉÓÚŮĎŤŇÄËÖÜÀĪǏ")
-(setq asc "escrzyaieouudtnaeouaii-ESCRZYAIEOUUDTNAEOUAII")
+(setq esc "ōěščřžýáíéóúůďťňäëöüàīǐ÷ŌĚŠČŘŽÝÁÍÉÓÚŮĎŤŇÄËÖÜÀĪǏ")
+(setq asc "oescrzyaieouudtnaeouaii-OESCRZYAIEOUUDTNAEOUAII")
 (defun cs1-to-asc ()
   "translate buffer according above table"
   (interactive)
@@ -480,16 +483,24 @@ The value from `ibuffer-saved-filter-groups' is used."
    [?\C-x ?\C-m ?p ?u ?t ?  ?8 ?  ?u ?  return ?u ?t  ?  ?8 ?  ?d ?  return return])
 (fset 'z1-my-suspend-fg-toggle
    [?\C-a ?@ backspace ?# return ?~ ?\C-q ?\C-z return f9 ?\C-e ?\C-o ?\M-> ?f ?g ?  ?- return]) ; [[macro 'C-c -']] ;pep>?  ?\C-p ?\C-e ?\C-o ?\M-< ?\M->
+(fset 'cn-insert-cat-tail " | cat -n | tail")
+(defun c1-comint-show-whole-window () "" (interactive) (recenter -3))
+
 (add-hook 'shell-mode-hook
 	  '(lambda ()
 	     (define-key shell-mode-map (kbd "C-<f9>") 'd3-toggle-coding)
 	     (define-key shell-mode-map (kbd "C-<f8>") 'd2-toggle-to-dos)
+             (define-key shell-mode-map (kbd "C-c C-o") 'org-open-at-point)
 	     (define-key shell-mode-map (kbd "C-c -") 'z1-my-suspend-fg-toggle)
-	     )) ; >!
+             (define-key shell-mode-map (kbd "ESC <") 'c1-comint-show-whole-window)
+             (define-key shell-mode-map (kbd "ESC C-,") 'beginning-of-buffer)
+             ; (define-key shell-mode-map (kbd "ESC C-l") 'comint-show-output) ; is this the default?
+             (define-key shell-mode-map (kbd "ESC C-c") 'cn-insert-cat-tail)
+	     ))
 
 ;;; dired macro/s
 (fset 'fp-full-path
-   [?! ?f ?= ?` ?e ?c ?h ?o ?  ?* ?  ?` ?\; ?  ?l ?s ?  ?- ?d ?  ?` ?p ?w ?d ?` ?/ ?\" ?$ ?f ?\" ?  ?& return ?\C-\M-o ?\C-p ?\C-k ?\C-/])
+   [?! ?f ?= ?` ?e ?c ?h ?o ?  ?* ?  ?` ?\; ?  ?l ?s ?  ?- ?d ?  ?\" ?` ?p ?w ?d ?` ?\" ?/ ?\" ?$ ?f ?\" ?  ?& return ?\C-\M-o ?\C-p ?\C-k ?\C-/])
 
 ;;; org macro/s
 (defun find-dired-other-window (dir args) ""
@@ -556,9 +567,15 @@ The value from `ibuffer-saved-filter-groups' is used."
 (fset 'oi-org-indent-subtree
    [?\C-  ?\C-c ?\C-f ?\C-p ?\C-x ?n ?n ?\C-  C-home ?\M-: ?\M-\( ?o ?r ?g ?- ?s ?h ?o ?w ?- ?s ?u ?b ?t ?r ?e ?e ?\C-m ?\C-\[ ?\C-% ?^ ?\\ ?* ?\C-m ?* ?* ?\C-m ?! ?\C-x ?\C-x ?\C-x ?n ?w ?\C-l])
 
-;; mark word as RE link
+;; mark word as RE link ->! enrich word-RE w/ "_" -- as is in oo- macro
 (fset 'o1-org-mark-as-re-link
    [?\C-  ?\C-s ?  ?\C-b ?\C-c ?\C-l ?/ ?\C-y ?/ ?\C-a ?f ?i ?l ?e ?: ?: ?: ?\C-m ?\C-m])
+
+;; org-occur on word (identifier-class) at point
+(fset 'oo-org-occur-id
+   [?\C-\M-r ?\[ ?^ ?a ?- ?z ?0 ?- ?9 ?_ ?\] ?\C-f ?\C-  ?\C-\M-s ?\C-\M-s ?\C-b ?\M-w ?\C-x ?\C-x ?\C-  ?\C-  ?\M-x ?o ?r ?g ?  ?o ?c ?c ?\C-m ?\C-y ?\C-m])
+(global-set-key (kbd "<f1>") 'oo-org-occur-id)
+;;>? how to make <C-S-mouse-1> able to point to point?
 
 ;; marc 1st TODO child as :GONE:
 (fset 'om-org-mark-child
@@ -577,17 +594,19 @@ The value from `ibuffer-saved-filter-groups' is used."
  '(ange-ftp-ftp-program-args (quote ("-i" "-n" "-g" "-v" "-u")))
  '(browse-url-browser-function (quote browse-url-firefox))
  '(bsh-jar "/usr/share/java/bsh.jar")
+ '(case-fold-search t)
  '(column-number-mode t)
  '(default-input-method "czech-qwerty")
  '(delete-by-moving-to-trash t)
  '(delete-selection-mode nil)
  '(desktop-save-mode t nil (desktop))
- '(dired-listing-switches "-I *~ --group-directories-first -l")
+ '(dired-listing-switches "--group-directories-first --time-style=long-iso -I *~ -l")
  '(ediff-custom-diff-options "-c -a")
  '(ediff-diff-options "-a")
  '(ediff-merge-split-window-function (quote split-window-vertically))
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(font-lock-global-modes t)
+ '(fringe-mode (quote (0)) nil (fringe))
  '(global-font-lock-mode t nil (font-lock))
  '(htmlize-output-type (quote font))
  '(ibuffer-saved-filter-groups (quote (("job-1" (":ACT:" (content . "^# :ACT:")) ("TODO | :WAITING: | :ASK:" (or (content . "^# TODO") (content . "^# .*:WAITING:") (content . "^# .*:ASK:"))) ("DONE" (content . "^# DONE")) ("unkn log/s" (or (filename . "log") (name . "log"))) ("gsa-wiki" (or (filename . "gsa") (filename . "eamroom"))) ("^*" (name . "^*"))) ("task-2 BL~R54 SIP,SUP" ("20855 for r54" (or (filename . "20855\\|gti"))) ("bl~|r54|sip,sup" (or (filename . "bl~\\|r54\\|r5\\.4\\|sip\\|sup"))) ("ttt" (or (filename . "ttt") (name . "ttt"))) ("^*" (name . "^*"))) ("dev-3 vosao|velocity|tomcat" ("text" (or (filename . "/text/"))) ("env" (or (name . "dev-java-uniq\\|sdk") (filename . "^~/local/vosao/$"))) ("skel" (or (filename . "dev-java-uniq\\|local/vosao\\|sdk"))) ("rsrcs stu" (or (filename . "velocity\\|tomcat\\|google\\|mvn\\|ant"))) ("^*" (name . "^*"))) ("dev-2 weblog" ("weblog|dev" (or (filename . "weblog\\|dev"))) ("tmp" (or (filename . "tmp"))) ("^*" (name . "^*"))) ("dev-1" ("log|myjugg" (or (filename . "log\\|myjugg") (name . "log\\|myjugg"))) ("swf|build|git" (or (filename . "swf\\|git") (name . "swf\\|git"))) ("^*" (name . "^*"))) ("tickets-3 cr20662,ttt" ("cr20662|small" (or (filename . "cr20662\\|small"))) ("ttt|for_review" (or (filename . "ttt\\|for_review"))) ("^*" (name . "^*"))) ("g1-stars" ("^*" (name . "^*"))) ("tickets-1" ("47405|ssd-mem" (or (filename . "47405\\|ssd-mem"))) ("55934\\|ghlr" (or (filename . "55934\\|ghlr"))) ("ttt|for_review" (or (filename . "ttt\\|for_review"))) ("^*" (name . "^*"))) ("dev-z1: ooo-ed & rest of tasks" ("tasks - non-ooo-ed+non-*" (name . "^[^*]") (not saved . "ooo-ed"))))))
@@ -617,7 +636,7 @@ The value from `ibuffer-saved-filter-groups' is used."
  '(save-place t nil (saveplace))
  '(scroll-bar-mode nil)
  '(show-paren-mode t nil (paren))
- '(show-trailing-whitespace t)
+ '(show-trailing-whitespace nil)
  '(smtpmail-default-smtp-server "smtp.intinfra.com")
  '(sql-sqlite-program "sqlite3")
  '(standard-indent 4)
@@ -635,10 +654,10 @@ The value from `ibuffer-saved-filter-groups' is used."
  '(custom-documentation-face ((t (:box unspecified))) t)
  '(escape-glyph ((((background dark)) (:foreground "gray20"))))
  '(font-lock-doc-face ((t (:inherit font-lock-string-face :box (:line-width 1 :color "grey75" :style released-button) :slant italic))))
- '(fringe ((((class color) (background dark)) (:background "grey10" :foreground "darkBlue"))))
+ '(fringe ((((class color)) (:foreground "blue"))))
  '(hi-blue-b ((((min-colors 88)) (:foreground "lightblue" :weight bold))))
  '(highlight ((t (:background "floral white" :family "Mono"))))
- '(hl-line ((t (:underline "lightBlue"))))
+ '(hl-line ((t (:background "#eef" :underline "lightBlue"))))
  '(hlt-property-highlight ((t (:foreground "black" :weight light :family "mono"))))
  '(linkd-generic-link ((t (:foreground "magenta"))))
  '(org-level-1 ((nil (:foreground "medium turquoise" :box (:line-width 2 :color "grey75" :style released-button) :weight extra-bold :family "sans"))))
@@ -668,14 +687,15 @@ The value from `ibuffer-saved-filter-groups' is used."
       (setq explicit-shell-file-name shell-file-name) 
       (setq explicit-sh-args '("--login" "-i"))
       (setq epg-gpg-program "c:/msysgit/mingw/bin/gpg.exe")
+
+      (defun bash () ""
+        (interactive)
+        (setq shell-file-name "c:/Python23/cygwin/bin/bash.exe") 
+        (setq explicit-shell-file-name shell-file-name) 
+        (setq explicit-sh-args '("--login" "-i"))
+        (shell))
       ))
 
-(defun bash () ""
-  (interactive)
-  (setq shell-file-name "c:/Python23/cygwin/bin/bash.exe") 
-  (setq explicit-shell-file-name shell-file-name) 
-  (setq explicit-sh-args '("--login" "-i"))
-  (shell))
 
 (fset 'ZZl1-enter-1-line
     [?\C-k ?\C-k ?\C-x ?\C-o ?\C-y backspace ?\C-c ?\C-k ?\C-m ?\C-c ?\C-j ?\C-x ?\C-o])
@@ -697,12 +717,12 @@ The value from `ibuffer-saved-filter-groups' is used."
   ; (require 'highlight)
   ; (hi-lock-face-phrase-buffer "\[.*\]" 'info-node)
   (hi-lock-face-phrase-buffer "\[[$.A-Z_a-z]+[@:].+\].*" 'hi-blue-b)
-  (hi-lock-face-phrase-buffer "^[^ ]+[]>] .*\\|error" 'hi-red-b)
+  (hi-lock-face-phrase-buffer "^[^ ]+[]>] .*\\|[Ee]rror\\|[Ff]ail" 'hi-red-b)
   (hi-lock-face-phrase-buffer "[a-zA-Z]+# .*" 'hi-red-b)
   (hi-lock-face-phrase-buffer "^% .*" 'hi-red-b)
   (hi-lock-face-phrase-buffer ".*>\$ .*" 'font-lock-warning-face)
-  (hi-lock-face-phrase-buffer "!.*\\|#.*" 'font-lock-comment-face)
-  (hi-lock-face-phrase-buffer "\^M" 'org-hide)
+  (hi-lock-face-phrase-buffer "!.*\\|#.*\\|^ok .*" 'font-lock-comment-face)
+  (hi-lock-face-phrase-buffer "\^M\\|\^\[\\[0K" 'org-hide)
   (hi-lock-face-phrase-buffer " " 'org-hide)
   (hi-lock-face-phrase-buffer "pep> .*" 'font-lock-doc-face) ; good for sts tail-f
   ;;>! (hi-lock-face-phrase-buffer ":[ ]+.*" 'font-lock-function-name-face)
@@ -715,7 +735,7 @@ The value from `ibuffer-saved-filter-groups' is used."
   (interactive)
   ;; >! add moccur "test result\|_pep_\|pep>\|\[ [a-z] \]"!
   (hi-lock-face-phrase-buffer ".* \\[ ERROR \\]" 'speedbar-selected-face) ; widget-button-pressed-face (| cscope-line-number-face ?) ;<-| sh-* need 1st loaded shell-script[bash] mode
-  (hi-lock-face-phrase-buffer "\\[ ERROR \\]" 'hi-red-b)
+  (hi-lock-face-phrase-buffer "\\[ ERROR \\]\\|TODO" 'hi-red-b)
   (hi-lock-face-phrase-buffer ".* \\[ ERROR - known bug \\]" 'file-name-shadow)
   (hi-lock-face-phrase-buffer "\\[ ERROR - known bug \\]" 'escape-glyph) ; file-name-shadow
   (hi-lock-face-phrase-buffer ".* \\[ SKIPPED \\]" 'font-lock-variable-name-face)
@@ -808,8 +828,12 @@ The value from `ibuffer-saved-filter-groups' is used."
 (fset 'r1-reset-connection
    [?\C-x ?\C-w ?\M-n ?\C-a ?\C-k return ?\M-x ?t ?e ?r ?m return return ?\C-c ?\C-j ?\C-a ?\C-o ?\C-o ?\C-x ?i ?\C-a ?\C-y ?\C-k return ?\M-> ?\C-x ?\C-b ?\C-n ?\C-d return ?\C-x ?\C-w ?\C-a ?\C-y ?\M-y ?\C-k return ?y])
 
+;; use in terminal - to tidy-up output of cat -n
+(fset 's1-tidy-cat
+   [?\M-m ?\C-s ?  ?\C-m escape ?  ?  ?\C-a ?\C-n])
+
 ;; stay on first
-(fset 's1-sh-before-set
+(fset 's2-sh-before-set
    "\C-k\C-k\C-y\C-y\C-p\C-p\344sh\C-s=\C-b\C-k\C-a\C-n\C-n")
 
 ;; stay after last
@@ -896,7 +920,7 @@ The value from `ibuffer-saved-filter-groups' is used."
 
 (put 'scroll-left 'disabled nil)
 
-(defun s1-scratch-patterns ()
+(defun ZZs1-scratch-patterns ()
   "run from scratch -- (kill-new (prin1-to-string hi-lock-interactive-patterns)) NY"
   (interactive)
   (other-window 1) (setq my-p hi-lock-interactive-patterns) (other-window 1) (prin1 my-p))
@@ -1086,12 +1110,16 @@ The value from `ibuffer-saved-filter-groups' is used."
 (require 'highlight nil t)
 ;;(autoload 'highlight "highlight" "Hlt fn/s ~> for region")
 (defun hlt-region () "" (interactive) (hlt-highlight-region))
+(global-set-key (read-kbd-macro "S-<f9>") 'hlt-region)
 ;>? defun try-require ?
 
 (autoload 'markdown-mode "markdown-mode.el"
    "Major mode for editing Markdown files" t)
 (setq auto-mode-alist
-   (cons '("\\.txt" . markdown-mode) auto-mode-alist))
+      (cons '("\\.md" . markdown-mode)
+       (cons '("\\.txt" . markdown-mode) auto-mode-alist)))
+
+(setq frame-title-format '("emacs%@ @ " (:eval (system-name)) ": " "%b" " [%*]"))
 
 ;; not func under m$wNT: "Spawning child process: invalid argument"
 (require 'server)
