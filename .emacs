@@ -622,7 +622,7 @@ The value from `ibuffer-saved-filter-groups' is used."
 # CLUSTER description
 # Name: name_of_th" "TEST.ALL" "/scp:kraljo@jubiler:/home2/kraljo/small-projects/cr16844-smh-stability-improvement-expiration-postpone/ttt,09-10-30/TEST.ALL" 1 13421))))
  '(indent-tabs-mode nil)
- '(ispell-program-name "aspell")
+ '(ispell-program-name "aspell" t)
  '(jde-jdk-registry (quote (("1.6.0.22" . "/usr/lib/jvm/java-6-sun-1.6.0.24"))))
  '(ls-lisp-dirs-first nil)
  '(max-specpdl-size 3000)
@@ -644,31 +644,31 @@ The value from `ibuffer-saved-filter-groups' is used."
  '(tcl-indent-level 2)
  '(tool-bar-mode nil nil (tool-bar))
  '(x-select-enable-clipboard t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :foreground "green" :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 110 :width normal :foundry "unknown" :family "sans"))))
- '(custom-documentation ((t (:box unspecified))))
- '(custom-documentation-face ((t (:box unspecified))) t)
- '(escape-glyph ((((background dark)) (:foreground "gray20"))))
- '(font-lock-doc-face ((t (:inherit font-lock-string-face :box (:line-width 1 :color "grey75" :style released-button) :slant italic))))
- '(fringe ((((class color)) (:foreground "blue"))))
- '(hi-blue-b ((((min-colors 88)) (:foreground "lightblue" :weight bold))))
- '(highlight ((t (:background "floral white" :family "Mono"))))
- '(hl-line ((t (:background "#eef" :underline "lightBlue"))))
- '(hlt-property-highlight ((t (:foreground "black" :weight light :family "mono"))))
- '(linkd-generic-link ((t (:foreground "magenta"))))
- '(org-level-1 ((nil (:foreground "medium turquoise" :box (:line-width 2 :color "grey75" :style released-button) :weight extra-bold :family "sans"))))
- '(org-level-2 ((t (:inherit outline-2 :weight semi-bold))))
- '(org-table ((t (:foreground "yellow4" :slant normal :weight normal :height 95 :width normal :foundry "outline" :family "Mono"))))
- '(rst-level-1-face ((t (:foreground "blue" :box (:line-width 1 :color "grey75" :style released-button) :height 160 :family "sans"))) t)
- '(rst-level-2-face ((t (:foreground "blue" :underline t :height 150 :family "sans"))) t)
- '(rst-level-3-face ((t (:foreground "blue" :height 130 :family "sans"))) t)
- '(term-default ((t (:stipple nil :background "black" :foreground "green" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight 500 :height 124 :width normal))))
- '(vc-annotate-face-3F3FFF ((t (:foreground "#3F3FFF"))) t)
- '(vc-annotate-face-FF3F3F ((t (:foreground "#FF3F3F"))) t))
+;; (custom-set-faces
+;;   ;; custom-set-faces was added by Custom.
+;;   ;; If you edit it by hand, you could mess it up, so be careful.
+;;   ;; Your init file should contain only one such instance.
+;;   ;; If there is more than one, they won't work right.
+;;  '(default ((t (:inherit nil :stipple nil :foreground "green" :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 110 :width normal :foundry "unknown" :family "sans"))))
+;;  '(custom-documentation ((t (:box unspecified))))
+;;  '(custom-documentation-face ((t (:box unspecified))) t)
+;;  '(escape-glyph ((((background dark)) (:foreground "gray20"))))
+;;  '(font-lock-doc-face ((t (:inherit font-lock-string-face :box (:line-width 1 :color "grey75" :style released-button) :slant italic))))
+;;  '(fringe ((((class color) (background dark)) (:background "grey10" :foreground "darkBlue"))))
+;;  '(hi-blue-b ((((min-colors 88)) (:foreground "lightblue" :weight bold))))
+;;  '(highlight ((t (:background "floral white" :family "Mono"))))
+;;  '(hl-line ((t (:underline "lightBlue"))))
+;;  '(hlt-property-highlight ((t (:foreground "black" :weight light :family "mono"))))
+;;  '(linkd-generic-link ((t (:foreground "magenta"))))
+;;  '(org-level-1 ((nil (:foreground "medium turquoise" :box (:line-width 2 :color "grey75" :style released-button) :weight extra-bold :family "sans"))))
+;;  '(org-level-2 ((t (:inherit outline-2 :weight semi-bold))))
+;;  '(org-table ((t (:foreground "yellow4" :slant normal :weight normal :height 95 :width normal :foundry "outline" :family "Mono"))))
+;;  '(rst-level-1-face ((t (:foreground "blue" :box (:line-width 1 :color "grey75" :style released-button) :height 160 :family "sans"))) t)
+;;  '(rst-level-2-face ((t (:foreground "blue" :underline t :height 150 :family "sans"))) t)
+;;  '(rst-level-3-face ((t (:foreground "blue" :height 130 :family "sans"))) t)
+;;  '(term-default ((t (:stipple nil :background "black" :foreground "green" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight 500 :height 124 :width normal))))
+;;  '(vc-annotate-face-3F3FFF ((t (:foreground "#3F3FFF"))) t)
+;;  '(vc-annotate-face-FF3F3F ((t (:foreground "#FF3F3F"))) t))
 
 ;; http://groups.google.com/group/gnu.emacs.bug/browse_thread/thread/393753d735a530ca?pli=1
 ;; defun my-browse-url-firefox-new-tab (url &optional new-window)
@@ -1129,3 +1129,14 @@ The value from `ibuffer-saved-filter-groups' is used."
   (defun server-ensure-safe-dir (dir) "Noop" t)) ; //stackoverflow.com/questions/885793/emacs-error-when-calling-server-start
 (if (not (server-running-p))
     (server-start))
+
+
+;;; This was installed by package-install.el.
+;;; This provides support for the package system and
+;;; interfacing with ELPA, the package archive.
+;;; Move this code earlier if you want to reference
+;;; packages in your .emacs.
+(when
+    (load
+     (expand-file-name "~/.emacs.d/elpa/package.el"))
+  (package-initialize))
